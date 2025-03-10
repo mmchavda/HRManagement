@@ -55,7 +55,7 @@ class TicketsController < ApplicationController
 	end
   
 	# Delete a ticket from the database
-	def destroy
+	def destroy #soft_delete
 	  @ticket = Ticket.find(params[:id])
 	  if @ticket.destroy
 		redirect_to tickets_path, notice: "Ticket successfully deleted."

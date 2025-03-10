@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_05_114719) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_10_125053) do
   create_table "expenses", force: :cascade do |t|
     t.decimal "amount", precision: 10, scale: 2
     t.string "description"
@@ -19,6 +19,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_05_114719) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
     t.index ["user_id"], name: "index_expenses_on_user_id"
   end
 
