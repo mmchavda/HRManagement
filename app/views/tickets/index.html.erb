@@ -1,25 +1,25 @@
-<h1>Tickets</h1>
-<%= link_to 'New Ticket', new_ticket_path %>
+<h1 class="text-2xl font-semibold mb-4">Tickets</h1>
+<%= link_to 'New Ticket', new_ticket_path, class: 'inline-block mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600' %>
 
-<table>
+<table class="min-w-full table-auto border-collapse">
   <thead>
-    <tr>
-      <th>Title</th>
-      <th>Status</th>
-      <th>Priority</th>
-      <th>Actions</th>
+    <tr class="bg-gray-100">
+      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Title</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Status</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Priority</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @tickets.each do |ticket| %>
-      <tr>
-        <td><%= ticket.title %></td>
-        <td><%= ticket.status %></td>
-        <td><%= ticket.priority %></td>
-        <td>
-          <%= link_to 'Show', ticket_path(ticket) %> |
-          <%= link_to 'Edit', edit_ticket_path(ticket) %> |
-          <%= link_to 'Delete', ticket_path(ticket), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <tr class="<%= cycle('bg-white', 'bg-gray-50') %>">
+        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.title %></td>
+        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.status %></td>
+        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.priority %></td>
+        <td class="px-4 py-2 text-sm">
+          <%= link_to 'Show', ticket_path(ticket), class: 'text-blue-500 hover:text-blue-700' %> |
+          <%= link_to 'Edit', edit_ticket_path(ticket), class: 'text-yellow-500 hover:text-yellow-700' %> |
+          <%= link_to 'Delete', ticket_path(ticket), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-500 hover:text-red-700' %>
         </td>
       </tr>
     <% end %>

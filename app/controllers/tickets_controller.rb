@@ -25,6 +25,7 @@ class TicketsController < ApplicationController
 	# Create a new ticket in the database
 	def create
 	  @ticket = Ticket.new(ticket_params)
+	  @ticket.user = current_user
 	  if @ticket.save
 		redirect_to @ticket, notice: "Ticket successfully created."
 	  else
