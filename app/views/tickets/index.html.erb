@@ -1,4 +1,27 @@
-<% if @ticket.present? %>
-<% else %>
-  "No Tickets available"
-<% end %>
+<h1>Tickets</h1>
+<%= link_to 'New Ticket', new_ticket_path %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Priority</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tickets.each do |ticket| %>
+      <tr>
+        <td><%= ticket.title %></td>
+        <td><%= ticket.status %></td>
+        <td><%= ticket.priority %></td>
+        <td>
+          <%= link_to 'Show', ticket_path(ticket) %> |
+          <%= link_to 'Edit', edit_ticket_path(ticket) %> |
+          <%= link_to 'Delete', ticket_path(ticket), method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,7 @@
+<h1><%= @ticket.title %></h1>
+<p><strong>Status:</strong> <%= @ticket.status %></p>
+<p><strong>Priority:</strong> <%= @ticket.priority %></p>
+<p><strong>Description:</strong> <%= @ticket.description %></p>
+
+<%= link_to 'Edit', edit_ticket_path(@ticket) %> |
+<%= link_to 'Back to list', tickets_path %>

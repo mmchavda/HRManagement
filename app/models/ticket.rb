@@ -8,5 +8,3 @@ class Ticket < ApplicationRecord
   enum :status, [ :open, :in_progress, :resolved ]
   enum :priority, [ :low, :medium, :high ]
 end
-
-
