@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: ./   # Build the Docker image from the current directory
+      dockerfile: Dockerfile-dev
+    ports:
+      - "3000:3000"  # Expose port 3000 (Rails default port)
+    volumes:
+      - .:/usr/src/app  # Mount the current directory as a volume
+    environment:
+      RAILS_ENV: development

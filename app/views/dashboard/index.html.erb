@@ -1,0 +1,49 @@
+<h1>Dashboard</h1>
+
+<div class="stats">
+  <h2>Total Expenses: $<%= @total_expenses %></h2>
+  <h2>Total Tickets: <%= @ticket_counts.values.sum %></h2>
+</div>
+
+<div class="charts">
+  <%= pie_chart @expenses_by_category %> <!-- Example chart -->
+  <%= bar_chart @ticket_counts %> <!-- Example chart -->
+</div>
+
+<div class="recent-expenses">
+  <h3>Recent Expenses</h3>
+  <table>
+    <tr>
+      <th>Amount</th>
+      <th>Category</th>
+      <th>Date</th>
+      <th>Description</th>
+    </tr>
+    <% @recent_expenses.each do |expense| %>
+      <tr>
+        <td><%= expense.amount %></td>
+        <td><%= expense.category %></td>
+        <td><%= expense.date %></td>
+        <td><%= expense.description %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<div class="recent-tickets">
+  <h3>Recent Tickets</h3>
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Date</th>
+    </tr>
+    <% @recent_tickets.each do |ticket| %>
+      <tr>
+        <td><%= ticket.title %></td>
+        <td><%= ticket.status %></td>
+        <td><%= ticket.created_at %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

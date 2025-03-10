@@ -1,0 +1,25 @@
+# Use the official Ruby image from Docker Hub
+FROM ruby:3.2.3
+
+# Set the working directory inside the container
+WORKDIR /usr/src/app
+
+# Install system dependencies required for Rails and PostgreSQL
+RUN apt-get update -qq && apt-get install -y \
+  nodejs \
+  yarn \
+  build-essential \
+  libpq-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+# Install Rails (if not already preinstalled in the base image)
+RUN gem install rails
+
+# Install bundler to manage Ruby gems
+RUN gem install bundler
+
+# Expose port 3000 for the Rails server
+EXPOSE 3000
+
+# Set the default command to start the Rails server
+CMD ["rails", "server", "-b", "0.0.0.0"]
