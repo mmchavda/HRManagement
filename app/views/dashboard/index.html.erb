@@ -1,67 +1,117 @@
-<h1 class="text-3xl font-semibold mb-6">Dashboard</h1>
+<!-- app/views/dashboard/index.html.erb -->
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-  <!-- Total Expenses -->
-  <div class="bg-white p-6 rounded-lg shadow-md">
-    <h2 class="text-xl font-medium">Total Expenses</h2>
-    <p class="text-2xl text-gray-800">$<%= @total_expenses %></p>
-  </div>
-  <!-- Total Tickets -->
-  <div class="bg-white p-6 rounded-lg shadow-md">
-    <h2 class="text-xl font-medium">Total Tickets</h2>
-    <p class="text-2xl text-gray-800"><%= @ticket_counts.values.sum %></p>
-  </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - HR Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
 
-<div class="bg-white p-6 rounded-lg shadow-md">
-  <%= pie_chart({ data: @expenses_by_category, height: '300px' }) %>
-</div>
-<div class="bg-white p-6 rounded-lg shadow-md">
-  <%= bar_chart({ data: @ticket_counts, height: '300px' }) %>
-</div>
+  <!-- Main Content -->
+  <main class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
 
-<div class="bg-white p-6 rounded-lg shadow-md mb-6">
-  <h3 class="text-xl font-medium mb-4">Recent Expenses</h3>
-  <table class="min-w-full table-auto">
-    <thead>
-      <tr>
-        <th class="px-4 py-2 text-left">Amount</th>
-        <th class="px-4 py-2 text-left">Category</th>
-        <th class="px-4 py-2 text-left">Date</th>
-        <th class="px-4 py-2 text-left">Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @recent_expenses.each do |expense| %>
-        <tr>
-          <td class="border-t px-4 py-2"><%= expense.amount %></td>
-          <td class="border-t px-4 py-2"><%= expense.category %></td>
-          <td class="border-t px-4 py-2"><%= expense.date %></td>
-          <td class="border-t px-4 py-2"><%= expense.description %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      <!-- Dashboard Overview -->
+      <div class="bg-white shadow-lg rounded-lg p-8 mb-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Welcome to Your Dashboard</h1>
+        <p class="text-lg text-gray-700 text-center mb-4">Here is an overview of your recent expenses and reimbursement requests.</p>
 
-<div class="bg-white p-6 rounded-lg shadow-md">
-  <h3 class="text-xl font-medium mb-4">Recent Tickets</h3>
-  <table class="min-w-full table-auto">
-    <thead>
-      <tr>
-        <th class="px-4 py-2 text-left">Title</th>
-        <th class="px-4 py-2 text-left">Status</th>
-        <th class="px-4 py-2 text-left">Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @recent_tickets.each do |ticket| %>
-        <tr>
-          <td class="border-t px-4 py-2"><%= ticket.title %></td>
-          <td class="border-t px-4 py-2"><%= ticket.status %></td>
-          <td class="border-t px-4 py-2"><%= ticket.created_at %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+        <div class="flex justify-between space-x-4">
+          <!-- Total Expenses -->
+          <div class="bg-indigo-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
+            <h2 class="text-xl font-semibold">Total Expenses</h2>
+            <p class="text-3xl font-bold">$ <%= @total_expenses %></p> <!-- Example Total -->
+            <a href="/expenses" class="text-indigo-200 hover:text-white mt-2 block">View all Expenses</a>
+          </div>
+
+          <!-- Pending Reimbursement Requests -->
+          <div class="bg-green-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
+            <h2 class="text-xl font-semibold">Pending Reimbursement Requests</h2>
+            <p class="text-3xl font-bold"> <%= @pending_reimbursements %> </p> <!-- Example count -->
+            <a href="/reimbursement_requests" class="text-green-200 hover:text-white mt-2 block">View Reimbursement Requests</a>
+          </div>
+
+          <!-- Total Reimbursements -->
+          <div class="bg-blue-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
+            <h2 class="text-xl font-semibold">Total Reimbursements</h2>
+            <p class="text-3xl font-bold">$ <%= @total_reimbursements %></p> <!-- Example Total -->
+            <a href="/reimbursement_requests" class="text-blue-200 hover:text-white mt-2 block">View Reimbursement History</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expense Section -->
+      <div class="bg-white shadow-lg rounded-lg p-8 mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Recent Expenses</h2>
+        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+          <thead>
+            <tr>
+              <th class="px-4 py-2 border-b text-left text-gray-700">Title</th>
+              <th class="px-4 py-2 border-b text-left text-gray-700">Amount</th>
+              <th class="px-4 py-2 border-b text-left text-gray-700">Category</th>
+              <th class="px-4 py-2 border-b text-left text-gray-700">Date</th>
+              <th class="px-4 py-2 border-b text-left text-gray-700">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Replace with dynamic data -->
+            <tr>
+              <td class="px-4 py-2 border-b">Business Trip</td>
+              <td class="px-4 py-2 border-b">$500.00</td>
+              <td class="px-4 py-2 border-b">Travel</td>
+              <td class="px-4 py-2 border-b">March 10, 2025</td>
+              <td class="px-4 py-2 border-b">
+                <a href="#" class="text-blue-600 hover:text-blue-800">View</a>
+              </td>
+            </tr>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Reimbursement Requests Section -->
+      <div class="bg-white shadow-lg rounded-lg p-8 mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Recent Reimbursement Requests</h2>
+        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+          <thead>
+            <tr>
+              <th class="px-4 py-2 border-b text-left text-gray-700">Request Title</th>
+              <th class="px-4 py-2 border-b text-left text-gray-700">Amount</th>
+              <th class="px-4 py-2 border-b text-left text-gray-700">Status</th>
+              <th class="px-4 py-2 border-b text-left text-gray-700">Date Submitted</th>
+              <th class="px-4 py-2 border-b text-left text-gray-700">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Replace with dynamic data -->
+            <tr>
+              <td class="px-4 py-2 border-b">Travel Reimbursement</td>
+              <td class="px-4 py-2 border-b">$500.00</td>
+              <td class="px-4 py-2 border-b text-green-600">Approved</td>
+              <td class="px-4 py-2 border-b">March 8, 2025</td>
+              <td class="px-4 py-2 border-b">
+                <a href="#" class="text-blue-600 hover:text-blue-800">View</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 border-b">Office Supplies</td>
+              <td class="px-4 py-2 border-b">$120.00</td>
+              <td class="px-4 py-2 border-b text-yellow-500">Pending</td>
+              <td class="px-4 py-2 border-b">March 7, 2025</td>
+              <td class="px-4 py-2 border-b">
+                <a href="#" class="text-blue-600 hover:text-blue-800">View</a>
+              </td>
+            </tr>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>

@@ -13,6 +13,7 @@ class ReimbursementRequestsController < ApplicationController
     end
   
     def create
+      debugger
       @reimbursement_request = ReimbursementRequest.new(reimbursement_request_params)
       if @reimbursement_request.save
         redirect_to @reimbursement_request, notice: 'Reimbursement request was successfully created.'
@@ -44,7 +45,7 @@ class ReimbursementRequestsController < ApplicationController
     end
   
     def reimbursement_request_params
-      params.require(:reimbursement_request).permit(:title, :amount, :status, :description)
+      params.require(:reimbursement_request).permit(:total_amount, :status, :expense_id, :manager_id)
     end
 end
   

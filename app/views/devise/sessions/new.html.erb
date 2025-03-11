@@ -1,0 +1,64 @@
+<!-- app/views/devise/sessions/new.html.erb -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - HR Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Main Content: Login Form -->
+  <main class="py-6"> <!-- Reduced py-12 to py-6 -->
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="bg-white shadow-lg rounded-lg p-8 w-full sm:w-96 mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Login to HR Management</h1>
+
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <% if resource.errors.any? %>
+            <div class="bg-red-100 text-red-600 p-4 mb-4 rounded-md">
+              <ul>
+                <% resource.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="mb-4">
+            <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+            <%= f.email_field :email, autofocus: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+
+          <div class="mb-4">
+            <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
+            <%= f.password_field :password, autocomplete: "current-password", class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+              <%= f.check_box :remember_me, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
+              <%= f.label :remember_me, class: "ml-2 block text-sm text-gray-900" %>
+            </div>
+
+            <div class="text-sm">
+              <%= link_to "Forgot your password?", new_user_password_path, class: "font-medium text-indigo-600 hover:text-indigo-500" %>
+            </div>
+          </div>
+
+          <div>
+            <%= f.submit "Log in", class: "w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+          </div>
+        <% end %>
+
+        <div class="mt-6 text-center">
+          <p class="text-sm text-gray-600">Don't have an account? <%= link_to "Sign up", new_user_registration_path, class: "text-indigo-600 hover:text-indigo-500" %></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

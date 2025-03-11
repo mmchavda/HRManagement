@@ -12,7 +12,16 @@
             <%= link_to 'Tickets', tickets_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
 						<%= link_to 'Expenses', expenses_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
             <%= link_to 'ReimbursementRequests', reimbursement_requests_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
-						<!-- Add more links as needed -->
+						<% if user_signed_in? %>
+              <!-- Logout Link for Signed-in User -->
+            
+              <%= form_with url: destroy_user_session_path, method: :delete, class: 'inline-block' do |form| %>
+               <%= form.submit 'Logout', class: 'text-white hover:text-gray-300 px-4 bg-transparent border-0 cursor-pointer' %>
+              <% end %>
+              <% else %>
+              <!-- Login Link for Not Signed-in User -->
+              <a href="<%= new_user_session_path %>" class="text-white hover:text-gray-300 px-4">Login</a>
+            <% end %>
           </div>
         </div>
       </div>

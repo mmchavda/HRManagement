@@ -9,5 +9,5 @@ class User < ApplicationRecord
   has_many :reimbursement_requests, through: :expenses # Reimbursement requests related to the user's expenses
 
   # Roles: Admins, Agents, and Users can be defined here
-	enum :role, [ :user, :agent, :admin ]
+	enum :role, [ :employee, :hr, :admin, :manager, :lead]
 end

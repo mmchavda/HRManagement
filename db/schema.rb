@@ -15,7 +15,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_10_125053) do
     t.decimal "amount", precision: 10, scale: 2
     t.string "description"
     t.date "date"
-    t.string "category"
+    t.integer "category"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -25,7 +25,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_10_125053) do
 
   create_table "reimbursement_requests", force: :cascade do |t|
     t.decimal "total_amount", precision: 10, scale: 2
-    t.string "status", default: "pending"
+    t.integer "status"
     t.integer "expense_id"
     t.integer "manager_id"
     t.datetime "created_at", null: false
