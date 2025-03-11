@@ -1,0 +1,76 @@
+<div class="custom-margin-left">
+
+  <div class="max-w-4xl ml-0 bg-white shadow-2xl rounded-xl p-8">
+    <h1 class="text-4xl font-semibold mb-8 text-left text-gray-700">Hi <%= @user.first_name %> <%= @user.last_name %> have Great Day !</h1>
+
+    <!-- Profile Picture Section -->
+    <div class="flex justify-start mb-8">
+      <% if @user.avatar.attached? %>
+        <%= image_tag @user.avatar, alt: "Profile Picture", class: "w-32 h-32 rounded-full object-cover border-4 border-indigo-600 shadow-lg" %>
+      <% else %>
+        <div class="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center text-xl text-gray-600 font-semibold shadow-lg">
+          <span>No Image</span>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- User Info Section -->
+    <div class="space-y-6">
+      <div class="flex items-center justify-between">
+        <strong class="text-lg font-semibold text-gray-700">First Name:</strong>
+        <p class="text-lg text-gray-900"><%= @user.first_name %></p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <strong class="text-lg font-semibold text-gray-700">Last Name:</strong>
+        <p class="text-lg text-gray-900"><%= @user.last_name %></p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <strong class="text-lg font-semibold text-gray-700">Username:</strong>
+        <p class="text-lg text-gray-900"><%= @user.username %></p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <strong class="text-lg font-semibold text-gray-700">Email:</strong>
+        <p class="text-lg text-gray-900"><%= @user.email %></p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <strong class="text-lg font-semibold text-gray-700">Phone Number:</strong>
+        <p class="text-lg text-gray-900"><%= @user.phone_number %></p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <strong class="text-lg font-semibold text-gray-700">Date of Birth:</strong>
+        <p class="text-lg text-gray-900"><%= @user.dob %></p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <strong class="text-lg font-semibold text-gray-700">Age</strong>
+        <p class="text-lg text-gray-900"><%= ((Date.today - @user.dob.to_date).to_i / 365.25).to_i if @user.dob.present? %></p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <strong class="text-lg font-semibold text-gray-700">Blood Group</strong>
+        <p class="text-lg text-gray-900"><%= @user.blood_group %></p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <strong class="text-lg font-semibold text-gray-700">Gender</strong>
+        <p class="text-lg text-gray-900"><%= @user.gender %></p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <strong class="text-lg font-semibold text-gray-700">Bio:</strong>
+        <p class="text-lg text-gray-900"><%= @user.bio %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .custom-margin-left {
+    margin-left: 100px;
+  }
+</style>

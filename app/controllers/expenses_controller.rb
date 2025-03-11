@@ -2,7 +2,11 @@ class ExpensesController < ApplicationController
     before_action :set_expense, only: %i[show edit update destroy]
   
     def index
-      @expenses = Expense.all
+      if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
+        @expenses = Expense.all
+      else 
+        @expenses = current_user.expenses
+      end   
     end
   
     def show

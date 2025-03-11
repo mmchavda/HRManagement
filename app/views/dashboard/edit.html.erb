@@ -1,0 +1,73 @@
+<div class="custom-margin-left">
+  <% provide(:title, "Edit Profile") %>
+
+    <%= form_for(current_user, url: dashboard_path, method: :patch) do |f| %>
+    <h1 class="text-4xl font-semibold mb-8 text-left text-gray-700">Hi <%= @user.first_name %> <%= @user.last_name %> have Great Day !</h1>
+    <h1 class="text-4xl font-semibold mb-8 text-left text-gray-700">Updating your profile</h1>
+
+    <div class="mb-4 ml-24">
+        <%= f.label :first_name, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :first_name, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div class="mb-4 ml-24">
+        <%= f.label :last_name, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :last_name, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div class="mb-4 ml-24">
+        <%= f.label :username, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :username, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div class="mb-4 ml-24">
+        <%= f.label :bio, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :bio, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", rows: 4 %>
+    </div>
+
+    <div class="mb-4 ml-24">
+        <%= f.label :address, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :address, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", rows: 4 %>
+    </div>
+
+    <div class="mb-4 ml-24">
+        <%= f.label :phone_number, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :phone_number, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div class="mb-4 ml-24">
+        <%= f.label :dob, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.date_select :dob, start_year: 1900, end_year: Date.today.year, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div class="mb-4 ml-24">
+        <%= f.label :blood_group, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :blood_group, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div class="mb-4 ml-24">
+        <%= f.label :gender, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :gender, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div class="mb-4 ml-24">
+        <%= f.label :avatar, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.file_field :avatar, class: "mt-1 block w-full text-sm border border-gray-300 rounded-md" %>
+    </div>
+
+    <div class="mb-4 ml-24">
+        <%= f.label :is_active, class: "ml-2 block text-sm text-gray-900" %>
+        <%= f.check_box :is_active, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
+    </div>
+
+    <div class="ml-24">
+        <%= f.submit "Update Profile", class: "w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2" %>
+    </div>
+    <% end %>
+</div>
+
+<style>
+  .custom-margin-left {
+    margin-left: 100px;
+  }
+</style>

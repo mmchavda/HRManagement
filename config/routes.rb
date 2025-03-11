@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "dashboard#index"
+
+  resources :dashboard
+
   resources :tickets
   resources :reimbursement_requests
   resources :expenses

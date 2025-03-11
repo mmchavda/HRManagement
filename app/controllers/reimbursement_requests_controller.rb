@@ -2,7 +2,11 @@ class ReimbursementRequestsController < ApplicationController
     before_action :set_reimbursement_request, only: %i[show edit update destroy]
   
     def index
-      @reimbursement_requests = ReimbursementRequest.all
+      if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
+        @reimbursement_requests = ReimbursementRequest.all
+      else 
+        @reimbursement_requests = current_user.reimbursement_requests
+      end   
     end
   
     def show
@@ -13,8 +17,8 @@ class ReimbursementRequestsController < ApplicationController
     end
   
     def create
-      debugger
       @reimbursement_request = ReimbursementRequest.new(reimbursement_request_params)
+      @reimbursement_request.total_amount = @reimbursement_request.expense.amount
       if @reimbursement_request.save
         redirect_to @reimbursement_request, notice: 'Reimbursement request was successfully created.'
       else

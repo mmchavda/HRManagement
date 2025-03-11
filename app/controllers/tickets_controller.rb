@@ -1,12 +1,11 @@
 class TicketsController < ApplicationController
 	# Display all tickets
 	def index
-	  begin
-		@tickets = Ticket.all
-	  rescue => e
-		Rails.logger.error "Error fetching tickets: #{e.message}"
-		raise
-	  end
+		if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?	
+	    @tickets = Ticket.all
+		else
+			@tickets = current_user.created_tickets
+		end	
 	end
   
 	# Show a specific ticket

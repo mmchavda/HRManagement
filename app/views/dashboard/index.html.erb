@@ -16,98 +16,164 @@
 
       <!-- Dashboard Overview -->
       <div class="bg-white shadow-lg rounded-lg p-8 mb-6">
+
         <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Welcome to Your Dashboard</h1>
         <p class="text-lg text-gray-700 text-center mb-4">Here is an overview of your recent expenses and reimbursement requests.</p>
+        <% if @total_expenses.present? %>
+          <div class="flex justify-between space-x-4">
+            <!-- Total Expenses -->
+            <div class="bg-indigo-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
+              <h2 class="text-xl font-semibold">Total Expenses</h2>
+              <p class="text-3xl font-bold">$ <%= @total_expenses %></p> <!-- Example Total -->
+              <a href="/expenses" class="text-indigo-200 hover:text-white mt-2 block">View all Expenses</a>
+            </div>
 
-        <div class="flex justify-between space-x-4">
-          <!-- Total Expenses -->
-          <div class="bg-indigo-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
-            <h2 class="text-xl font-semibold">Total Expenses</h2>
-            <p class="text-3xl font-bold">$ <%= @total_expenses %></p> <!-- Example Total -->
-            <a href="/expenses" class="text-indigo-200 hover:text-white mt-2 block">View all Expenses</a>
+            <!-- Pending Reimbursement Requests -->
+            <div class="bg-green-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
+              <h2 class="text-xl font-semibold">Pending Reimbursement Requests</h2>
+              <p class="text-3xl font-bold"> <%= @pending_reimbursements %> </p> <!-- Example count -->
+              <a href="/reimbursement_requests" class="text-green-200 hover:text-white mt-2 block">View Reimbursement Requests</a>
+            </div>
+
+            <!-- Total Reimbursements -->
+            <div class="bg-blue-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
+              <h2 class="text-xl font-semibold">Total Reimbursements</h2>
+              <p class="text-3xl font-bold">$ <%= @total_reimbursements %></p> <!-- Example Total -->
+              <a href="/reimbursement_requests" class="text-blue-200 hover:text-white mt-2 block">View Reimbursement History</a>
+            </div>
           </div>
+        <% end %>  
+      </div>
 
-          <!-- Pending Reimbursement Requests -->
-          <div class="bg-green-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
-            <h2 class="text-xl font-semibold">Pending Reimbursement Requests</h2>
-            <p class="text-3xl font-bold"> <%= @pending_reimbursements %> </p> <!-- Example count -->
-            <a href="/reimbursement_requests" class="text-green-200 hover:text-white mt-2 block">View Reimbursement Requests</a>
-          </div>
+      <!-- Ticket Overview Section -->
+      <% if @ticket_counts.present? %>
+        <div class="bg-white shadow-lg rounded-lg p-8 mb-6">
+          <div class="flex justify-between space-x-4">
+            <!-- Total Tickets -->
+            <div class="bg-indigo-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
+              <h2 class="text-xl font-semibold">Total Tickets</h2>
+              <p class="text-3xl font-bold"><%= @ticket_counts.values.sum %></p> <!-- Total number of tickets -->
+              <a href="/tickets" class="text-indigo-200 hover:text-white mt-2 block">View all Tickets</a>
+            </div>
 
-          <!-- Total Reimbursements -->
-          <div class="bg-blue-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
-            <h2 class="text-xl font-semibold">Total Reimbursements</h2>
-            <p class="text-3xl font-bold">$ <%= @total_reimbursements %></p> <!-- Example Total -->
-            <a href="/reimbursement_requests" class="text-blue-200 hover:text-white mt-2 block">View Reimbursement History</a>
+            <!-- Open Tickets -->
+            <div class="bg-yellow-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
+              <h2 class="text-xl font-semibold">Open Tickets</h2>
+              <p class="text-3xl font-bold"><%= @ticket_counts['open'] || 0 %></p> <!-- Open ticket count -->
+              <a href="/tickets?status=open" class="text-yellow-200 hover:text-white mt-2 block">View Open Tickets</a>
+            </div>
+
+            <!-- Pending Tickets -->
+            <div class="bg-green-600 text-white rounded-lg shadow-lg p-6 w-full sm:w-1/3">
+              <h2 class="text-xl font-semibold">Pending Tickets</h2>
+              <p class="text-3xl font-bold"><%= @ticket_counts['pending'] || 0 %></p> <!-- Pending ticket count -->
+              <a href="/tickets?status=pending" class="text-green-200 hover:text-white mt-2 block">View Pending Tickets</a>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
 
       <!-- Expense Section -->
       <div class="bg-white shadow-lg rounded-lg p-8 mb-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-4">Recent Expenses</h2>
-        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-          <thead>
-            <tr>
-              <th class="px-4 py-2 border-b text-left text-gray-700">Title</th>
-              <th class="px-4 py-2 border-b text-left text-gray-700">Amount</th>
-              <th class="px-4 py-2 border-b text-left text-gray-700">Category</th>
-              <th class="px-4 py-2 border-b text-left text-gray-700">Date</th>
-              <th class="px-4 py-2 border-b text-left text-gray-700">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Replace with dynamic data -->
-            <tr>
-              <td class="px-4 py-2 border-b">Business Trip</td>
-              <td class="px-4 py-2 border-b">$500.00</td>
-              <td class="px-4 py-2 border-b">Travel</td>
-              <td class="px-4 py-2 border-b">March 10, 2025</td>
-              <td class="px-4 py-2 border-b">
-                <a href="#" class="text-blue-600 hover:text-blue-800">View</a>
-              </td>
-            </tr>
-            <!-- Add more rows as needed -->
-          </tbody>
-        </table>
+        <% if @recent_expenses.present? %>
+          <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+            <thead>
+              <tr>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Title</th>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Amount</th>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Category</th>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Date</th>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Replace with dynamic data -->
+              <% @recent_expenses.each do |recent_expense| %>
+                <tr>
+                  <td class="px-4 py-2 border-b"><%= recent_expense.title %></td>
+                  <td class="px-4 py-2 border-b">$<%= recent_expense.amount %></td>
+                  <td class="px-4 py-2 border-b"><%= recent_expense.category %></td>
+                  <td class="px-4 py-2 border-b"><%= recent_expense.date %></td>
+                  <td class="px-4 py-2 border-b">
+                    <%= link_to 'View', expense_path(recent_expense), class: 'text-blue-500 hover:text-blue-700' %>
+                  </td>
+                </tr>
+              <% end %>  
+              <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+        <% else %>
+          <p class="text-gray-700">No recent expenses found.</p>
+        <% end %>
+        
       </div>
 
       <!-- Reimbursement Requests Section -->
       <div class="bg-white shadow-lg rounded-lg p-8 mb-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-4">Recent Reimbursement Requests</h2>
-        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-          <thead>
-            <tr>
-              <th class="px-4 py-2 border-b text-left text-gray-700">Request Title</th>
-              <th class="px-4 py-2 border-b text-left text-gray-700">Amount</th>
-              <th class="px-4 py-2 border-b text-left text-gray-700">Status</th>
-              <th class="px-4 py-2 border-b text-left text-gray-700">Date Submitted</th>
-              <th class="px-4 py-2 border-b text-left text-gray-700">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Replace with dynamic data -->
-            <tr>
-              <td class="px-4 py-2 border-b">Travel Reimbursement</td>
-              <td class="px-4 py-2 border-b">$500.00</td>
-              <td class="px-4 py-2 border-b text-green-600">Approved</td>
-              <td class="px-4 py-2 border-b">March 8, 2025</td>
-              <td class="px-4 py-2 border-b">
-                <a href="#" class="text-blue-600 hover:text-blue-800">View</a>
-              </td>
-            </tr>
-            <tr>
-              <td class="px-4 py-2 border-b">Office Supplies</td>
-              <td class="px-4 py-2 border-b">$120.00</td>
-              <td class="px-4 py-2 border-b text-yellow-500">Pending</td>
-              <td class="px-4 py-2 border-b">March 7, 2025</td>
-              <td class="px-4 py-2 border-b">
-                <a href="#" class="text-blue-600 hover:text-blue-800">View</a>
-              </td>
-            </tr>
-            <!-- Add more rows as needed -->
-          </tbody>
-        </table>
+        <% if @recent_reimbursements.present? %>
+          <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+            <thead>
+              <tr>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Request Title</th>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Amount</th>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Status</th>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Date Submitted</th>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Replace with dynamic data -->
+              <% @recent_reimbursements.each do |recent_reimbursement| %>
+                <tr>
+                  <td class="px-4 py-2 border-b"><%= recent_reimbursement.expense.title %></td>
+                  <td class="px-4 py-2 border-b">$<%= recent_reimbursement.expense.amount %></td>
+                  <td class="px-4 py-2 border-b text-green-600"><%= recent_reimbursement.status %></td>
+                  <td class="px-4 py-2 border-b"><%= recent_reimbursement.created_at %></td>
+                  <td class="px-4 py-2 border-b">
+                    <%= link_to 'View', reimbursement_request_path(recent_reimbursement), class: 'text-blue-500 hover:text-blue-700' %>
+                  </td>
+                </tr>
+              <% end %>  
+            </tbody>
+          </table>
+        <% else %>
+          <p class="text-gray-700">No recent reimbursement requests found.</p>
+        <% end %> 
+      </div>
+
+      <!-- Ticket Section -->
+      <div class="bg-white shadow-lg rounded-lg p-8 mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Recent Tickets</h2>
+
+        <!-- Recent Tickets Table -->
+        <% if @recent_tickets.present? %>
+          <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+            <thead>
+              <tr>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Title</th>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Status</th>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Created At</th>
+                <th class="px-4 py-2 border-b text-left text-gray-700">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @recent_tickets.each do |ticket| %>
+                <tr>
+                  <td class="px-4 py-2 border-b"><%= ticket.title %></td>
+                  <td class="px-4 py-2 border-b"><%= ticket.status.capitalize %></td>
+                  <td class="px-4 py-2 border-b"><%= ticket.created_at.strftime('%B %d, %Y') %></td>
+                  <td class="px-4 py-2 border-b">
+                    <%= link_to 'View', ticket_path(ticket), class: 'text-blue-500 hover:text-blue-700' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p class="text-gray-700">No recent tickets found.</p>
+        <% end %>
       </div>
 
     </div>

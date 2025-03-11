@@ -1,12 +1,12 @@
-<h1 class="text-3xl font-bold mb-6"><%= @ticket.title %></h1>
+<h1 class="text-xl font-semibold mb-4 text-gray-700">Ticket Details</h1>
 
 <div class="space-y-4">
+  <p><span class="font-semibold">Status:</span> <%= @ticket.title %></p>
   <p><span class="font-semibold">Status:</span> <%= @ticket.status %></p>
   <p><span class="font-semibold">Priority:</span> <%= @ticket.priority %></p>
   <p><span class="font-semibold">Description:</span> <%= @ticket.description %></p>
 </div>
 
 <div class="mt-6">
-  <%= link_to 'Edit', edit_ticket_path(@ticket), class: 'px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700' %>
   <%= link_to 'Back to list', tickets_path, class: 'ml-4 px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400' %>
 </div>
