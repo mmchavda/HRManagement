@@ -8,6 +8,8 @@
       <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Title</th>
       <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Status</th>
       <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Priority</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Reported By</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Assigned To</th>
       <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions <%= link_to 'New Ticket', new_ticket_path, class: 'text-blue-500 hover:text-blue-700' %></th>
     </tr>
   </thead>
@@ -17,8 +19,14 @@
         <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user.email %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.title %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.status %></td>
+        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.status %>
+          <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && ticket.status != "resolved" %>
+            <%= link_to 'Resolve', resolve_ticket_path(ticket), class: 'text-green-500 hover:text-green-700'%>
+          <% end %>  
+        </td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.priority %></td>
+        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user.email %></td>
+        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.assigned_user.email if ticket.assigned_user%></td>
         <td class="px-4 py-2 text-sm">
           <div class="flex space-x-2 items-center">
             <!-- Show Link with Image -->

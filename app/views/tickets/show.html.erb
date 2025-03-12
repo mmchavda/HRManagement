@@ -1,12 +1,17 @@
 <h1 class="text-xl font-semibold mb-4 text-gray-700">Ticket Details</h1>
-
 <div class="space-y-4">
-  <p><span class="font-semibold">Status:</span> <%= @ticket.title %></p>
+  <p><span class="font-semibold">Title:</span> <%= @ticket.title %></p>
   <p><span class="font-semibold">Status:</span> <%= @ticket.status %></p>
   <p><span class="font-semibold">Priority:</span> <%= @ticket.priority %></p>
   <p><span class="font-semibold">Description:</span> <%= @ticket.description %></p>
-</div>
-
-<div class="mt-6">
-  <%= link_to 'Back to list', tickets_path, class: 'ml-4 px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400' %>
-</div>
+  <p><span class="font-semibold">Reported By:</span> <%= @ticket.user.email %></p>
+  <p><span class="font-semibold">Assigned To:</span> <%= @ticket.assigned_user.email if @ticket.assigned_user %> 
+    <% unless @ticket.assigned_user %>
+      <span class="font-semibold"><%= link_to 'Assign To Me', assign_ticket_path(@ticket), class: 'text-blue-500 hover:text-blue-700' %>
+    <% else %>
+      <span class="font-semibold"><%= link_to 'Unassign', unassign_ticket_path(@ticket), class: 'text-blue-500 hover:text-blue-700' %>
+    <% end %>
+  </p>
+  <p><span class="font-semibold">Created At:</span> <%= @ticket.created_at %></p>
+  <p><span class="font-semibold">Updated At:</span> <%= @ticket.updated_at %></p>
+  </div>

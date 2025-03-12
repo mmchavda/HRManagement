@@ -65,6 +65,36 @@ class TicketsController < ApplicationController
 	  Rails.logger.error "Ticket not found: #{e.message}"
 	  redirect_to tickets_path, alert: "Ticket not found"
 	end
+
+	def assign_ticket
+		@ticket = Ticket.find(params[:id])
+		@ticket.assigned_user_id = current_user.id
+		if @ticket.save
+			redirect_to tickets_path, notice: "Ticket successfully assigned."
+		else
+			redirect_to tickets_path, alert: "Error assigning ticket."
+		end
+	end 
+
+	def unassign_ticket
+		@ticket = Ticket.find(params[:id])
+		@ticket.assigned_user_id = nil
+		if @ticket.save
+			redirect_to tickets_path, notice: "Ticket successfully unassigned."
+		else
+			redirect_to tickets_path, alert: "Error unassigning ticket."
+		end
+	end
+
+	def resolve_ticket
+		@ticket = Ticket.find(params[:id])
+		@ticket.status = "resolved"
+		if @ticket.save
+			redirect_to tickets_path, notice: "Ticket successfully resolved."
+		else
+			redirect_to tickets_path, alert: "Error resolving ticket."
+		end
+	end
   
 	private
   
