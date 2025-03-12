@@ -36,9 +36,12 @@
     <%= form.date_field :date, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm' %>
   </div>
 
+  <div class="mb-4 ml-24">
+    <%= form.label :proof, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.file_field :proof, class: "mt-1 block w-full text-sm border border-gray-300 rounded-md" %>
+  </div>
+
   <div class="mb-4">
     <%= form.submit 'Create Expense', class: 'inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600' %>
   </div>
 <% end %>
-
-<%= link_to 'Back to List', expenses_path, class: 'text-blue-500 hover:text-blue-700' %>

@@ -17,6 +17,8 @@ class DashboardController < ApplicationController
       @recent_expenses = current_user.expenses.order(created_at: :desc).limit(5)
       @ticket_counts = current_user.created_tickets.group(:status).count
       @recent_tickets = current_user.created_tickets.order(created_at: :desc).limit(5)
+      @recent_reimbursements = current_user.reimbursement_requests.order(created_at: :desc).limit(5)
+
       @pending_tickets = current_user.created_tickets.where(status: 'pending').count
       @pending_reimbursements = current_user.reimbursement_requests.where(status: 'pending').count
       @expenses = current_user.expenses

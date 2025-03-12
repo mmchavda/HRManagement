@@ -3,6 +3,8 @@
 <table class="min-w-full table-auto border-collapse">
   <thead>
     <tr class="bg-gray-100">
+      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">S.N.</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">User</th>
       <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Title</th>
       <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Amount</th>
       <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Category</th>
@@ -11,16 +13,32 @@
     </tr>
   </thead>
   <tbody>
-    <% @expenses.each do |expense| %>
+    <% @expenses.each_with_index do |expense, i| %>
       <tr class="<%= cycle('bg-white', 'bg-gray-50') %>">
+        <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
+        <td class="px-4 py-2 text-sm text-gray-900"><%= expense.user.email %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= expense.title %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= number_to_currency(expense.amount) %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= expense.category %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= expense.date.strftime('%B %d, %Y') %></td>
         <td class="px-4 py-2 text-sm">
-          <%= link_to 'Show', expense_path(expense), class: 'text-blue-500 hover:text-blue-700' %> |
-          <%= link_to 'Edit', edit_expense_path(expense), class: 'text-yellow-500 hover:text-yellow-700' %> |
-          <%= link_to 'Delete', expense_path(expense), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-500 hover:text-red-700' %>
+          <div class="flex space-x-2 items-center">
+            <!-- Show Link with Image -->
+            <%= link_to expense_path(expense) do %>
+              <%= image_tag '/show.png', alt: 'Show Expense', size: '15x15' %>
+            <% end %>
+
+            <!-- Edit Link with Image -->
+            <%= link_to edit_expense_path(expense) do %>
+              <%= image_tag '/edit.png', alt: 'Edit Expense', size: '15x15' %>
+            <% end %>
+
+            <!-- Delete Link with Image -->
+            <%= button_to expense_path(expense), method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <%= image_tag '/delete.png', alt: 'Delete Expense', size: '15x15' %>
+            <% end %>
+
+          </div>
         </td>
       </tr>
     <% end %>

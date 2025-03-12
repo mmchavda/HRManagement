@@ -1,24 +1,57 @@
-<h1 class="text-xl font-semibold mb-4 text-gray-700"> Reimbursement Requests </h1>
+<h1 class="text-xl font-semibold mb-4 text-gray-700">Reimb Requests </h1>
 
 <table class="min-w-full table-auto border-collapse">
   <thead>
     <tr class="bg-gray-100">
+      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">S.N.</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">User</th>
       <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Title</th>
       <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Amount</th>
       <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Status</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions <%= link_to 'New Reimbursement Request', new_reimbursement_request_path, class: 'text-blue-500 hover:text-blue-700' %></th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions <%= link_to 'New', new_reimbursement_request_path, class: 'text-blue-500 hover:text-blue-700' %></th>
     </tr>
   </thead>
   <tbody>
-    <% @reimbursement_requests.each do |request| %>
+    <% @reimbursement_requests.each_with_index do |request, i| %>
       <tr class="<%= cycle('bg-white', 'bg-gray-50') %>">
-        <td class="px-4 py-2 text-sm text-gray-900"><%= request.expense.title %></td>
+        <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
+        <td class="px-4 py-2 text-sm text-gray-900"><%= request.expense.user.email %></td>
+        <td class="px-4 py-2 text-sm text-gray-900"><%= link_to request.expense.title, expense_path(request.expense), class: 'text-blue-500 hover:text-blue-700' %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= request.total_amount %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= request.status %></td>
+        <td class="px-4 py-2 text-sm text-gray-900">
+
+          <% status_class = case request.status
+            when 'approved' then 'text-green-500'
+            when 'rejected' then 'text-red-500'
+            when 'pending' then 'text-yellow-500'
+            else 'text-gray-500' # Default color in case the status is something unexpected
+            end %>
+
+          <span class="<%= status_class %>"><%= request.status.capitalize %></span>
+
+          <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && request.status == "pending" %>
+            <%= link_to 'Approve', approve_reimbursement_request_path(request), class: 'text-green-500 hover:text-green-700'%>
+            <%= link_to 'Reject', reject_reimbursement_request_path(request), class: 'text-red-500 hover:text-red-700' %>
+          <% end %>   
+        </td>
         <td class="px-4 py-2 text-sm">
-          <%= link_to 'Show', reimbursement_request_path(request), class: 'text-blue-500 hover:text-blue-700' %> |
-          <%= link_to 'Edit', edit_reimbursement_request_path(request), class: 'text-yellow-500 hover:text-yellow-700' %> |
-          <%= link_to 'Delete', reimbursement_request_path(request), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-500 hover:text-red-700' %>
+          <div class="flex space-x-2 items-center">
+            <!-- Show Link with Image -->
+            <%= link_to reimbursement_request_path(request) do %>
+              <%= image_tag '/show.png', alt: 'Show reimbursement_request', size: '15x15' %>
+            <% end %>
+
+            <!-- Edit Link with Image -->
+            <%= link_to edit_reimbursement_request_path(request) do %>
+              <%= image_tag '/edit.png', alt: 'Edit reimbursement_request', size: '15x15' %>
+            <% end %>
+
+            <!-- Delete Link with Image -->
+            <%= button_to reimbursement_request_path(request), method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <%= image_tag '/delete.png', alt: 'Delete reimbursement_request', size: '15x15' %>
+            <% end %>
+          </div>
+               
         </td>
       </tr>
     <% end %>

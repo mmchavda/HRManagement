@@ -18,7 +18,7 @@
 
   <div class="mb-4">
     <%= form.label :expense, 'Expense', class: 'block text-sm font-medium text-gray-700' %>
-    <%= form.select :expense_id, Expense.all.map { |expense| [expense.title, expense.id] }, { prompt: "Select expense" }, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    <%= form.select :expense_id, current_user.expenses.map { |expense| [expense.title, expense.id] }, { prompt: "Select expense" }, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
   </div>
 
   <div class="mb-4">

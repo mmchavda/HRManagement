@@ -20,7 +20,15 @@
     <p class="text-gray-900"><%= @expense.date.strftime('%B %d, %Y') %></p>
   </div>
 
-  <!-- You can add more fields here as needed -->
+  <div class="flex justify-start mb-8">
+    <% if @expense.proof.attached? %>
+      <%= image_tag @expense.proof, alt: "Profile Picture", class: "w-32 h-32 rounded-full object-cover border-4 border-indigo-600 shadow-lg" %>
+    <% else %>
+      <div class="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center text-xl text-gray-600 font-semibold shadow-lg">
+        <span>No Image</span>
+      </div>
+    <% end %>
+  </div>
 
   <div class="mt-6">
     <%= link_to 'Back to Expenses', expenses_path, class: 'px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300' %>

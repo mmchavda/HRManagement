@@ -41,6 +41,18 @@ class ReimbursementRequestsController < ApplicationController
       @reimbursement_request.destroy
       redirect_to reimbursement_requests_url, notice: 'Reimbursement request was successfully deleted.'
     end
+
+    def approve_request
+      @reimbursement_request = ReimbursementRequest.find(params[:id])
+      @reimbursement_request.approve!
+      redirect_to reimbursement_requests_url, notice: 'Reimbursement request was successfully approved.'
+    end
+
+    def reject_request
+      @reimbursement_request = ReimbursementRequest.find(params[:id])
+      @reimbursement_request.reject!
+      redirect_to reimbursement_requests_url, notice: 'Reimbursement request was successfully rejected.'
+    end
   
     private
   
