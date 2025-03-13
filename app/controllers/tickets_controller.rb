@@ -2,10 +2,17 @@ class TicketsController < ApplicationController
 	# Display all tickets
 	def index
 		if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?	
-	    @tickets = Ticket.all.page(params[:page]).per(10)
+	    @tickets = Ticket.all
 		else
-			@tickets = current_user.created_tickets.page(params[:page]).per(10)
+			@tickets = current_user.created_tickets
 		end	
+
+		if params[:status].present?
+      @tickets = @tickets.where(status: params[:status]).page(params[:page]).per(10)
+    end
+    
+		@tickets = @tickets.page(params[:page]).per(10)
+
 	end
   
 	# Show a specific ticket
