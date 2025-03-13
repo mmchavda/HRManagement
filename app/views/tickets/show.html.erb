@@ -15,3 +15,18 @@
   <p><span class="font-semibold">Created At:</span> <%= @ticket.created_at %></p>
   <p><span class="font-semibold">Updated At:</span> <%= @ticket.updated_at %></p>
   </div>
+
+  <h2>Audit History</h2>
+  <ul>
+    <% @ticket.audits.each do |audit| %>
+      <li>
+        <strong><%= audit.action.capitalize %></strong> by <%= audit.user.email %> on <%= audit.created_at %>
+        <ul>
+          <% audit.audited_changes.each do |field, change| %>
+            <% debugger %>
+            <li><%#= field.capitalize %>: <%#= change.first %> → <%#= change.last %></li>
+          <% end %>
+        </ul>
+      </li>
+    <% end %>
+  </ul>
