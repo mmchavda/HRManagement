@@ -4,27 +4,19 @@ class DashboardController < ApplicationController
     # debugger
     if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
       @total_expenses = Expense.sum(:amount)
-      @expenses_by_category = Expense.group(:category).sum(:amount)
-      @pending_reimbursements = ReimbursementRequest.where(status: 'pending').count
-      @total_reimbursements = ReimbursementRequest.sum(:total_amount)
       @recent_expenses = Expense.order(created_at: :desc).limit(5)
       @recent_reimbursements = ReimbursementRequest.order(created_at: :desc).limit(5)
-      @ticket_counts = Ticket.group(:status).count
       @recent_tickets = Ticket.order(created_at: :desc).limit(5)
-      @pending_tickets = Ticket.where(status: 'pending').count
+      @expenses = Expense.all
+      @tickets = Ticket.all
+      @reimbursements = ReimbursementRequest.all
     elsif current_user.employee?
-      @total_reimbursements = current_user.reimbursement_requests.sum(:total_amount)
       @recent_expenses = current_user.expenses.order(created_at: :desc).limit(5)
-      @ticket_counts = current_user.created_tickets.group(:status).count
       @recent_tickets = current_user.created_tickets.order(created_at: :desc).limit(5)
       @recent_reimbursements = current_user.reimbursement_requests.order(created_at: :desc).limit(5)
-
-      @pending_tickets = current_user.created_tickets.where(status: 'pending').count
-      @pending_reimbursements = current_user.reimbursement_requests.where(status: 'pending').count
       @expenses = current_user.expenses
-      @reimbursement_requests = current_user.reimbursement_requests
+      @reimbursements = current_user.reimbursement_requests
       @tickets = current_user.created_tickets
-      @assigned_tickets = current_user.assigned_tickets
     end   
   end
 

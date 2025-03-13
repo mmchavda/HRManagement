@@ -2,9 +2,9 @@ class TicketsController < ApplicationController
 	# Display all tickets
 	def index
 		if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?	
-	    @tickets = Ticket.all
+	    @tickets = Ticket.all.page(params[:page]).per(10)
 		else
-			@tickets = current_user.created_tickets
+			@tickets = current_user.created_tickets.page(params[:page]).per(10)
 		end	
 	end
   
@@ -26,9 +26,9 @@ class TicketsController < ApplicationController
 	  @ticket = Ticket.new(ticket_params)
 	  @ticket.user = current_user
 	  if @ticket.save
-		redirect_to @ticket, notice: "Ticket successfully created."
+		  redirect_to @ticket, notice: "Ticket successfully created."
 	  else
-		render :new, alert: "Error creating ticket."
+		  render :new, alert: "Error creating ticket."
 	  end
 	end
   

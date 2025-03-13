@@ -3,9 +3,9 @@ class ReimbursementRequestsController < ApplicationController
   
     def index
       if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
-        @reimbursement_requests = ReimbursementRequest.all
+        @reimbursement_requests = ReimbursementRequest.all.page(params[:page]).per(10)
       else 
-        @reimbursement_requests = current_user.reimbursement_requests
+        @reimbursement_requests = current_user.reimbursement_requests.page(params[:page]).per(10)
       end   
     end
   

@@ -4,6 +4,10 @@ class Ticket < ApplicationRecord
   belongs_to :user, foreign_key: 'user_id' # This would represent the creator of the ticket
   has_many :reimbursement_requests, through: :expenses # Related reimbursement requests through associated expenses
   
+  scope :open, -> { where(status: 'open') }
+  scope :in_progress, -> { where(status: 'in_progress') }
+  scope :resolved, -> { where(status: 'resolved ') }
+  
   # Status and priority defaults can be managed via enum
   enum :status, [ :open, :in_progress, :resolved ]
   enum :priority, [ :low, :medium, :high ]

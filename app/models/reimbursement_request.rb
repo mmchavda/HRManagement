@@ -4,6 +4,11 @@ class ReimbursementRequest < ApplicationRecord
 
   # Status for reimbursement requests can be pending, approved, or rejected
   enum :status, [:pending, :approved, :rejected]
+  scope :pending, -> { where(status: 'pending') }
+  scope :approved, -> { where(status: 'approved') }
+  scope :rejected, -> { where(status: 'rejected') }
+
+  # Approve or reject a reimbursement request
 
   def approve!
     update(status: 'approved')

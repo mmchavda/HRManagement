@@ -3,9 +3,9 @@ class ExpensesController < ApplicationController
   
     def index
       if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
-        @expenses = Expense.all
+        @expenses = Expense.all.page(params[:page]).per(10)
       else 
-        @expenses = current_user.expenses
+        @expenses = current_user.expenses.page(params[:page]).per(10)
       end   
     end
   

@@ -1,5 +1,6 @@
-<header class=" text-white" style="background-color: #8a8aa9; color: white;">
-  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+<header class=" text-white" style="background-color: #61619f; color: white; color: white; position: fixed; top: 0; width: 100%; z-index: 1000;"">
+  
+<div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
     <div class="relative flex items-center justify-between h-16">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
         <!-- Mobile menu button-->
@@ -14,7 +15,6 @@
             <%= link_to 'Tickets', tickets_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
 						<%= link_to 'Expenses', expenses_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
             <%= link_to 'ReimbursementRequests', reimbursement_requests_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
-
             <% if user_signed_in? %>
               <!-- Logout Link for Signed-in User -->
               <%= link_to 'Update My Profile', edit_dashboard_path(current_user), class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
