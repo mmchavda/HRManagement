@@ -1,4 +1,6 @@
 class TicketsController < ApplicationController
+	require 'csv'
+
 	# Display all tickets
 	def index
 		if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?	
@@ -102,6 +104,25 @@ class TicketsController < ApplicationController
 			redirect_to tickets_path, alert: "Error resolving ticket."
 		end
 	end
+
+	def export_csv
+    # Get the tickets you want to export, for example, all tickets
+    @tickets = Ticket.all
+
+    # Create the CSV data
+    csv_data = CSV.generate(headers: true) do |csv|
+      # Add the headers (column names)
+      csv << ['ID', 'Title', 'Description', 'Status', 'Created At', 'Updated At']
+      
+      # Add ticket data
+      @tickets.each do |ticket|
+        csv << [ticket.id, ticket.title, ticket.description, ticket.status, ticket.created_at, ticket.updated_at]
+      end
+    end
+
+    # Send the CSV as a download
+    send_data csv_data, filename: "tickets_#{Date.today}.csv", type: 'text/csv', disposition: 'attachment'
+  end
   
 	private
   

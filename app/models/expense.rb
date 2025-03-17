@@ -1,5 +1,5 @@
 class Expense < ApplicationRecord
-  audited
+  audited except: [:amount, :date]
   belongs_to :user # User who submitted the expense
   has_one :reimbursement_request, dependent: :destroy # Each expense can have one reimbursement request
   has_one_attached :proof

@@ -2,8 +2,7 @@
   <% provide(:title, "Edit Profile") %>
 
     <%= form_for(current_user, url: dashboard_path, method: :patch) do |f| %>
-    <h1 class="text-4xl font-semibold mb-8 text-left text-gray-700">Hi <%= @user.first_name %> <%= @user.last_name %> have Great Day !</h1>
-    <h1 class="text-4xl font-semibold mb-8 text-left text-gray-700">Updating your profile</h1>
+    <h1 class="text-2xl font-semibold mb-8 text-left text-gray-700">Updating your profile</h1>
 
     <div class="mb-4 ml-24">
         <%= f.label :first_name, class: "block text-sm font-medium text-gray-700" %>

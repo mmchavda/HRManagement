@@ -15,6 +15,7 @@
             <%= link_to 'Tickets', tickets_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
 						<%= link_to 'Expenses', expenses_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
             <%= link_to 'ReimbursementRequests', reimbursement_requests_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
+            <%= link_to 'Reports', reports_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
             <% if user_signed_in? %>
               <!-- Logout Link for Signed-in User -->
               <%= link_to 'Update My Profile', edit_dashboard_path(current_user), class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>

@@ -1,5 +1,6 @@
 class ReimbursementRequest < ApplicationRecord
-  audited
+  audited except: [:total_amount]
+
   belongs_to :expense # Each reimbursement request is for a specific expense
   belongs_to :manager, class_name: 'User', foreign_key: 'manager_id', optional: true # The manager who approves/rejects the request
 

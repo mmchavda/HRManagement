@@ -37,6 +37,10 @@ class DashboardController < ApplicationController
     @user = User.find(params[:id])
   end 
 
+  def reports 
+    
+  end 
+
   private
 
   def user_params

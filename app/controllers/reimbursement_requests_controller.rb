@@ -1,6 +1,7 @@
 class ReimbursementRequestsController < ApplicationController
     before_action :set_reimbursement_request, only: %i[show edit update destroy]
-  
+  	require 'csv'
+
     def index
       if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
         @reimbursement_requests = ReimbursementRequest.all.page(params[:page]).per(10)
@@ -52,6 +53,25 @@ class ReimbursementRequestsController < ApplicationController
       @reimbursement_request = ReimbursementRequest.find(params[:id])
       @reimbursement_request.reject!
       redirect_to reimbursement_requests_url, notice: 'Reimbursement request was successfully rejected.'
+    end
+
+    def export_csv
+      # Get the reimbursement_requests you want to export, for example, all tickets
+      @reimbursement_request = ReimbursementRequest.all
+  
+      # Create the CSV data
+      csv_data = CSV.generate(headers: true) do |csv|
+        # Add the headers (column names)
+        csv << ['ID', 'Amount', 'Status', 'Created At', 'Updated At']
+        
+        # Add reimbursement_request data
+        @reimbursement_request.each do |reimbursement_request|
+          csv << [reimbursement_request.id, reimbursement_request.total_amount, reimbursement_request.status, reimbursement_request.created_at, reimbursement_request.updated_at]
+        end
+      end
+  
+      # Send the CSV as a download
+      send_data csv_data, filename: "reimbursement_requests_#{Date.today}.csv", type: 'text/csv', disposition: 'attachment'
     end
   
     private

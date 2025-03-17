@@ -14,9 +14,22 @@ Rails.application.routes.draw do
   root "dashboard#index"
 
   resources :dashboard
-  resources :tickets
-  resources :reimbursement_requests
-  resources :expenses
+  resources :tickets do
+    collection do
+      get :export_csv  # Add a route for the export action
+    end
+  end
+
+  resources :reimbursement_requests do
+    collection do
+      get :export_csv  # Add a route for the export action
+    end
+  end   
+  resources :expenses do
+    collection do
+      get :export_csv  # Add a route for the export action
+    end 
+  end
 
   get 'reimbursement_requests/:id/approve_request', to: 'reimbursement_requests#approve_request', as: 'approve_reimbursement_request'
   get 'reimbursement_requests/:id/reject_request', to: 'reimbursement_requests#reject_request', as: 'reject_reimbursement_request'
@@ -25,4 +38,6 @@ Rails.application.routes.draw do
   get 'tickets/:id/reopen_ticket', to: 'tickets#reopen_ticket', as: 'reopen_ticket'
   get 'tickets/:id/resolve_ticket', to: 'tickets#resolve_ticket', as: 'resolve_ticket'
   get 'tickets/:id/unassign_ticket', to: 'tickets#unassign_ticket', as: 'unassign_ticket'
+  get 'reports', to: 'dashboard#reports', as: 'reports'
+
 end
