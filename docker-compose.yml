@@ -1,13 +1,32 @@
 version: '3'
-
 services:
   web:
     build:
       context: ./   # Build the Docker image from the current directory
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile-dev  # Specify your Dockerfile-dev file
     ports:
       - "3000:3000"  # Expose port 3000 (Rails default port)
     volumes:
       - .:/usr/src/app  # Mount the current directory as a volume
     environment:
       RAILS_ENV: development
+      MYSQL_HOST: db  # This is the MySQL container name (service name)
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: eGoV062002!
+      MYSQL_DATABASE: hr_management
+    depends_on:
+      - db  # Wait for the db service to be ready before starting the web service
+
+  db:
+    container_name: HRMANAGEMENT_DB
+    image: mysql:5.7.40  # Use MySQL 5.7
+    ports:
+      - "3306:3306"  # Expose port 3306 for MySQL
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: eGoV062002!
+      MYSQL_DATABASE: hr_management  # Database for the application
+      MYSQL_USER: root
+      MYSQL_PASSWORD: eGoV062002!  # Database password
+    volumes:
+      - ../hrmanagement-data:/var/lib/mysql  # Persist MySQL data in a local volume

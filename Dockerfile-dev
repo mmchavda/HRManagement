@@ -10,13 +10,20 @@ RUN apt-get update -qq && apt-get install -y \
   yarn \
   build-essential \
   libpq-dev \
+  libmariadb-dev \
   && rm -rf /var/lib/apt/lists/*
 
-# Install Rails (if not already preinstalled in the base image)
-RUN gem install rails
+# Copy the Gemfile and Gemfile.lock before installing gems
+COPY Gemfile Gemfile.lock ./
 
 # Install bundler to manage Ruby gems
 RUN gem install bundler
+
+# Install the Ruby gems
+RUN bundle install
+
+# Copy the rest of the application code
+COPY . .
 
 # Expose port 3000 for the Rails server
 EXPOSE 3000

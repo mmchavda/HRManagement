@@ -45,12 +45,12 @@ default: &default
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: <%= ENV['DATABASE_USERNAME'] || 'root' %>
-  password: <%= ENV['DATABASE_PASSWORD'] || 'test123' %>
-  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+  password: <%= ENV['DATABASE_PASSWORD'] || 'eGoV062002!' %>
+  host: <%= ENV['DATABASE_HOST'] || 'db' %>
   port: 3306
 
 development:
   <<: *default
-  database: HRMANAGEMENT
+  database: hr_management
 
 
