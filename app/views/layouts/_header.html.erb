@@ -15,16 +15,18 @@
             <%= link_to 'Tickets', tickets_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
 						<%= link_to 'Expenses', expenses_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
             <%= link_to 'ReimbursementRequests', reimbursement_requests_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
-            <%= link_to 'Reports', reports_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
             <% if user_signed_in? %>
               <!-- Logout Link for Signed-in User -->
+              <% if current_user.admin? || current_user.hr? || current_user.manager? %>
+                <%= link_to 'Reports', reports_path, class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
+              <% end %>
               <%= link_to 'Update My Profile', edit_dashboard_path(current_user), class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
               <%= link_to 'Profile', dashboard_path(current_user), class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %> 
 
               <%= form_with url: destroy_user_session_path, method: :delete, class: 'inline-block' do |form| %>
                <%= form.submit 'Logout', class: 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium' %>
               <% end %>
-              <% else %>
+            <% else %>
               <!-- Login Link for Not Signed-in User -->
               <a href="<%= new_user_session_path %>" class="text-white hover:text-gray-300 px-4">Login</a>
             <% end %>
