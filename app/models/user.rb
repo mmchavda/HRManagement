@@ -15,7 +15,7 @@ class User < ApplicationRecord
   after_create :set_default_role
 
   def set_default_role
-    self.update_columns(role: :employee)
+    self.update_columns(role: :employee) if self.role.nil?
   end
 
   def admin?
