@@ -51,6 +51,6 @@ default: &default
 
 development:
   <<: *default
-  database: hr_management
+  database: hr_management1
 
 

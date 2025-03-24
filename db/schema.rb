@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2025_03_13_131859) do
-  create_table "active_storage_attachments", force: :cascade do |t|
+  create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
@@ -21,7 +21,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_13_131859) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", force: :cascade do |t|
+  create_table "active_storage_blobs", charset: "utf8", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -33,18 +33,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_13_131859) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", force: :cascade do |t|
+  create_table "active_storage_variant_records", charset: "utf8", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "audits", force: :cascade do |t|
+  create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
     t.integer "associated_id"
     t.string "associated_type"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "user_type"
     t.string "username"
     t.string "action"
@@ -61,43 +61,43 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_13_131859) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
-  create_table "expenses", force: :cascade do |t|
+  create_table "expenses", charset: "utf8", force: :cascade do |t|
     t.decimal "amount", precision: 10, scale: 2
     t.string "description"
     t.date "date"
     t.integer "category"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"
     t.index ["user_id"], name: "index_expenses_on_user_id"
   end
 
-  create_table "reimbursement_requests", force: :cascade do |t|
+  create_table "reimbursement_requests", charset: "utf8", force: :cascade do |t|
     t.decimal "total_amount", precision: 10, scale: 2
     t.integer "status"
-    t.integer "expense_id"
-    t.integer "manager_id"
+    t.bigint "expense_id"
+    t.bigint "manager_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["expense_id"], name: "index_reimbursement_requests_on_expense_id"
     t.index ["manager_id"], name: "index_reimbursement_requests_on_manager_id"
   end
 
-  create_table "tickets", force: :cascade do |t|
+  create_table "tickets", charset: "utf8", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.integer "status"
     t.integer "priority"
-    t.integer "user_id"
-    t.integer "assigned_user_id"
+    t.bigint "user_id"
+    t.bigint "assigned_user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["assigned_user_id"], name: "index_tickets_on_assigned_user_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", charset: "utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.integer "role"

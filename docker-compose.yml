@@ -13,7 +13,7 @@ services:
       MYSQL_HOST: db  # This is the MySQL container name (service name)
       MYSQL_USERNAME: root
       MYSQL_PASSWORD: eGoV062002!
-      MYSQL_DATABASE: hr_management
+      MYSQL_DATABASE: hr_management1
     depends_on:
       - db  # Wait for the db service to be ready before starting the web service
 
@@ -25,7 +25,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: eGoV062002!
-      MYSQL_DATABASE: hr_management  # Database for the application
+      MYSQL_DATABASE: hr_management1  # Database for the application
       MYSQL_USER: root
       MYSQL_PASSWORD: eGoV062002!  # Database password
     volumes:

@@ -4,9 +4,8 @@ class CreateExpenses < ActiveRecord::Migration[8.0]
       t.decimal :amount, precision: 10, scale: 2
       t.string :description
       t.date :date
-      t.integer :category # Example: 'travel', 'meals', etc.
-      t.references :user, foreign_key: true # User who submitted the expense
-
+      t.integer :category
+      t.references :user, null: false, foreign_key: true, type: :bigint # Ensure user_id is bigint
       t.timestamps
     end
   end

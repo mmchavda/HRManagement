@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class InstallAudited < ActiveRecord::Migration[8.0]
   def self.up
     create_table :audits, :force => true do |t|
@@ -7,7 +5,7 @@ class InstallAudited < ActiveRecord::Migration[8.0]
       t.column :auditable_type, :string
       t.column :associated_id, :integer
       t.column :associated_type, :string
-      t.column :user_id, :integer
+      t.column :user_id, :bigint # Change to bigint here
       t.column :user_type, :string
       t.column :username, :string
       t.column :action, :string
