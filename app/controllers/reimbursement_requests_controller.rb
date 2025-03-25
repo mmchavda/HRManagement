@@ -1,5 +1,5 @@
 class ReimbursementRequestsController < ApplicationController
-    before_action :set_reimbursement_request, only: %i[show edit update destroy]
+    before_action :set_reimbursement_request, only: %i[show edit update destroy approve_request reject_request]
   	require 'csv'
 
     def index
@@ -19,10 +19,11 @@ class ReimbursementRequestsController < ApplicationController
   
     def create
       @reimbursement_request = ReimbursementRequest.new(reimbursement_request_params)
-      @reimbursement_request.total_amount = @reimbursement_request.expense.amount
+      @reimbursement_request.total_amount = @reimbursement_request.expense&.amount
       if @reimbursement_request.save
         redirect_to @reimbursement_request, notice: 'Reimbursement request was successfully created.'
       else
+        flash.now[:alert] = @reimbursement_request.errors.full_messages.to_sentence
         render :new
       end
     end
@@ -34,44 +35,63 @@ class ReimbursementRequestsController < ApplicationController
       if @reimbursement_request.update(reimbursement_request_params)
         redirect_to @reimbursement_request, notice: 'Reimbursement request was successfully updated.'
       else
+        flash.now[:alert] = @reimbursement_request.errors.full_messages.to_sentence
         render :edit
       end
     end
   
     def destroy
-      @reimbursement_request.destroy
-      redirect_to reimbursement_requests_url, notice: 'Reimbursement request was successfully deleted.'
+      begin
+        @reimbursement_request.destroy
+        redirect_to reimbursement_requests_url, notice: 'Reimbursement request was successfully deleted.'
+      rescue => e
+        redirect_to reimbursement_requests_url, alert: "Error deleting reimbursement request: #{e.message}"
+      end
     end
 
     def approve_request
-      @reimbursement_request = ReimbursementRequest.find(params[:id])
-      @reimbursement_request.approve!
-      redirect_to reimbursement_requests_url, notice: 'Reimbursement request was successfully approved.'
+      begin
+        if @reimbursement_request.status == 'approved'
+          redirect_to reimbursement_requests_url, alert: 'This request is already approved.'
+        else
+          @reimbursement_request.approve!
+          redirect_to reimbursement_requests_url, notice: 'Reimbursement request was successfully approved.'
+        end
+      rescue => e
+        redirect_to reimbursement_requests_url, alert: "Error approving reimbursement request: #{e.message}"
+      end
     end
 
     def reject_request
-      @reimbursement_request = ReimbursementRequest.find(params[:id])
-      @reimbursement_request.reject!
-      redirect_to reimbursement_requests_url, notice: 'Reimbursement request was successfully rejected.'
+      begin
+        if @reimbursement_request.status == 'rejected'
+          redirect_to reimbursement_requests_url, alert: 'This request is already rejected.'
+        else
+          @reimbursement_request.reject!
+          redirect_to reimbursement_requests_url, notice: 'Reimbursement request was successfully rejected.'
+        end
+      rescue => e
+        redirect_to reimbursement_requests_url, alert: "Error rejecting reimbursement request: #{e.message}"
+      end
     end
 
     def export_csv
-      # Get the reimbursement_requests you want to export, for example, all tickets
-      @reimbursement_request = ReimbursementRequest.all
+      begin
+        @reimbursement_requests = ReimbursementRequest.all
+        # Create the CSV data
+        csv_data = CSV.generate(headers: true) do |csv|
+          csv << ['ID', 'Amount', 'Status', 'Created At', 'Updated At']
   
-      # Create the CSV data
-      csv_data = CSV.generate(headers: true) do |csv|
-        # Add the headers (column names)
-        csv << ['ID', 'Amount', 'Status', 'Created At', 'Updated At']
-        
-        # Add reimbursement_request data
-        @reimbursement_request.each do |reimbursement_request|
-          csv << [reimbursement_request.id, reimbursement_request.total_amount, reimbursement_request.status, reimbursement_request.created_at, reimbursement_request.updated_at]
+          @reimbursement_requests.each do |request|
+            csv << [request.id, request.total_amount, request.status, request.created_at, request.updated_at]
+          end
         end
-      end
   
-      # Send the CSV as a download
-      send_data csv_data, filename: "reimbursement_requests_#{Date.today}.csv", type: 'text/csv', disposition: 'attachment'
+        send_data csv_data, filename: "reimbursement_requests_#{Date.today}.csv", type: 'text/csv', disposition: 'attachment'
+      rescue => e
+        flash[:alert] = "Error generating CSV: #{e.message}"
+        redirect_to reimbursement_requests_url
+      end
     end
   
     private

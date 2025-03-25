@@ -28,11 +28,6 @@
             end %>
 
           <span class="<%= status_class %>"><%= request.status.capitalize %></span>
-
-          <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && request.status == "pending" %>
-            <%= link_to 'Approve', approve_reimbursement_request_path(request), class: 'text-green-500 hover:text-green-700'%>
-            <%= link_to 'Reject', reject_reimbursement_request_path(request), class: 'text-red-500 hover:text-red-700' %>
-          <% end %>   
         </td>
         <td class="px-4 py-2 text-sm">
           <div class="flex space-x-2 items-center">
@@ -50,6 +45,22 @@
             <%= button_to reimbursement_request_path(request), method: :delete, data: { confirm: 'Are you sure?' } do %>
               <%= image_tag '/delete.png', alt: 'Delete reimbursement_request', size: '15x15' %>
             <% end %>
+
+             <% if (current_user.admin? || current_user.hr?) && request.status == 'pending' %>
+              <div class="relative">
+                <!-- Icon to Toggle Dropdown -->
+                <button class="bg-gray-200 text-gray-700 hover:bg-gray-300 py-2 px-4 rounded-md" onclick="toggleDropdown(<%= i %>)">
+                  <%= image_tag '/drop-down.png', size: '15x15', alt: 'Actions' %>
+                </button>
+                
+                <!-- Dropdown Menu -->
+                <div id="dropdown-<%= i %>" class="hidden absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg">
+                  <%= link_to 'Approve', approve_reimbursement_request_path(request), method: :put, class: 'block px-4 py-2 text-green-500 hover:text-green-300' %>
+                  <%= link_to 'Reject', reject_reimbursement_request_path(request), method: :put, class: 'block px-4 py-2 text-red-500 hover:text-red-300' %>
+                </div>
+
+              </div>
+            <% end %>
           </div>
                
         </td>
@@ -58,3 +69,13 @@
     <tr><td><%= paginate @reimbursement_requests , class: 'flex items-center space-x-2' %></td> </tr>
   </tbody>
 </table>
+
+<script>
+  function toggleDropdown(index) {
+    // Get the dropdown element using the index
+    const dropdown = document.getElementById(`dropdown-${index}`);
+    
+    // Toggle visibility
+    dropdown.classList.toggle('hidden');
+  }
+</script>

@@ -8,6 +8,9 @@ class User < ApplicationRecord
   has_many :expenses, dependent: :destroy # Expenses submitted by the user
   has_many :reimbursement_requests, through: :expenses # Reimbursement requests related to the user's expenses
 
+  validates :email, presence: { message: "Email cannot be blank" }
+  validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "Invalid email format" }
+
   # Roles: Admins, Agents, and Users can be defined here
 	enum :role, [:employee, :hr, :admin, :manager, :lead]
   has_one_attached :avatar

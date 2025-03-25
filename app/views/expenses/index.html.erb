@@ -20,7 +20,7 @@
         <td class="px-4 py-2 text-sm text-gray-900"><%= expense.title %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= number_to_currency(expense.amount) %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= expense.category %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= expense.date.strftime('%B %d, %Y') %></td>
+        <td class="px-4 py-2 text-sm text-gray-900"><%= expense.date&.strftime('%B %d, %Y') %></td>
         <td class="px-4 py-2 text-sm">
           <div class="flex space-x-2 items-center">
             <!-- Show Link with Image -->
