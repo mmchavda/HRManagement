@@ -1,8 +1,9 @@
 <header class="text-white" style="background-color: #61619f; position: fixed; top: 0; width: 100%; z-index: 1000;">
   <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
     <div class="relative flex items-center justify-between h-16">
-      <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-
+      
+      <!-- Navigation Links -->
+      <div class="flex items-center">
         <div class="hidden sm:block sm:ml-6">
           <div class="flex space-x-4">
             <%= image_tag '/HRManagement_logo.png', alt: 'HR Management Logo', size: "50x50" %>
@@ -12,36 +13,69 @@
             <%= nav_link('ReimbursementRequests', reimbursement_requests_path) %>
           </div>
         </div>
-        
-        <% if user_signed_in? %>
-          <!-- Profile Icon and Dropdown -->
-          <div class="relative group ml-4">
-            <button class="flex items-center space-x-2 text-white hover:text-gray-300 focus:outline-none" id="dropdown-btn">
-              <%= image_tag('profile-user.png', alt: 'User', class: 'w-10 h-10 rounded-full') rescue content_tag(:div, "👤", class: "w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white") %>
+      </div>
 
-              <span><%= current_user.email %></span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
+      <!-- Right Section with Profile Icon -->
+      <div class="flex items-center ml-auto">
+        <% if user_signed_in? %>
+         <!-- Profile Icon and Dropdown -->
+          <div class="relative">
+            <!-- Dropdown Button -->
+            <button 
+              class="flex items-center space-x-2 text-white hover:text-gray-300 focus:outline-none" 
+              id="dropdown-btn" 
+"
+              onclick="toggleDropdown(event)">
+              <%= image_tag('profile-user.png', alt: 'User', class: 'w-10 h-10 rounded-full') rescue content_tag(:div, "👤", class: "w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white") %>
             </button>
 
             <!-- Dropdown Menu -->
-            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 hidden group-hover:block" id="dropdown-menu">
+            <div 
+              class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 transition-opacity duration-300 ease-in-out hidden"
+              id="dropdown-menu" style="margin-right: -78px;">
               <div class="py-1">
-                <%= link_to 'Dashboard', root_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
-                <%= link_to 'Profile', dashboard_path(current_user), class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
-                <%= link_to 'Change Password', edit_user_registration_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+                <!-- Display User Email -->
+                <div class="px-4 py-2 text-sm text-gray-500 font-medium border-b border-gray-200">
+                  shivanishilpi@gmail.com
+                </div>
+                <a class="block px-4 py-2 text-gray-700 hover:bg-gray-300" href="/dashboard/5">Profile</a>
+                <a class="block px-4 py-2 text-gray-700 hover:bg-gray-300" href="/users/edit">Change Password</a>
 
-                <%= form_with url: destroy_user_session_path, method: :delete, class: 'block' do |form| %>
-                  <%= form.submit 'Logout', class: "block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" %>
-                <% end %>
+                <form class="block" action="/users/sign_out" accept-charset="UTF-8" method="post">
+                  <input type="hidden" name="_method" value="delete" autocomplete="off">
+                  <input type="hidden" name="authenticity_token" value="BsFqDbcDh4GB5_-ftwrgE0aV_tpMo_Db6PqB82di303fTpgMBmLi7L_kF4lZrgJ3z0gZ_IywltUR7E66WXZRnA" autocomplete="off">
+                  <input type="submit" name="commit" value="Logout" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-300" data-disable-with="Logout">
+                </form>
               </div>
             </div>
           </div>
+
+
         <% else %>
           <a href="<%= new_user_session_path %>" class="text-white hover:text-gray-300 px-4">Login</a>
         <% end %>
       </div>
+      
     </div>
   </div>
 </header>
+
+<script>
+    // Toggle dropdown visibility
+  function toggleDropdown(event) {
+    event.stopPropagation();
+    const dropdown = document.getElementById('dropdown-menu');
+    dropdown.classList.toggle('hidden');
+  }
+
+  // Hide dropdown when clicking outside
+  document.addEventListener('click', (event) => {
+    const dropdown = document.getElementById('dropdown-menu');
+    const button = document.getElementById('dropdown-btn');
+
+    // Hide the dropdown only if the click is outside the dropdown and button
+    if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+      dropdown.classList.add('hidden');
+    }
+  });
+</script>
