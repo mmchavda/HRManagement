@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+
+#dropdown-btn {
+	transition: background 0.3s;
+}
+
+#dropdown-btn:hover {
+	background-color: #4a5568;
+}
+
+#dropdown-menu {
+	transition: opacity 0.3s, visibility 0.3s;
+}
+#dropdown-btn {
+	transition: background 0.3s;
+}
+
+#dropdown-btn:hover {
+	background-color: #4a5568;
+}
+
+#dropdown-menu {
+	transition: opacity 0.3s, visibility 0.3s;
+}
+    
