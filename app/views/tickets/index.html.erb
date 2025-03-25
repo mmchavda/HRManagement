@@ -26,7 +26,8 @@
   </thead>
   <tbody>
     <% @tickets.each_with_index do |ticket, i| %>
-      <tr class="<%= cycle('bg-white', 'bg-gray-50') %>">
+      <tr class="<%= cycle('bg-white', 'bg-gray-300') %>">
+
         <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user.email %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.title %></td>

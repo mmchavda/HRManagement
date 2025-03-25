@@ -1,45 +1,81 @@
-<table class="min-w-full table-auto border-collapse">
-  <thead>
-    <tr class="bg-gray-100">
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">S.N.</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">User</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Title</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Amount</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Category</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Date</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions <%= link_to  'New Expense', new_expense_path, class: 'text-blue-500 hover:text-blue-700' %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @expenses.each_with_index do |expense, i| %>
-      <tr class="<%= cycle('bg-white', 'bg-gray-50') %>">
-        <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= expense.user.email %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= expense.title %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= number_to_currency(expense.amount) %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= expense.category %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= expense.date&.strftime('%B %d, %Y') %></td>
-        <td class="px-4 py-2 text-sm">
-          <div class="flex space-x-2 items-center">
-            <!-- Show Link with Image -->
-            <%= link_to expense_path(expense) do %>
-              <%= image_tag '/show.png', alt: 'Show Expense', size: '15x15' %>
-            <% end %>
-
-            <!-- Edit Link with Image -->
-            <%= link_to edit_expense_path(expense) do %>
-              <%= image_tag '/edit.png', alt: 'Edit Expense', size: '15x15' %>
-            <% end %>
-
-            <!-- Delete Link with Image -->
-            <%= button_to expense_path(expense), method: :delete, data: { confirm: 'Are you sure?' } do %>
-              <%= image_tag '/delete.png', alt: 'Delete Expense', size: '15x15' %>
-            <% end %>
-
-          </div>
-        </td>
+<div >
+  <!-- Button positioned above the table (50px from the bottom, right side) -->
+  <div class="new-expense-button">
+   <%= link_to 'New Expense', new_expense_path, class: 'text-white hover:text-blue-700 p-3 border rounded-md shadow-md', style: 'background-color: #8181b4;' %>
+  </div>
+  
+  <!-- Table with increased width -->
+  <table class="my_table">
+    <thead>
+      <tr style="background-color: #8181b4">
+        <th class="px-4 py-2 text-left text-sm font-medium text-white" style="width: 5%;">S.N.</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white" style="width: 20%;">User</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white" style="width: 25%;">Title</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white" style="width: 15%;">Amount</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white" style="width: 15%;">Category</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white" style="width: 10%;">Date</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white" style="width: 10%;">Actions</th>
       </tr>
-    <% end %>
-    <tr><td><%= paginate @expenses , class: 'flex items-center space-x-2' %></td> </tr>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @expenses.each_with_index do |expense, i| %>
+        <tr class="<%= cycle('bg-white', 'bg-gray-300') %>">
+          <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= expense.user.email %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= expense.title %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= number_to_currency(expense.amount) %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= expense.category %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= expense.date&.strftime('%B %d, %Y') %></td>
+          <td class="px-4 py-2 text-sm">
+            <div class="flex space-x-2 items-center">
+              <!-- Show Link with Image -->
+              <%= link_to expense_path(expense) do %>
+                <%= image_tag '/show.png', alt: 'Show Expense', size: '15x15' %>
+              <% end %>
+
+              <!-- Edit Link with Image -->
+              <%= link_to edit_expense_path(expense) do %>
+                <%= image_tag '/edit.png', alt: 'Edit Expense', size: '15x15' %>
+              <% end %>
+
+              <!-- Delete Link with Image -->
+              <%= button_to expense_path(expense), method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <%= image_tag '/delete.png', alt: 'Delete Expense', size: '15x15' %>
+              <% end %>
+
+            </div>
+          </td>
+        </tr>
+      <% end %>
+      <tr><td><%= paginate @expenses , class: 'flex items-center space-x-2' %></td> </tr>
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .new-expense-button {
+    position: absolute;
+    top: 75px;
+    right: 50px;
+   
+  }
+  .my_table {
+    width: 200% impoorant!;
+    center: 50%;
+    margin-left: 50%;
+  }
+
+  .my_table th {
+    background-color: #8181b4;
+    color: white;
+  }
+
+   .my_table th {
+    border: .1px solid #61619f;
+    text-align: left;
+  }
+
+  .my_table tr:nth-child(even) {
+    background-color: #b7b7d9;
+  }
+</style>
