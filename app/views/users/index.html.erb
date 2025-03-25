@@ -1,0 +1,31 @@
+<h1>User Management</h1>
+
+<% if current_user.admin? || current_user.hr? %>
+  <%= link_to 'New User', new_user_registration_path %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.role %></td>
+        <td>
+          <% if current_user.admin? || current_user.hr? %>
+            <%= link_to 'Edit', edit_user_path(user) %>
+          <% end %>
+          <% if  current_user.admin? || current_user.hr? %>
+            <%= button_to 'Delete', user_path(user), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,17 @@
+<h1>Edit User</h1>
+
+<%= form_for(@user) do |f| %>
+  <div class="field">
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :role %>
+    <%= f.select :role, User.roles.keys.map { |role| [role.titleize, role] }, selected: @user.role %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Save Changes' %>
+  </div>
+<% end %>
