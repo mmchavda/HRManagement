@@ -16,6 +16,12 @@
     user.password_confirmation = "password123"
     user.username = "admin"
   end
+
+  employee = User.find_or_create_by!(email: "test.hr@gmail.com", role: "hr") do |user|
+    user.password = "password123"
+    user.password_confirmation = "password123"
+    user.username = "hr"
+  end
   
   # Create or find the employee user
   employee = User.find_or_create_by!(email: "test.employee@gmail.com", role: "employee") do |user|

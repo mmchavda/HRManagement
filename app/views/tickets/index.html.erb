@@ -31,9 +31,6 @@
         <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user.email %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.title %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.status %>
-          <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && ticket.status != "resolved" %>
-            <%= link_to 'Resolve', resolve_ticket_path(ticket), class: 'text-green-500 hover:text-green-700'%>
-          <% end %>  
         </td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.priority %></td>
         <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user.email %></td>
@@ -54,6 +51,10 @@
             <%= button_to ticket_path(ticket), method: :delete, data: { confirm: 'Are you sure?' } do %>
               <%= image_tag '/delete.png', alt: 'Delete ticket', size: '15x15' %>
             <% end %>
+
+            <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && ticket.status != "resolved" && (ticket.assigned_user == current_user) %>
+              <%= link_to 'Resolve', resolve_ticket_path(ticket), class: 'text-green-500 hover:text-green-700'%>
+            <% end %>  
           </div>
         </td>
       </tr>

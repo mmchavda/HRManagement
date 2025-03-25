@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
   get 'reimbursement_requests/:id/approve_request', to: 'reimbursement_requests#approve_request', as: 'approve_reimbursement_request'
   get 'reimbursement_requests/:id/reject_request', to: 'reimbursement_requests#reject_request', as: 'reject_reimbursement_request'
-  get 'tickets/:id/assign_ticket', to: 'tickets#assign_ticket', as: 'assign_ticket'
+  patch 'tickets/:id/assign_ticket', to: 'tickets#assign_ticket', as: 'assign_ticket'
   get 'tickets/:id/close_ticket', to: 'tickets#close_ticket', as: 'close_ticket'
   get 'tickets/:id/reopen_ticket', to: 'tickets#reopen_ticket', as: 'reopen_ticket'
   get 'tickets/:id/resolve_ticket', to: 'tickets#resolve_ticket', as: 'resolve_ticket'

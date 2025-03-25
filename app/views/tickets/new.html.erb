@@ -22,11 +22,6 @@
   </div>
 
   <div>
-    <%= form.label :status, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.select :status, Ticket.statuses.keys.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-  </div>
-
-  <div>
     <%= form.label :priority, class: 'block text-sm font-medium text-gray-700' %>
     <%= form.select :priority, Ticket.priorities.keys.map { |priority| [priority.capitalize, priority] }, { prompt: 'Select Priority' }, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>

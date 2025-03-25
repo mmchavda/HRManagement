@@ -34,6 +34,9 @@ class TicketsController < ApplicationController
 	def create
 	  @ticket = Ticket.new(ticket_params)
 	  @ticket.user = current_user
+		hr_user = User.find_by_role(:hr)
+		@ticket.assigned_user_id = hr_user.id
+		@ticket.status = "open"
 	  if @ticket.save
 		  redirect_to @ticket, notice: "Ticket successfully created."
 	  else
@@ -77,7 +80,7 @@ class TicketsController < ApplicationController
 
 	def assign_ticket
 		@ticket = Ticket.find(params[:id])
-		@ticket.assigned_user_id = current_user.id
+		@ticket.assigned_user_id = params[:ticket][:assigned_user_id]
 		if @ticket.save
 			redirect_to tickets_path, notice: "Ticket successfully assigned."
 		else

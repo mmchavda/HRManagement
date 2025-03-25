@@ -4,13 +4,17 @@
   <p><span class="font-semibold">Priority:</span> <%= @ticket.priority %></p>
   <p><span class="font-semibold">Description:</span> <%= @ticket.description %></p>
   <p><span class="font-semibold">Reported By:</span> <%= @ticket.user.email %></p>
-  <p><span class="font-semibold">Assigned To:</span> <%= @ticket.assigned_user.email if @ticket.assigned_user %> 
-    <% unless @ticket.assigned_user %>
-      <span class="font-semibold"><%= link_to 'Assign To Me', assign_ticket_path(@ticket), class: 'text-blue-500 hover:text-blue-700' %>
-    <% else %>
-      <span class="font-semibold"><%= link_to 'Unassign', unassign_ticket_path(@ticket), class: 'text-blue-500 hover:text-blue-700' %>
-    <% end %>
-  </p>
+    <p><span class="font-semibold">Assigned To:</span> <%= @ticket.assigned_user.email if @ticket.assigned_user %> 
+      <% if (current_user.admin? || current_user.hr?) %>
+        <% @hr_or_admin_users = User.where(role: ['hr', 'admin']).where.not(id: @ticket.assigned_user_id)%>
+
+        <%= form_with(model: @ticket, url: assign_ticket_path(@ticket), method: :patch, local: true) do |form| %>
+          <%= form.select :assigned_user_id, options_from_collection_for_select(@hr_or_admin_users, :id, :email), include_blank: 'Select User', class: 'form-select text-sm' %>
+          <%= form.submit 'Assign', class: 'bg-blue-500 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md' %>
+        <% end %>
+      <% end %>  
+    </p>
+  
   <p><span class="font-semibold">Created At:</span> <%= @ticket.created_at %></p>
   <p><span class="font-semibold">Updated At:</span> <%= @ticket.updated_at %></p>
   </div>
