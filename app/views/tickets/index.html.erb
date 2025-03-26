@@ -1,27 +1,38 @@
+<div class="container mx-auto">
+  <div class="new-button">
+   
+    <%= link_to new_ticket_path, class: 'text-white shadow-md', style: 'background-color: #515156;' do %>
+      <%= image_tag '/new.png', alt: 'New Ticket Icon', size: '20x20' %>
+    <% end %>
+  </div>
 <div class="ticket_filer">
   <%= form_with(url: tickets_path, method: :get) do %>
     <div>
-      <table class="min-w-full table-auto border-collapse">
-       <tr><td><%= label_tag :status, "Status", class: "text-sm font-medium text-gray-700" %></td>
-        <td><%= select_tag :status, options_for_select([['All', ''], ['Open', 'open'], ['In Progress', 'in_progress'], ['Resolved', 'resolved'], ['Pending', 'pending']], params[:status]), class: 'mt-1 p-2 border border-gray-300 rounded-md' %></td>
-        <td><%= submit_tag "Filter", class: "bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-700" %></td>
+      <table>
+       <tr><td><%= label_tag :status, "Status", class: "text-sm font-medium text-white" %></td>
+        <td><%= select_tag :status, options_for_select([['All', ''], ['Open', 'open'], ['In Progress', 'in_progress'], ['Resolved', 'resolved'], ['Pending', 'pending']], params[:status]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white' %></td>        
+        <td>
+          <%= button_tag type: 'submit' do %>
+            <%= image_tag '/filter.png', alt: 'Filter', size: '40x20' %>
+          <% end %>
+        </td>
       </tr>
         </table>
     </div>
   <% end %>
 </div>  
 
-<table class="min-w-full table-auto border-collapse ticket_table">
-  <thead>
+<table class="my_table">
+<thead>
     <tr class="bg-gray-100">
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">S.N.</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">User</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Title</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Status</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Priority</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Reported By</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Assigned To</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions <%= link_to 'New Ticket', new_ticket_path, class: 'text-blue-500 hover:text-blue-700' %></th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 5%;">S.N.</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" , style="width: 15%;">User</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Title</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Status</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Priority</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Reported By</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Assigned To</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 25%;">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -54,7 +65,11 @@
             <% end %>
 
             <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && ticket.status != "resolved" && (ticket.assigned_user == current_user) %>
-              <%= link_to 'Resolve', resolve_ticket_path(ticket), class: 'text-green-500 hover:text-green-700'%>
+              
+
+              <%= link_to resolve_ticket_path(ticket), method: :post, class: 'relative text-white' do %>
+                <%= image_tag '/resolved.png', alt: 'Resolved Icon', size: '20x20', class: 'w-6 h-6' %>
+              <% end %>
             <% end %>  
           </div>
         </td>
@@ -63,14 +78,44 @@
     <tr><td><%= paginate @tickets , class: 'flex items-center space-x-2' %></td> </tr>
   </tbody>
 </table>
+</div>
 
 <style>
   .ticket_filer {
-  margin-top: -20px; /* Added some margin to give space between filter and table */
+    margin: auto;
+    margin-left: 7%;
+    margin-bottom: 15px !important;
+  }
+  .ticket_filer table {
+    width: 25%;
+  }
+  .ticket_filer table tr td {
+    padding: 1px;
+  } 
+  .my_table {
+    width: 85% !important; 
+    margin-left: auto;     
+    margin-right: auto;    
+    display: block;
 }
 
-.ticket_table {
-  margin-top: 100px; /* Added some margin to give space between filter and table */
-  margin-left: -200px; /* Added some margin to give space between filter and table */
-}
+   .my_table th {
+    border: .1px solid black;
+    text-align: left;
+  }
+
+  .my_table tr:nth-child(even) {
+  }
+
+  .container {
+    width: 85%;
+    margin-right: auto;
+    display: block;
+  }
+  
+  .new-button {
+    margin: auto;
+    margin-left: 88%;
+    margin-bottom: -25px !important;
+  }
 </style>

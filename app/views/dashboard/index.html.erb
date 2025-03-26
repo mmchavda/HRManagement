@@ -1,5 +1,3 @@
-<!-- app/views/dashboard/index.html.erb -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +20,7 @@
         <div class="flex justify-between space-x-4">
           <% if @reimbursements.present? %>
             <!-- Total Reimbursements -->
-            <div class="bg-[#61619f] text-white rounded-lg shadow-lg p-6 w-full sm:w-1/2 lg:w-3/4">
+            <div class="bg-[black] text-white rounded-lg shadow-lg p-6 w-full sm:w-1/2 lg:w-3/4">
               <h2 class="text-xl font-semibold">Reimbursement Summary</h2>
               <!-- Table displaying Reimbursement counts -->
               <table class="min-w-full mt-4 table-auto border-collapse">
@@ -33,19 +31,19 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="bg-[#8181b4]">
+                  <tr class="bg-[#515156]">
                     <td class="px-4 py-2">Total Reimbursements</td>
                     <td class="px-4 py-2"><%= @reimbursements.count %></td> <!-- Total number of Reimbursements -->
                   </tr>
-                  <tr class="bg-[#7676af]">
+                  <tr class="bg-[#6d6d78]">
                     <td class="px-4 py-2">Pending</td>
                     <td class="px-4 py-2"><%= @reimbursements.pending.count %></td> <!-- open Reimbursements count -->
                   </tr>
-                  <tr class="bg-[#8181b4]">
+                  <tr class="bg-[#515156]">
                     <td class="px-4 py-2">Approved</td>
                     <td class="px-4 py-2"><%= @reimbursements.approved.count %></td> <!-- in_progress Reimbursements count -->
                   </tr>
-                  <tr class="bg-[#7676af]">
+                  <tr class="bg-[#6d6d78]">
                     <td class="px-4 py-2">Rejected</td>
                     <td class="px-4 py-2"><%= @reimbursements.rejected.count %></td> <!-- resolved Reimbursements count -->
                   </tr>
@@ -56,7 +54,7 @@
           <% end %>
           <% if @tickets.present? %>
           <!-- Total Tickets -->
-            <div class="bg-[#61619f] text-white rounded-lg shadow-lg p-6 w-full sm:w-1/2 lg:w-2/3">
+            <div class="bg-[black] text-white rounded-lg shadow-lg p-6 w-full sm:w-1/2 lg:w-2/3">
               <h2 class="text-xl font-semibold">Ticket Summary</h2>
               <!-- Table displaying ticket counts -->
               <table class="min-w-full mt-4 table-auto border-collapse">
@@ -67,19 +65,19 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="bg-[#8181b4]">
+                  <tr class="bg-[#515156]">
                     <td class="px-4 py-2">Total Tickets</td>
                     <td class="px-4 py-2"><%= @tickets.count %></td> <!-- Total number of tickets -->
                   </tr>
-                  <tr class="bg-[#7676af]">
+                  <tr class="bg-[#6d6d78]">
                     <td class="px-4 py-2">Open</td>
                     <td class="px-4 py-2"><%= @tickets.open.count %></td> <!-- open tickets count -->
                   </tr>
-                  <tr class="bg-[#8181b4]">
+                  <tr class="bg-[#515156]">
                     <td class="px-4 py-2">In Progress</td>
                     <td class="px-4 py-2"><%= @tickets.in_progress.count %></td> <!-- in_progress tickets count -->
                   </tr>
-                  <tr class="bg-[#7676af]">
+                  <tr class="bg-[#6d6d78]">
                     <td class="px-4 py-2">Resolved</td>
                     <td class="px-4 py-2"><%= @tickets.resolved.count %></td> <!-- resolved tickets count -->
                   </tr>
@@ -202,3 +200,4 @@
 
 </body>
 </html>
+

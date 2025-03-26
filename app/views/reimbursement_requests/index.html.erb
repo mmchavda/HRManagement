@@ -1,12 +1,19 @@
-<table class="min-w-full table-auto border-collapse">
-  <thead>
+<div class="container mx-auto">
+  <div class="new-button">
+    <%= link_to new_reimbursement_request_path, class: 'text-white rounded-md shadow-md', style: 'background-color: #515156;' do %>
+      <%= image_tag '/new.png', alt: 'New Ticket Icon', size: '20x20' %>
+    <% end %>
+  </div>
+
+<table class="my_table">
+<thead>
     <tr class="bg-gray-100">
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">S.N.</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">User</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Title</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Amount</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Status</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions <%= link_to 'New', new_reimbursement_request_path, class: 'text-blue-500 hover:text-blue-700' %></th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 5%;">S.N.</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">User</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Title</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Amount</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Status</th>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 20%;">Actions </th>
     </tr>
   </thead>
   <tbody>
@@ -47,7 +54,7 @@
              <% if (current_user.admin? || current_user.hr?) && request.status == 'pending' %>
               <div class="relative">
                 <!-- Icon to Toggle Dropdown -->
-                <button class="bg-gray-200 text-gray-700 hover:bg-gray-300 py-2 px-4 rounded-md" onclick="toggleDropdown(<%= i %>)">
+                <button class="text-gray-700 py-2 px-4 rounded-md" onclick="toggleDropdown(<%= i %>)">
                   <%= image_tag '/drop-down.png', size: '15x15', alt: 'Actions' %>
                 </button>
                 
@@ -67,6 +74,7 @@
     <tr><td><%= paginate @reimbursement_requests , class: 'flex items-center space-x-2' %></td> </tr>
   </tbody>
 </table>
+</div>
 
 <script>
   function toggleDropdown(index) {
@@ -77,3 +85,36 @@
     dropdown.classList.toggle('hidden');
   }
 </script>
+
+<style>
+  
+  .my_table {
+    width: 85% !important; 
+    margin-left: auto;     
+    margin-right: auto;    
+    display: block;
+}
+  .my_table th {
+    color: white;
+  }
+
+   .my_table th {
+    border: .1px solid black;
+    text-align: left;
+  }
+
+  .my_table tr:nth-child(even) {
+  }
+
+  .container {
+    width: 85%;
+    margin-right: auto;
+    display: block;
+  }
+
+  .new-button {
+    margin: auto;
+    margin-left: 90%;
+    margin-bottom: 20px !important;
+}
+</style>

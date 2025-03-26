@@ -1,4 +1,4 @@
-<header class="text-white" style="background-color: #61619f; position: fixed; top: 0; width: 100%; z-index: 1000;">
+<header class="text-white" style="background-color: black; position: fixed; top: 0; width: 100%; z-index: 1000;">
   <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
     <div class="relative flex items-center justify-between h-16">
       
@@ -6,7 +6,7 @@
       <div class="flex items-center">
         <div class="hidden sm:block sm:ml-6">
           <div class="flex space-x-4">
-            <%= image_tag '/HRManagement_logo.png', alt: 'HR Management Logo', size: "50x50" %>
+            <%= image_tag '/HRManagement_logo.png', alt: 'HR Management Logo', size: "40x40" %>
             <%= nav_link('Dashboard', root_path) %>
             <%= nav_link('Tickets', tickets_path) %>
             <%= nav_link('Expenses', expenses_path) %>
@@ -24,10 +24,9 @@
             <button 
               class="flex items-center space-x-2 text-white hover:text-gray-300 focus:outline-none" 
               id="dropdown-btn" 
-"
               onclick="toggleDropdown(event)">
-              <%= image_tag('profile-user.png', alt: 'User', class: 'w-10 h-10 rounded-full') rescue content_tag(:div, "👤", class: "w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white") %>
-            </button>
+                <%= image_tag('profile-user.png', alt: 'User', class: 'w-10 h-10 rounded-full') rescue content_tag(:div, "👤", class: "w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white") %>
+              </button>
 
             <!-- Dropdown Menu -->
             <div 
@@ -36,7 +35,7 @@
               <div class="py-1">
                 <!-- Display User Email -->
                 <div class="px-4 py-2 text-sm text-gray-500 font-medium border-b border-gray-200">
-                  shivanishilpi@gmail.com
+                  <%= current_user.email %>
                 </div>
                 <a class="block px-4 py-2 text-gray-700 hover:bg-gray-300" href="/dashboard/5">Profile</a>
                 <a class="block px-4 py-2 text-gray-700 hover:bg-gray-300" href="/users/edit">Change Password</a>
@@ -44,7 +43,11 @@
                 <form class="block" action="/users/sign_out" accept-charset="UTF-8" method="post">
                   <input type="hidden" name="_method" value="delete" autocomplete="off">
                   <input type="hidden" name="authenticity_token" value="BsFqDbcDh4GB5_-ftwrgE0aV_tpMo_Db6PqB82di303fTpgMBmLi7L_kF4lZrgJ3z0gZ_IywltUR7E66WXZRnA" autocomplete="off">
-                  <input type="submit" name="commit" value="Logout" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-300" data-disable-with="Logout">
+                
+                <%= form_with url: destroy_user_session_path, method: :delete, class: 'block' do |form| %>
+                  <%= form.submit 'Logout', class: "block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-300", data: { disable_with: 'Logging out...' } %>
+                <% end %>
+                
                 </form>
               </div>
             </div>
