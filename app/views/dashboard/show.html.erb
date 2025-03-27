@@ -1,57 +1,57 @@
-<div class="custom-margin-left">
+<div class="container mx-auto py-12">
+  <div class="shadow-2xl relative">
 
-  <div class="max-w-4xl ml-0 bg-white shadow-2xl rounded-xl p-8 relative">
 
     <!-- User Info Section -->
     <div class="space-y-6">
-      <div class="flex items-center justify-between">
-        <strong class="text-lg font-semibold text-gray-700">First Name:</strong>
-        <p class="text-lg text-gray-900"><%= @user.first_name %></p> 
+      <div>
+        <strong class="text-white">First Name:</strong>
+        <p class="text-gray-300"><%= @user.first_name %></p> 
       </div>
 
-      <div class="flex items-center justify-between">
-        <strong class="text-lg font-semibold text-gray-700">Last Name:</strong>
-        <p class="text-lg text-gray-900"><%= @user.last_name %></p>
+      <div>
+        <strong class="text-white">Last Name:</strong>
+        <p class="text-gray-300"><%= @user.last_name %></p>
       </div>
 
-      <div class="flex items-center justify-between">
-        <strong class="text-lg font-semibold text-gray-700">Username:</strong>
-        <p class="text-lg text-gray-900"><%= @user.username %></p>
+      <div>
+        <strong class="text-white">Username:</strong>
+        <p class="text-gray-300"><%= @user.username %></p>
       </div>
 
-      <div class="flex items-center justify-between">
-        <strong class="text-lg font-semibold text-gray-700">Email:</strong>
-        <p class="text-lg text-gray-900"><%= @user.email %></p>
+      <div>
+        <strong class="text-white">Email:</strong>
+        <p class="text-gray-300"><%= @user.email %></p>
       </div>
 
-      <div class="flex items-center justify-between">
-        <strong class="text-lg font-semibold text-gray-700">Phone Number:</strong>
-        <p class="text-lg text-gray-900"><%= @user.phone_number %></p>
+      <div>
+        <strong class="text-white">Phone Number:</strong>
+        <p class="text-gray-300"><%= @user.phone_number %></p>
       </div>
 
-      <div class="flex items-center justify-between">
-        <strong class="text-lg font-semibold text-gray-700">Date of Birth:</strong>
-        <p class="text-lg text-gray-900"><%= @user.dob %></p>
+      <div>
+        <strong class="text-white">Date of Birth:</strong>
+        <p class="text-gray-300"><%= @user.dob %></p>
       </div>
 
-      <div class="flex items-center justify-between">
-        <strong class="text-lg font-semibold text-gray-700">Age</strong>
-        <p class="text-lg text-gray-900"><%= ((Date.today - @user.dob.to_date).to_i / 365.25).to_i if @user.dob.present? %></p>
+      <div>
+        <strong class="text-white">Age:</strong>
+        <p class="text-gray-300"><%= ((Date.today - @user.dob.to_date).to_i / 365.25).to_i if @user.dob.present? %></p>
       </div>
 
-      <div class="flex items-center justify-between">
-        <strong class="text-lg font-semibold text-gray-700">Blood Group</strong>
-        <p class="text-lg text-gray-900"><%= @user.blood_group %></p>
+      <div>
+        <strong class="text-white">Blood Group:</strong>
+        <p class="text-gray-300"><%= @user.blood_group %></p>
       </div>
 
-      <div class="flex items-center justify-between">
-        <strong class="text-lg font-semibold text-gray-700">Gender</strong>
-        <p class="text-lg text-gray-900"><%= @user.gender %></p>
+      <div>
+        <strong class="text-white">Gender:</strong>
+        <p class="text-gray-300"><%= @user.gender %></p>
       </div>
 
-      <div class="flex items-center justify-between">
-        <strong class="text-lg font-semibold text-gray-700">Bio:</strong>
-        <p class="text-lg text-gray-900"><%= @user.bio %></p>
+      <div>
+        <strong class="text-white">Bio:</strong>
+        <p class="text-gray-300"><%= @user.bio %></p>
       </div>
     </div>
     
@@ -64,16 +64,18 @@
 </div>
 
 <style>
-  .custom-margin-left {
-    margin-left: 100px;
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    background-color: #393942;
+    height: 100vh;
   }
-
+  .container .shadow-2xl {
+    padding: 50px;
+    border-radius: 30px;
+  }
   .bottm {
     margin-bottom: 80px;
-  }
-
-  .absolute {
-    position: absolute;
-    z-index: 10; 
   }
 </style>
