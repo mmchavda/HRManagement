@@ -1,4 +1,6 @@
 
+<div class="bg-gray-800 p-4 rounded-lg form-container my_form">
+  <%#= render 'form', ticket: @ticket %>
 <%= form_with model: @ticket, local: true, class: "space-y-4" do |form| %>
   <% if @ticket.errors.any? %>
     <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
@@ -12,21 +14,30 @@
   <% end %>
 
   <div>
-    <%= form.label :title, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_field :title, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    <%= form.label :title, class: "block text-sm font-medium text-white" %>
+    <%= form.text_field :title, class: "text-white mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
   </div>
 
   <div>
-    <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_area :description, rows: 4, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    <%= form.label :description, class: "block text-sm font-medium text-white" %>
+    <%= form.text_area :description, rows: 4, class: "text-white mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
   </div>
 
   <div>
-    <%= form.label :priority, class: 'block text-sm font-medium text-gray-700' %>
-    <%= form.select :priority, Ticket.priorities.keys.map { |priority| [priority.capitalize, priority] }, { prompt: 'Select Priority' }, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
+    <%= form.label :priority, class: 'block text-sm font-medium text-white' %>
+    <%= form.select :priority, Ticket.priorities.keys.map { |priority| [priority.capitalize, priority] }, { prompt: 'Select Priority' }, class: 'text-white bg-gray-700 mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
   </div>
 
   <div>
-    <%= form.submit "Create Ticket", class: "w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+<%= form.submit "Create Ticket", class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition duration-300 ease-in-out transform hover:scale-105" %>
   </div>
 <% end %>
+</div>
+
+<style>
+  .my_form {
+    width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 2);
+  }
+</style>

@@ -1,25 +1,37 @@
-<%= form_with(model: @reimbursement_request, local: true) do |form| %>
-  <% if @reimbursement_request.errors.any? %>
-    <div class="alert alert-danger">
-      <ul>
-        <% @reimbursement_request.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<div class="bg-gray-800 p-4 rounded-lg form-container my_form">
+
+  <%= form_with(model: @reimbursement_request, local: true) do |form| %>
+    <% if @reimbursement_request.errors.any? %>
+      <div class="alert alert-danger">
+        <ul>
+          <% @reimbursement_request.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <%= form.label :status, 'Status', class: 'block text-sm font-medium text-white' %>
+      <%= form.select :status, ReimbursementRequest.statuses.keys.map { |status| [status.humanize, status] }, { prompt: "Select status" }, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-white bg-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
     </div>
+
+    <div class="mb-4">
+      <%= form.label :expense, 'Expense', class: 'block text-sm font-medium text-white' %>
+      <%= form.select :expense_id, current_user.expenses.map { |expense| [expense.title, expense.id] }, { prompt: "Select expense" }, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-white bg-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm'  %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.submit "Update Reimbursement Request", class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition duration-300 ease-in-out transform hover:scale-105" %>
+    </div>
+
   <% end %>
+</div>
 
-  <div class="mb-4">
-    <%= form.label :status, 'Status', class: 'block text-sm font-medium text-gray-700' %>
-    <%= form.select :status, ReimbursementRequest.statuses.keys.map { |status| [status.humanize, status] }, { prompt: "Select status" }, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-  </div>
-
-  <div class="mb-4">
-    <%= form.label :expense, 'Expense', class: 'block text-sm font-medium text-gray-700' %>
-    <%= form.select :expense_id, current_user.expenses.map { |expense| [expense.title, expense.id] }, { prompt: "Select expense" }, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-  </div>
-
-  <div class="mb-4">
-    <%= form.submit 'Update Reimbursement Request', class: 'inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600' %>
-  </div>
-<% end %>
+<style>
+  .my_form {
+    width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 2);
+  }
+</style>
