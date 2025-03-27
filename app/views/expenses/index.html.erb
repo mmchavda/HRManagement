@@ -5,6 +5,24 @@
       <%= image_tag '/new.png', alt: 'New Ticket Icon', size: '20x20' %>
     <% end %>
   </div>
+
+  <div class="ticket_filer">
+    <%= form_with(url: tickets_path, method: :get) do %>
+      <div>
+        <table>
+        <tr><td><%= label_tag :category, "Category", class: "text-sm font-medium text-white" %></td>
+          <td><%= select_tag :category, options_for_select(Expense.categories.keys.map { |category| [category.titleize, category] }, params[:category]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700' %></td>        
+          <td>
+            <%= button_tag type: 'submit' do %>
+              <%= image_tag '/filter.png', alt: 'Filter', size: '40x20' %>
+            <% end %>
+          </td>
+        </tr>
+          </table>
+      </div>
+    <% end %>
+  </div>  
+
   
   <!-- Table with increased width -->
   <table class="my_table">
@@ -49,23 +67,38 @@
           </td>
         </tr>
       <% end %>
-      <tr><td><%= paginate @expenses , class: 'flex items-center space-x-2' %></td> </tr>
+      <% if @expenses.any? %>
+        <tr>
+          <!-- Ensure the entire background is white for the row -->
+          <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
+            <div class="flex justify-center"> <!-- Center the pagination -->
+              <%= paginate @expenses, class: 'flex items-center space-x-6 text-white' %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 </div>
 
 <style>
-  
+  .ticket_filer {
+    margin: auto;
+    margin-left: 7%;
+    margin-bottom: 15px !important;
+  }
+  .ticket_filer table {
+    width: 25%;
+  }
+  .ticket_filer table tr td {
+    padding: 1px;
+  } 
   .my_table {
     width: 85% !important; 
-
     margin-left: auto;     
     margin-right: auto;    
     display: block;
-} 
-  .my_table th {
-    color: white;
-  }
+}
 
    .my_table th {
     border: .1px solid black;
@@ -73,17 +106,17 @@
   }
 
   .my_table tr:nth-child(even) {
-    }
+  }
 
   .container {
     width: 85%;
     margin-right: auto;
     display: block;
   }
-
+  
   .new-button {
     margin: auto;
-    margin-left: 90%;
-    margin-bottom: 20px !important;
-}
+    margin-left: 88%;
+    margin-bottom: -25px !important;
+  }
 </style>

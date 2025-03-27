@@ -4,10 +4,16 @@ class ExpensesController < ApplicationController
 
     def index
       if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
-        @expenses = Expense.all.page(params[:page]).per(10)
+        @expenses = Expense.all
       else 
-        @expenses = current_user.expenses.page(params[:page]).per(10)
-      end   
+        @expenses = current_user.expenses
+      end 
+      
+      if params[:category].present?
+        @expenses = @expenses.where(category: params[:category])
+      end
+
+      @expenses = @expenses&.page(params[:page]).per(10)
     end
   
     def show

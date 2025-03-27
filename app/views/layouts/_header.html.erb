@@ -11,6 +11,9 @@
             <%= nav_link('Tickets', tickets_path) %>
             <%= nav_link('Expenses', expenses_path) %>
             <%= nav_link('ReimbursementRequests', reimbursement_requests_path) %>
+            <% if current_user && ((current_user.role == "hr") | (current_user.role == "admin")) %>
+              <%= nav_link('Manage Users', users_path) %>
+            <% end %>
           </div>
         </div>
       </div>

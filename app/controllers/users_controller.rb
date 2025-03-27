@@ -3,7 +3,11 @@ class UsersController < ApplicationController
 
   # Display all users (only for admins and hr)
   def index
-    @users = User.all
+    @users = User.all.page(params[:page]).per(10)
+
+    if params[:role].present?
+      @users = @users.where(role: params[:role]).page(params[:page]).per(10)
+    end
   end
 
   # Edit a user
@@ -37,6 +41,6 @@ class UsersController < ApplicationController
 
   # Strong parameters for user
   def user_params
-    params.require(:user).permit(:email, :role)
+    params.require(:user).permit(:email, :role, :first_name, :last_name, :username, :avatar, :bio, :phone_number, :dob, :is_active, :blood_group, :address, :gender, :is_active)
   end
 end

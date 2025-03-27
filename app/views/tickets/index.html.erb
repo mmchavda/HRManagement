@@ -5,22 +5,22 @@
       <%= image_tag '/new.png', alt: 'New Ticket Icon', size: '20x20' %>
     <% end %>
   </div>
-<div class="ticket_filer">
-  <%= form_with(url: tickets_path, method: :get) do %>
-    <div>
-      <table>
-       <tr><td><%= label_tag :status, "Status", class: "text-sm font-medium text-white" %></td>
-        <td><%= select_tag :status, options_for_select([['All', ''], ['Open', 'open'], ['In Progress', 'in_progress'], ['Resolved', 'resolved'], ['Pending', 'pending']], params[:status]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white' %></td>        
+  <div class="ticket_filer">
+    <%= form_with(url: tickets_path, method: :get) do %>
+      <div>
+        <table>
+        <tr><td><%= label_tag :status, "Status", class: "text-sm font-medium text-white" %></td>
+        <td><%= select_tag :status, options_for_select(Ticket.statuses.keys.map { |status| [status.titleize, status] }, params[:status]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700' %></td>        
         <td>
-          <%= button_tag type: 'submit' do %>
-            <%= image_tag '/filter.png', alt: 'Filter', size: '40x20' %>
-          <% end %>
-        </td>
-      </tr>
-        </table>
-    </div>
-  <% end %>
-</div>  
+            <%= button_tag type: 'submit' do %>
+              <%= image_tag '/filter.png', alt: 'Filter', size: '40x20' %>
+            <% end %>
+          </td>
+        </tr>
+          </table>
+      </div>
+    <% end %>
+  </div>  
 
 <table class="my_table">
 <thead>
@@ -66,7 +66,6 @@
 
             <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && ticket.status != "resolved" && (ticket.assigned_user == current_user) %>
               
-
               <%= link_to resolve_ticket_path(ticket), method: :post, class: 'relative text-white' do %>
                 <%= image_tag '/resolved.png', alt: 'Resolved Icon', size: '20x20', class: 'w-6 h-6' %>
               <% end %>
@@ -75,8 +74,16 @@
         </td>
       </tr>
     <% end %>
-    <tr><td><%= paginate @tickets , class: 'flex items-center space-x-2' %></td> </tr>
-  </tbody>
+   <% if @tickets.any? %>
+    <tr>
+      <!-- Ensure the entire background is white for the row -->
+      <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
+        <div class="flex justify-center"> <!-- Center the pagination -->
+          <%= paginate @tickets, class: 'flex items-center space-x-6 text-white' %>
+        </div>
+      </td>
+    </tr>
+  <% end %>
 </table>
 </div>
 

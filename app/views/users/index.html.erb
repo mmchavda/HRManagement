@@ -1,31 +1,121 @@
-<h1>User Management</h1>
+<div class="container mx-auto">
+  <!-- Button positioned above the table -->
+  <div class="new-button mb-4">
+    <%#= link_to new_user_registration_path, class: 'text-white rounded-md shadow-md', style: 'background-color: #515156;' do %>
+      <%#= image_tag '/new.png', alt: 'New User Icon', size: '20x20' %>
+    <%# end %>
+  </div>
 
-<% if current_user.admin? || current_user.hr? %>
-  <%= link_to 'New User', new_user_registration_path %>
-<% end %>
-
-<table>
-  <thead>
-    <tr>
-      <th>Email</th>
-      <th>Role</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.email %></td>
-        <td><%= user.role %></td>
-        <td>
-          <% if current_user.admin? || current_user.hr? %>
-            <%= link_to 'Edit', edit_user_path(user) %>
-          <% end %>
-          <% if  current_user.admin? || current_user.hr? %>
-            <%= button_to 'Delete', user_path(user), method: :delete, data: { confirm: 'Are you sure?' } %>
-          <% end %>
-        </td>
-      </tr>
+  <!-- User Filter Section (if needed) -->
+  <div class="user_filer mb-6">
+    <%= form_with(url: users_path, method: :get) do %>
+      <div>
+        <table>
+          <tr>
+            <td><%= label_tag :role, "Role", class: "text-sm font-medium text-white" %></td>
+            <td>
+              <%= select_tag :role, options_for_select(User.roles.keys.map { |role| [role.titleize, role] }, params[:role]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700' %>
+            </td>
+            
+            <td>
+              <%= button_tag type: 'submit' do %>
+                <%= image_tag '/filter.png', alt: 'Filter', size: '40x20' %>
+              <% end %>
+            </td>
+          </tr>
+        </table>
+      </div>
     <% end %>
-  </tbody>
-</table>
+  </div>
+
+  <!-- User Table -->
+  <table class="my_table">
+    <thead class="bg-gray-700">
+      <tr>
+      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 5%;">S.N.</th>
+        <th class="px-4 py-2 text-white text-sm", style="width: 15%;">Email</th>
+        <th class="px-4 py-2 text-white text-sm", style="width: 20%;">First Name</th>
+        <th class="px-4 py-2 text-white text-sm", style="width: 20%;">Last Name</th>
+        <th class="px-4 py-2 text-white text-sm", style="width: 10%;">Gender</th>
+        <th class="px-4 py-2 text-white text-sm", style="width: 15%;">Role</th>
+        <th class="px-4 py-2 text-white text-sm", style="width: 15%;">Is Active</th>
+        <th class="px-4 py-2 text-white text-sm", style="width: 25%;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each_with_index do |user, i| %>
+        <tr class="<%= cycle('bg-white', 'bg-gray-300') %>">
+          <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= user.email %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= user.first_name %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= user.last_name %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= user.gender %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= user.role %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= user.is_active %></td>
+
+          <td class="px-4 py-2 text-sm">
+            <div class="flex space-x-2 items-center">
+              <% if current_user.admin? || current_user.hr? %>
+                <%= link_to 'Edit', edit_user_path(user), class: 'px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600' %>
+              <% end %>
+              <% if current_user.admin? || current_user.hr? %>
+                <%= button_to 'Delete', user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, class: 'px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600' %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <% if @users.any? %>
+    <div class="flex justify-center">
+      <%= paginate @users, class: 'flex items-center space-x-6 text-white' %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  .user_filer {
+    margin: auto;
+    margin-left: 7%;
+    margin-bottom: 15px !important;
+  }
+
+  .user_filer table {
+    width: 25%;
+  }
+
+  .user_filer table tr td {
+    padding: 1px;
+  }
+
+  .my_table {
+    width: 85% !important;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  .my_table th {
+    border: .1px solid black;
+    text-align: left;
+  }
+
+  .my_table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .container {
+    width: 85%;
+    margin-right: auto;
+    display: block;
+  }
+
+  .new-button {
+    margin: auto;
+    margin-left: 88%;
+    margin-bottom: -25px !important;
+  }
+</style>
