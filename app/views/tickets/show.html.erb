@@ -1,41 +1,168 @@
-<div class="space-y-4">
-  <p><span class="font-semibold">Title:</span> <%= @ticket.title %></p>
-  <p><span class="font-semibold">Status:</span> <%= @ticket.status %></p>
-  <p><span class="font-semibold">Priority:</span> <%= @ticket.priority %></p>
-  <p><span class="font-semibold">Description:</span> <%= @ticket.description %></p>
-  <p><span class="font-semibold">Reported By:</span> <%= @ticket.user.email %></p>
-    <p><span class="font-semibold">Assigned To:</span> <%= @ticket.assigned_user.email if @ticket.assigned_user %> 
-      <% if (current_user.admin? || current_user.hr?) %>
-        <% @hr_or_admin_users = User.where(role: ['hr', 'admin']).where.not(id: @ticket.assigned_user_id)%>
+<div class="container mx-auto py-12">
+  <div class="max-w-4xl mx-auto shadow-xl rounded-xl p-8 bg-gray-800 relative">
 
-        <%= form_with(model: @ticket, url: assign_ticket_path(@ticket), method: :patch, local: true) do |form| %>
-          <%= form.select :assigned_user_id, options_from_collection_for_select(@hr_or_admin_users, :id, :email), include_blank: 'Select User', class: 'form-select text-sm' %>
-          <%= form.submit 'Assign', class: 'bg-blue-500 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md' %>
+    <!-- Ticket Info Section -->
+    <div class="space-y-8">
+      <div class="flex justify-between items-center">
+        <strong class="text-white text-lg font-semibold">Title:</strong>
+        <p class="text-gray-300 text-lg"><%= @ticket.title %></p> 
+      </div>
+
+      <hr class="border-gray-500">
+
+      <div class="flex justify-between items-center">
+        <strong class="text-white text-lg font-semibold">Status:</strong>
+        <p class="text-gray-300 text-lg"><%= @ticket.status %></p>
+      </div>
+
+      <hr class="border-gray-500">
+
+      <div class="flex justify-between items-center">
+        <strong class="text-white text-lg font-semibold">Priority:</strong>
+        <p class="text-gray-300 text-lg"><%= @ticket.priority %></p>
+      </div>
+
+      <hr class="border-gray-500">
+
+      <div class="flex justify-between items-center">
+        <strong class="text-white text-lg font-semibold">Description:</strong>
+        <p class="text-gray-300 text-lg"><%= @ticket.description %></p>
+      </div>
+
+      <hr class="border-gray-500">
+
+      <div class="flex justify-between items-center">
+        <strong class="text-white text-lg font-semibold">Reported By:</strong>
+        <p class="text-gray-300 text-lg"><%= @ticket.user.email %></p>
+      </div>
+
+      <hr class="border-gray-500">
+
+      <div class="flex justify-between items-center">
+        <strong class="text-white text-lg font-semibold">Assigned To:</strong>
+        <p class="text-gray-300 text-lg"><%= @ticket.assigned_user.email if @ticket.assigned_user %></p> 
+        <% if (current_user.admin? || current_user.hr?) %>
+          <% @hr_or_admin_users = User.where(role: ['hr', 'admin']).where.not(id: @ticket.assigned_user_id)%>
+          <%= form_with(model: @ticket, url: assign_ticket_path(@ticket), method: :patch, local: true) do |form| %>
+            <%= form.select :assigned_user_id, options_from_collection_for_select(@hr_or_admin_users, :id, :email), include_blank: 'Select User', class: 'form-select text-sm' %>
+            <%= form.submit 'Assign', class: 'px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300' %>
+          <% end %>  
         <% end %>
-      <% end %>  
-    </p>
-  
-  <p><span class="font-semibold">Created At:</span> <%= @ticket.created_at %></p>
-  <p><span class="font-semibold">Updated At:</span> <%= @ticket.updated_at %></p>
+      </div>
+
+      <hr class="border-gray-500">
+
+      <div class="flex justify-between items-center">
+        <strong class="text-white text-lg font-semibold">Created At:</strong>
+        <p class="text-gray-300 text-lg"><%= @ticket.created_at %></p>
+      </div>
+
+      <hr class="border-gray-500">
+
+      <div class="flex justify-between items-center">
+        <strong class="text-white text-lg font-semibold">Updated At:</strong>
+        <p class="text-gray-300 text-lg"><%= @ticket.updated_at %></p>
+      </div>
+    </div>
+
+    <hr class="border-gray-500">
+
+    
+    <%= link_to 'Update Ticket', edit_ticket_path(@ticket), class: 'px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300' %>
+    <%= link_to 'View Audit History', audit_history_ticket_path(@ticket), class: 'ml-4 px-4 py-2 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition duration-200 ease-in-out' %>
   </div>
+</div>
 
-  <h2>Audit History</h2>
-  <ul>
-    <% @ticket.audits.each do |audit| %>
-      <li>
-        <strong><%= audit.action.capitalize %></strong> by <%= audit.user.email %> on <%= audit.created_at %>
-        <ul>
-          <% audit.audited_changes.each do |field, change| %>
-            <% if change.is_a?(Array) && change.length == 2 %>
-              <% if field == "status" %>
-                <li><%= field.capitalize %>: <%= Ticket.statuses.key(change[0]) %> → <%= Ticket.statuses.key(change[1]) %></li>
-              <% else %>
-                <li><%= field.capitalize %>: <%= change[0] %> → <%= change[1] %></li>
-              <% end %>
-            <% end %>  
-          <% end %>
-        </ul>
-      </li>
-    <% end %>
-  </ul>
+<style>
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    background: linear-gradient(135deg, #1f1f1f, #2b2b2b);  
+    height: 100%;
+  }
 
+  .shadow-xl {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .p-8 {
+    padding: 2rem;
+  }
+
+  .max-w-4xl {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .space-y-8 {
+    gap: 2rem;
+  }
+
+  hr {
+    border: 1px solid #4a5568;
+    margin: 1.5rem 0;
+  }
+
+  .bg-blue-500 {
+    background-color: #3182ce;
+  }
+
+  .hover\:bg-blue-600:hover {
+    background-color: #2b6cb0;
+  }
+
+  .text-white {
+    color: #ffffff;
+  }
+
+  .rounded-md {
+    border-radius: 8px;
+  }
+
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .text-sm {
+    font-size: 0.875rem;
+  }
+
+  .font-medium {
+    font-weight: 500;
+  }
+
+  .hover\:shadow-lg:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  }
+
+  .transform {
+    transition: transform 0.3s ease;
+  }
+
+  .hover\:scale-105:hover {
+    transform: scale(1.05);
+  }
+
+  .ml-4 {
+    margin-left: 1rem;
+  }
+
+  .space-y-4 {
+    gap: 1.5rem;
+  }
+
+  .pb-2 {
+    padding-bottom: 0.5rem;
+  }
+
+  .border-b {
+    border-bottom: 1px solid #4a5568;
+  }
+</style>

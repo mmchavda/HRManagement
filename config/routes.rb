@@ -19,13 +19,22 @@ Rails.application.routes.draw do
     collection do
       get :export_csv  # Add a route for the export action
     end
+
+    member do
+      get :audit_history
+    end
   end
 
   resources :reimbursement_requests do
     collection do
       get :export_csv  # Add a route for the export action
     end
+
+    member do
+      get :audit_history
+    end
   end   
+
   resources :expenses do
     collection do
       get :export_csv  # Add a route for the export action

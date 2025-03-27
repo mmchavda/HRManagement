@@ -1,5 +1,5 @@
 class ReimbursementRequestsController < ApplicationController
-    before_action :set_reimbursement_request, only: %i[show edit update destroy approve_request reject_request]
+    before_action :set_reimbursement_request, only: %i[show edit update destroy approve_request reject_request audit_history]
   	require 'csv'
 
     def index
@@ -92,6 +92,9 @@ class ReimbursementRequestsController < ApplicationController
         flash[:alert] = "Error generating CSV: #{e.message}"
         redirect_to reimbursement_requests_url
       end
+    end
+
+    def audit_history
     end
   
     private

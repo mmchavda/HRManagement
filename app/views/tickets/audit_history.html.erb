@@ -1,0 +1,124 @@
+<div class="container mx-auto py-12">
+  <div class="max-w-4xl mx-auto shadow-xl rounded-xl p-8 bg-gray-800 relative">
+  <!-- Audit History Section -->
+    <div class="mt-6">
+      <h2 class="text-white text-lg font-semibold">Audit History</h2>
+      <ul class="text-gray-300 space-y-4">
+        <% @ticket.audits.each do |audit| %>
+          <li class="border-b border-gray-500 pb-2">
+            <strong><%= audit.action.capitalize %></strong> by <%= audit.user.email %> on <%= audit.created_at %>
+            <ul class="ml-4 space-y-2">
+              <% audit.audited_changes.each do |field, change| %>
+                <% if change.is_a?(Array) && change.length == 2 %>
+                  <% if field == "status" %>
+                    <li><%= field.capitalize %>: <%= Ticket.statuses.key(change[0]) %> → <%= Ticket.statuses.key(change[1]) %></li>
+                  <% else %>
+                    <li><%= field.capitalize %>: <%= change[0] %> → <%= change[1] %></li>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+		<div class="mt-6">
+			<%= link_to 'Back to Request', ticket_path(@ticket), class: 'px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300' %>
+		</div>
+	</div>
+</div>		
+
+
+<style>
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    background: linear-gradient(135deg, #1f1f1f, #2b2b2b);  
+    height: 100%;
+  }
+
+  .shadow-xl {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .p-8 {
+    padding: 2rem;
+  }
+
+  .max-w-4xl {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .space-y-8 {
+    gap: 2rem;
+  }
+
+  hr {
+    border: 1px solid #4a5568;
+    margin: 1.5rem 0;
+  }
+
+  .bg-blue-500 {
+    background-color: #3182ce;
+  }
+
+  .hover\:bg-blue-600:hover {
+    background-color: #2b6cb0;
+  }
+
+  .text-white {
+    color: #ffffff;
+  }
+
+  .rounded-md {
+    border-radius: 8px;
+  }
+
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .text-sm {
+    font-size: 0.875rem;
+  }
+
+  .font-medium {
+    font-weight: 500;
+  }
+
+  .hover\:shadow-lg:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  }
+
+  .transform {
+    transition: transform 0.3s ease;
+  }
+
+  .hover\:scale-105:hover {
+    transform: scale(1.05);
+  }
+
+  .ml-4 {
+    margin-left: 1rem;
+  }
+
+  .space-y-4 {
+    gap: 1.5rem;
+  }
+
+  .pb-2 {
+    padding-bottom: 0.5rem;
+  }
+
+  .border-b {
+    border-bottom: 1px solid #4a5568;
+  }
+</style>

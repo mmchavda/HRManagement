@@ -1,7 +1,7 @@
 class TicketsController < ApplicationController
 	require 'csv'
 
-	before_action :find_ticket, only: [:show, :edit, :update, :destroy, :assign_ticket, :unassign_ticket, :resolve_ticket]
+	before_action :find_ticket, only: [:show, :edit, :update, :destroy, :assign_ticket, :unassign_ticket, :resolve_ticket, :audit_history]
 
 	# Display all tickets
 	def index
@@ -111,6 +111,9 @@ class TicketsController < ApplicationController
 
     send_data csv_data, filename: "tickets_#{Date.today}.csv", type: 'text/csv', disposition: 'attachment'
   end
+
+	def audit_history
+	end
   
 	private
 
