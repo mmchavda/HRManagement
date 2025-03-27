@@ -74,16 +74,17 @@
         </td>
       </tr>
     <% end %>
-   <% if @tickets.any? %>
-    <tr>
-      <!-- Ensure the entire background is white for the row -->
-      <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
-        <div class="flex justify-center"> <!-- Center the pagination -->
-          <%= paginate @tickets, class: 'flex items-center space-x-6 text-white' %>
-        </div>
-      </td>
-    </tr>
-  <% end %>
+    <% if @tickets.any? %>
+      <tr>
+        <!-- Ensure the entire background is white for the row -->
+        <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
+          <div class="flex justify-center"> <!-- Center the pagination -->
+            <%= paginate @tickets, class: 'flex items-center space-x-6 text-white' %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>  
 </table>
 </div>
 

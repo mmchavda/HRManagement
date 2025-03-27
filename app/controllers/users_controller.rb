@@ -10,6 +10,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def new 
+    @user = User.new
+
+  end 
+
   # Edit a user
   def edit
   end

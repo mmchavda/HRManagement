@@ -1,9 +1,9 @@
 <div class="container mx-auto">
   <!-- Button positioned above the table -->
   <div class="new-button mb-4">
-    <%#= link_to new_user_registration_path, class: 'text-white rounded-md shadow-md', style: 'background-color: #515156;' do %>
-      <%#= image_tag '/new.png', alt: 'New User Icon', size: '20x20' %>
-    <%# end %>
+    <%= link_to new_user_path, class: 'text-white rounded-md shadow-md', style: 'background-color: #515156;' do %>
+      <%= image_tag '/new.png', alt: 'New User Icon', size: '20x20' %>
+    <% end %>
   </div>
 
   <!-- User Filter Section (if needed) -->
@@ -32,14 +32,14 @@
   <table class="my_table">
     <thead class="bg-gray-700">
       <tr>
-      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 5%;">S.N.</th>
-        <th class="px-4 py-2 text-white text-sm", style="width: 15%;">Email</th>
-        <th class="px-4 py-2 text-white text-sm", style="width: 20%;">First Name</th>
-        <th class="px-4 py-2 text-white text-sm", style="width: 20%;">Last Name</th>
-        <th class="px-4 py-2 text-white text-sm", style="width: 10%;">Gender</th>
-        <th class="px-4 py-2 text-white text-sm", style="width: 15%;">Role</th>
-        <th class="px-4 py-2 text-white text-sm", style="width: 15%;">Is Active</th>
-        <th class="px-4 py-2 text-white text-sm", style="width: 25%;">Actions</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 5%;">S.N.</th>
+        <th class="px-4 py-2 text-white text-sm" style="width: 15%;">Email</th>
+        <th class="px-4 py-2 text-white text-sm" style="width: 20%;">First Name</th>
+        <th class="px-4 py-2 text-white text-sm" style="width: 20%;">Last Name</th>
+        <th class="px-4 py-2 text-white text-sm" style="width: 10%;">Gender</th>
+        <th class="px-4 py-2 text-white text-sm" style="width: 10%;">Role</th>
+        <th class="px-4 py-2 text-white text-sm" style="width: 20%;">Is Active</th>
+        <th class="px-4 py-2 text-white text-sm" style="width: 20%;">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -55,25 +55,31 @@
 
           <td class="px-4 py-2 text-sm">
             <div class="flex space-x-2 items-center">
-              <% if current_user.admin? || current_user.hr? %>
-                <%= link_to 'Edit', edit_user_path(user), class: 'px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600' %>
+              <%= link_to edit_user_path(user) do %>
+                <%= image_tag '/edit.png', alt: 'Edit User', size: '15x15' %>
               <% end %>
-              <% if current_user.admin? || current_user.hr? %>
-                <%= button_to 'Delete', user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, class: 'px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600' %>
+
+              <!-- Delete Link with Image -->
+              <%= button_to user_path(user), method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <%= image_tag '/delete.png', alt: 'Delete User', size: '15x15' %>
               <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+
+      <!-- Pagination -->
+      <% if @users.any? %>
+        <tr>
+          <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
+            <div class="flex justify-center"> <!-- Center the pagination -->
+              <%= paginate @users, class: 'flex items-center space-x-6 text-white' %>
             </div>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-
-  <!-- Pagination -->
-  <% if @users.any? %>
-    <div class="flex justify-center">
-      <%= paginate @users, class: 'flex items-center space-x-6 text-white' %>
-    </div>
-  <% end %>
 </div>
 
 <style>
@@ -103,12 +109,10 @@
     text-align: left;
   }
 
-  .my_table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-
+  /* Removed conflicting styles */
+  /* Ensures alternating background colors */
   .container {
-    width: 85%;
+    width: 90%;
     margin-right: auto;
     display: block;
   }
