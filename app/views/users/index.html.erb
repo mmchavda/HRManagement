@@ -56,12 +56,12 @@
           <td class="px-4 py-2 text-sm">
             <div class="flex space-x-2 items-center">
               <%= link_to edit_user_path(user) do %>
-                <%= image_tag '/edit.png', alt: 'Edit User', size: '15x15' %>
+                <%= image_tag '/edit1.png', alt: 'Edit User', size: '15x15' %>
               <% end %>
 
               <!-- Delete Link with Image -->
               <%= button_to user_path(user), method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <%= image_tag '/delete.png', alt: 'Delete User', size: '15x15' %>
+                <%= image_tag '/delete1.png', alt: 'Delete User', size: '15x15' %>
               <% end %>
             </div>
           </td>

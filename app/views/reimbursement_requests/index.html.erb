@@ -56,17 +56,17 @@
             <div class="flex space-x-2 items-center">
               <!-- Show Link with Image -->
               <%= link_to reimbursement_request_path(request) do %>
-                <%= image_tag '/show.png', alt: 'Show reimbursement_request', size: '15x15' %>
+                <%= image_tag '/show1.png', alt: 'Show reimbursement_request', size: '15x15' %>
               <% end %>
 
               <!-- Edit Link with Image -->
               <%= link_to edit_reimbursement_request_path(request) do %>
-                <%= image_tag '/edit.png', alt: 'Edit reimbursement_request', size: '15x15' %>
+                <%= image_tag '/edit1.png', alt: 'Edit reimbursement_request', size: '15x15' %>
               <% end %>
 
               <!-- Delete Link with Image -->
               <%= button_to reimbursement_request_path(request), method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <%= image_tag '/delete.png', alt: 'Delete reimbursement_request', size: '15x15' %>
+                <%= image_tag '/delete1.png', alt: 'Delete reimbursement_request', size: '15x15' %>
               <% end %>
 
               <% if (current_user.admin? || current_user.hr?) && request.status == 'pending' %>

@@ -13,7 +13,7 @@
         <td><%= select_tag :status, options_for_select(Ticket.statuses.keys.map { |status| [status.titleize, status] }, params[:status]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700' %></td>        
         <td>
             <%= button_tag type: 'submit' do %>
-              <%= image_tag '/filter.png', alt: 'Filter', size: '40x20' %>
+              <%= image_tag '/filter.png', alt: 'Filter', size: '20x20' %>
             <% end %>
           </td>
         </tr>
@@ -51,23 +51,23 @@
           <div class="flex space-x-2 items-center">
             <!-- Show Link with Image -->
             <%= link_to ticket_path(ticket) do %>
-              <%= image_tag '/show.png', alt: 'Show ticket', size: '15x15' %>
+              <%= image_tag '/show1.png', alt: 'Show ticket', size: '15x15' %>
             <% end %>
 
             <!-- Edit Link with Image -->
             <%= link_to edit_ticket_path(ticket) do %>
-              <%= image_tag '/edit.png', alt: 'Edit ticket', size: '15x15' %>
+              <%= image_tag '/edit1.png', alt: 'Edit ticket', size: '15x15' %>
             <% end %>
 
             <!-- Delete Link with Image -->
             <%= button_to ticket_path(ticket), method: :delete, data: { confirm: 'Are you sure?' } do %>
-              <%= image_tag '/delete.png', alt: 'Delete ticket', size: '15x15' %>
+              <%= image_tag '/delete1.png', alt: 'Delete ticket', size: '15x15' %>
             <% end %>
 
             <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && ticket.status != "resolved" && (ticket.assigned_user == current_user) %>
               
               <%= link_to resolve_ticket_path(ticket), method: :post, class: 'relative text-white' do %>
-                <%= image_tag '/resolved.png', alt: 'Resolved Icon', size: '20x20', class: 'w-6 h-6' %>
+                <%= image_tag '/resolved.png', alt: 'Resolved Icon', size: '15x15' %>
               <% end %>
             <% end %>  
           </div>

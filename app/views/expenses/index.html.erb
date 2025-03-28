@@ -50,17 +50,17 @@
             <div class="flex space-x-2 items-center">
               <!-- Show Link with Image -->
               <%= link_to expense_path(expense) do %>
-                <%= image_tag '/show.png', alt: 'Show Expense', size: '15x15' %>
+                <%= image_tag '/show1.png', alt: 'Show Expense', size: '15x15' %>
               <% end %>
 
               <!-- Edit Link with Image -->
               <%= link_to edit_expense_path(expense) do %>
-                <%= image_tag '/edit.png', alt: 'Edit Expense', size: '15x15' %>
+                <%= image_tag '/edit1.png', alt: 'Edit Expense', size: '15x15' %>
               <% end %>
 
               <!-- Delete Link with Image -->
               <%= button_to expense_path(expense), method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <%= image_tag '/delete.png', alt: 'Delete Expense', size: '15x15' %>
+                <%= image_tag '/delete1.png', alt: 'Delete Expense', size: '15x15' %>
               <% end %>
 
             </div>

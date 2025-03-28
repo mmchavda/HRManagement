@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :users, only: [:index, :edit, :update, :destroy, :show, :new]
+  resources :users, only: [:index, :edit, :update, :destroy, :show, :new, :create]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "dashboard#index"
+
+  get 'users/inactive', to: 'users#inactive', as: 'inactive_user'
 
   resources :dashboard
   resources :tickets do

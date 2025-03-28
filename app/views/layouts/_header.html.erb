@@ -7,13 +7,15 @@
         <div class="hidden sm:block sm:ml-6">
           <div class="flex space-x-4">
             <%= image_tag '/hr.png', alt: 'HR Management Logo', size: "50x50" %>
-            <%= nav_link('Dashboard', root_path) %>
-            <%= nav_link('Tickets', tickets_path) %>
-            <%= nav_link('Expenses', expenses_path) %>
-            <%= nav_link('ReimbursementRequests', reimbursement_requests_path) %>
-            <% if current_user && ((current_user.role == "hr") | (current_user.role == "admin")) %>
-              <%= nav_link('Manage Users', users_path) %>
-            <% end %>
+            <% if current_user && current_user.is_active %>
+              <%= nav_link('Dashboard', root_path) %>
+              <%= nav_link('Tickets', tickets_path) %>
+              <%= nav_link('Expenses', expenses_path) %>
+              <%= nav_link('ReimbursementRequests', reimbursement_requests_path) %>
+              <% if ((current_user.role == "hr") | (current_user.role == "admin")) %>
+                <%= nav_link('Manage Users', users_path) %>
+              <% end %>
+            <% end %>  
           </div>
         </div>
       </div>

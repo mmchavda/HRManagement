@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_13_131859) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_28_080938) do
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -113,7 +113,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_13_131859) do
     t.text "bio"
     t.string "phone_number"
     t.date "dob"
-    t.boolean "is_active", default: true
+    t.boolean "is_active", default: false
     t.string "blood_group"
     t.text "address"
     t.string "gender"
