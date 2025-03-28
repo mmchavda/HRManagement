@@ -7,12 +7,13 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50">
+<div class="container mx-auto">
 
   <!-- Main Content: Change Password Form -->
   <main class="py-12">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="bg-white shadow-lg rounded-lg p-8 w-full sm:w-96 mx-auto">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Change your password</h1>
+    <div class="mx-auto container">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full mx-auto" style="max-width: 500px;">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Change your password</h1>
 
         <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
           <% if resource.errors.any? %>
@@ -51,6 +52,6 @@
       </div>
     </div>
   </main>
-
+</div>
 </body>
 </html>

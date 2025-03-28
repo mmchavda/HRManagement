@@ -14,6 +14,8 @@
               <%= nav_link('ReimbursementRequests', reimbursement_requests_path) %>
               <% if ((current_user.role == "hr") | (current_user.role == "admin")) %>
                 <%= nav_link('Manage Users', users_path) %>
+                <%= nav_link('Reports', reports_path) %>
+
               <% end %>
             <% end %>  
           </div>

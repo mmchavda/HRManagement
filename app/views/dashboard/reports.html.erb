@@ -1,7 +1,72 @@
-<div class="space-y-4">
-  <%= link_to 'Download Tickets CSV', export_csv_tickets_path, class: 'inline-block px-6 py-2.5 text-white bg-blue-600 hover:bg-blue-700 font-semibold text-sm leading-tight rounded-md shadow-md transition duration-150 ease-in-out' %>
+<div class="container mx-auto py-12 shadow-xl p-8 ">
+  <h1 class="text-2xl font-bold text-center text-white mb-6">Download CSV Reports</h1>
 
-  <%= link_to 'Download Reimbursement Requests CSV', export_csv_reimbursement_requests_path, class: 'inline-block px-6 py-2.5 text-white bg-green-600 hover:bg-green-700 font-semibold text-sm leading-tight rounded-md shadow-md transition duration-150 ease-in-out' %>
+  <table class="w-full">
+    <tbody>
+      <tr class="text-gray-700">
+        <td class="align-middle pr-2 text-white py-3"> <!-- Added padding for spacing -->
+          Tickets CSV
+        </td>
 
-  <%= link_to 'Download Expenses CSV', export_csv_expenses_path, class: 'inline-block px-6 py-2.5 text-white bg-blue-600 hover:bg-purple-700 font-semibold text-sm leading-tight rounded-md shadow-md transition duration-150 ease-in-out' %>
+        <td class="align-middle inline-flex items-center py-3"> <!-- Added padding for spacing -->
+          <%= link_to export_csv_tickets_path, class: 'inline-flex items-center' do %>
+            <img src="/download_csv.png" alt="Download CSV" class="h-8 w-8 mr-2">
+          <% end %>
+        </td>
+      </tr>
+
+      <tr><td colspan="2"><hr class="border-gray-500"></td></tr> <!-- Adjusted the separator -->
+
+      <tr class="text-gray-700">
+        <td class="align-middle pr-2 text-white py-3"> <!-- Added padding for spacing -->
+        Reimbursement Requests CSV
+        </td>
+        <td class="align-middle inline-flex items-center py-3"> <!-- Added padding for spacing -->
+          <%= link_to export_csv_reimbursement_requests_path, class: 'inline-flex items-center' do %>
+            <img src="/download_csv.png" alt="Download CSV" class="h-8 w-8 mr-2">
+          <% end %>
+        </td>
+      </tr>
+
+      <tr><td colspan="2"><hr class="border-gray-500"></td></tr> <!-- Adjusted the separator -->
+
+      <tr class="text-gray-700">
+        <td class="align-middle pr-2 text-white py-3"> <!-- Added padding for spacing -->
+        Expenses CSV
+        </td>
+        <td class="align-middle inline-flex items-center py-3"> <!-- Added padding for spacing -->
+          <%= link_to export_csv_expenses_path, class: 'inline-flex items-center' do %>
+            <img src="/download_csv.png" alt="Download CSV" class="h-8 w-8 mr-2">
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
+<style>
+  .container {
+    width: 60%; /* Adjust this to your preferred width */
+    height: auto;
+    padding: 20px;
+  }
+
+  .shadow-xl {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .p-8 {
+    padding: 2rem;
+  }
+
+  td {
+    padding-top: 8px;
+    padding-bottom: 8px; 
+  }
+
+  hr {
+    margin-top: 1rem;
+    
+    margin-bottom: 1rem;
+  }
+</style>
