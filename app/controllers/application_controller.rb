@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   def check_is_user_active
+    
     if current_user && !current_user.is_active
       return if request.path == destroy_user_session_path
       render 'users/inactive'

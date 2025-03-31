@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_28_080938) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_31_061456) do
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -117,6 +117,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_28_080938) do
     t.string "blood_group"
     t.text "address"
     t.string "gender"
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

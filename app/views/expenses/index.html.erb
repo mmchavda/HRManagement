@@ -2,16 +2,16 @@
   <!-- Button positioned above the table (50px from the bottom, right side) -->
   <div class="new-button">
     <%= link_to new_expense_path, class: 'text-white rounded-md shadow-md', style: 'background-color: #515156;' do %>
-      <%= image_tag '/new.png', alt: 'New Ticket Icon', size: '20x20' %>
+      <%= image_tag '/new.png', alt: 'New Ticket Icon', size: '30x30' %>
     <% end %>
   </div>
 
   <div class="ticket_filer">
-    <%= form_with(url: tickets_path, method: :get) do %>
+    <%= form_with(url: expenses_path, method: :get) do %>
       <div>
         <table>
         <tr><td><%= label_tag :category, "Category", class: "text-sm font-medium text-white" %></td>
-          <td><%= select_tag :category, options_for_select(Expense.categories.keys.map { |category| [category.titleize, category] }, params[:category]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700' %></td>        
+          <td><%= select_tag :category, options_for_select([['All', '']] + Expense.categories.keys.map { |category| [category.titleize, category] }, params[:category]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700' %></td>        
           <td>
             <%= button_tag type: 'submit' do %>
               <%= image_tag '/filter.png', alt: 'Filter', size: '40x20' %>
@@ -25,63 +25,75 @@
 
   
   <!-- Table with increased width -->
-  <table class="my_table">
-    <thead>
-      <tr style="background-color: #515156">
-        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 5%;">S.N.</th>
-        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 15%;">User</th>
-        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 15%;">Title</th>
-        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 15%;">Amount</th>
-        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 15%;">Category</th>
-        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 15%;">Date</th>
-        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 10%;">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @expenses.each_with_index do |expense, i| %>
-        <tr class="<%= cycle('bg-white', 'bg-gray-300') %>">
-          <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
-          <td class="px-4 py-2 text-sm text-gray-900"><%= expense.user.email %></td>
-          <td class="px-4 py-2 text-sm text-gray-900"><%= expense.title %></td>
-          <td class="px-4 py-2 text-sm text-gray-900"><%= number_to_currency(expense.amount) %></td>
-          <td class="px-4 py-2 text-sm text-gray-900"><%= expense.category %></td>
-          <td class="px-4 py-2 text-sm text-gray-900"><%= expense.date&.strftime('%B %d, %Y') %></td>
-          <td class="px-4 py-2 text-sm">
-            <div class="flex space-x-2 items-center">
-              <!-- Show Link with Image -->
-              <%= link_to expense_path(expense) do %>
-                <%= image_tag '/show1.png', alt: 'Show Expense', size: '15x15' %>
-              <% end %>
-
-              <!-- Edit Link with Image -->
-              <%= link_to edit_expense_path(expense) do %>
-                <%= image_tag '/edit1.png', alt: 'Edit Expense', size: '15x15' %>
-              <% end %>
-
-              <!-- Delete Link with Image -->
-              <%= button_to expense_path(expense), method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <%= image_tag '/delete1.png', alt: 'Delete Expense', size: '15x15' %>
-              <% end %>
-
-            </div>
-          </td>
+  <% if @expenses.present? %>
+    <table class="my_table">
+      <thead>
+        <tr style="background-color: #515156">
+          <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 5%;">S.N.</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 15%;">User</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 15%;">Title</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 15%;">Amount</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 15%;">Category</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 15%;">Date</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 10%;">Actions</th>
         </tr>
-      <% end %>
-      <% if @expenses.any? %>
-        <tr>
-          <!-- Ensure the entire background is white for the row -->
-          <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
-            <div class="flex justify-center"> <!-- Center the pagination -->
-              <%= paginate @expenses, class: 'flex items-center space-x-6 text-white' %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @expenses.each_with_index do |expense, i| %>
+          <tr class="<%= cycle('bg-white', 'bg-gray-300') %>">
+            <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
+            <td class="px-4 py-2 text-sm text-gray-900"><%= expense.user.email %></td>
+            <td class="px-4 py-2 text-sm text-gray-900"><%= expense.title %></td>
+            <td class="px-4 py-2 text-sm text-gray-900"><%= number_to_currency(expense.amount) %></td>
+            <td class="px-4 py-2 text-sm text-gray-900"><%= expense.category %></td>
+            <td class="px-4 py-2 text-sm text-gray-900"><%= expense.date&.strftime('%B %d, %Y') %></td>
+            <td class="px-4 py-2 text-sm">
+              <div class="flex space-x-2 items-center">
+                <!-- Show Link with Image -->
+                <%= link_to expense_path(expense) do %>
+                  <%= image_tag '/show1.png', alt: 'Show Expense', size: '15x15' %>
+                <% end %>
+
+                <!-- Edit Link with Image -->
+                <%= link_to edit_expense_path(expense) do %>
+                  <%= image_tag '/edit1.png', alt: 'Edit Expense', size: '15x15' %>
+                <% end %>
+
+                <!-- Delete Link with Image -->
+                <%= button_to expense_path(expense), method: :delete, data: { confirm: 'Are you sure?' } do %>
+                  <%= image_tag '/delete1.png', alt: 'Delete Expense', size: '15x15' %>
+                <% end %>
+
+              </div>
+            </td>
+          </tr>
+        <% end %>
+        <% if @expenses.any? %>
+          <tr>
+            <!-- Ensure the entire background is white for the row -->
+            <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
+              <div class="flex justify-center"> <!-- Center the pagination -->
+                <%= paginate @expenses, class: 'flex items-center space-x-6 text-white' %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-gray-700 blank_value">No expense found.</p>
+  <% end %>  
 </div>
 
 <style>
+  
+  .blank_value{
+    width: 75% !important; 
+    margin-left: auto;     
+    margin-right: auto;    
+    display: block;
+
+  }
   .ticket_filer {
     margin: auto;
     margin-left: 7%;
@@ -108,10 +120,12 @@
   .my_table tr:nth-child(even) {
   }
 
-  .container {
+    .container {
     width: 85%;
     margin-right: auto;
     display: block;
+    background-color: white;
+    padding: 10px;
   }
   
   .new-button {

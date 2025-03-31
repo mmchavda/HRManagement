@@ -2,7 +2,7 @@
   <div class="new-button">
    
     <%= link_to new_ticket_path, class: 'text-white shadow-md', style: 'background-color: #515156;' do %>
-      <%= image_tag '/new.png', alt: 'New Ticket Icon', size: '20x20' %>
+      <%= image_tag '/new.png', alt: 'New Ticket Icon', size: '30x30' %>
     <% end %>
   </div>
   <div class="ticket_filer">
@@ -10,10 +10,10 @@
       <div>
         <table>
         <tr><td><%= label_tag :status, "Status", class: "text-sm font-medium text-white" %></td>
-        <td><%= select_tag :status, options_for_select(Ticket.statuses.keys.map { |status| [status.titleize, status] }, params[:status]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700' %></td>        
+        <td><%= select_tag :status, options_for_select([['All', '']] + Ticket.statuses.keys.map { |status| [status.titleize, status] }, params[:status]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700' %></td>        
         <td>
             <%= button_tag type: 'submit' do %>
-              <%= image_tag '/filter.png', alt: 'Filter', size: '20x20' %>
+              <%= image_tag '/filter.png', alt: 'Filter', size: '40x20' %>
             <% end %>
           </td>
         </tr>
@@ -21,74 +21,85 @@
       </div>
     <% end %>
   </div>  
+<% if @tickets.present? %>
+  <table class="my_table">
+  <thead>
+      <tr class="bg-gray-100">
+        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 5%;">S.N.</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" , style="width: 15%;">User</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Title</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Status</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Priority</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Reported By</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Assigned To</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 25%;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tickets.each_with_index do |ticket, i| %>
+        <tr class="<%= cycle('bg-white', 'bg-gray-300') %>">
 
-<table class="my_table">
-<thead>
-    <tr class="bg-gray-100">
-      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 5%;">S.N.</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" , style="width: 15%;">User</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Title</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Status</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Priority</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Reported By</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Assigned To</th>
-      <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 25%;">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @tickets.each_with_index do |ticket, i| %>
-      <tr class="<%= cycle('bg-white', 'bg-gray-300') %>">
-
-        <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user.email %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.title %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.status %>
-        </td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.priority %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user.email %></td>
-        <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.assigned_user.email if ticket.assigned_user%></td>
-        <td class="px-4 py-2 text-sm">
-          <div class="flex space-x-2 items-center">
-            <!-- Show Link with Image -->
-            <%= link_to ticket_path(ticket) do %>
-              <%= image_tag '/show1.png', alt: 'Show ticket', size: '15x15' %>
-            <% end %>
-
-            <!-- Edit Link with Image -->
-            <%= link_to edit_ticket_path(ticket) do %>
-              <%= image_tag '/edit1.png', alt: 'Edit ticket', size: '15x15' %>
-            <% end %>
-
-            <!-- Delete Link with Image -->
-            <%= button_to ticket_path(ticket), method: :delete, data: { confirm: 'Are you sure?' } do %>
-              <%= image_tag '/delete1.png', alt: 'Delete ticket', size: '15x15' %>
-            <% end %>
-
-            <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && ticket.status != "resolved" && (ticket.assigned_user == current_user) %>
-              
-              <%= link_to resolve_ticket_path(ticket), method: :post, class: 'relative text-white' do %>
-                <%= image_tag '/resolved.png', alt: 'Resolved Icon', size: '15x15' %>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user.email %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.title %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.status %>
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.priority %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user.email %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.assigned_user.email if ticket.assigned_user%></td>
+          <td class="px-4 py-2 text-sm">
+            <div class="flex space-x-2 items-center">
+              <!-- Show Link with Image -->
+              <%= link_to ticket_path(ticket) do %>
+                <%= image_tag '/show1.png', alt: 'Show ticket', size: '15x15' %>
               <% end %>
-            <% end %>  
-          </div>
-        </td>
-      </tr>
-    <% end %>
-    <% if @tickets.any? %>
-      <tr>
-        <!-- Ensure the entire background is white for the row -->
-        <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
-          <div class="flex justify-center"> <!-- Center the pagination -->
-            <%= paginate @tickets, class: 'flex items-center space-x-6 text-white' %>
-          </div>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>  
-</table>
+
+              <!-- Edit Link with Image -->
+              <%= link_to edit_ticket_path(ticket) do %>
+                <%= image_tag '/edit1.png', alt: 'Edit ticket', size: '15x15' %>
+              <% end %>
+
+              <!-- Delete Link with Image -->
+              <%= button_to ticket_path(ticket), method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <%= image_tag '/delete1.png', alt: 'Delete ticket', size: '15x15' %>
+              <% end %>
+
+              <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && ticket.status != "resolved" && (ticket.assigned_user == current_user) %>
+                
+                <%= link_to resolve_ticket_path(ticket), method: :post, class: 'relative text-white' do %>
+                  <%= image_tag '/resolved.png', alt: 'Resolved Icon', size: '15x15' %>
+                <% end %>
+              <% end %>  
+            </div>
+          </td>
+        </tr>
+      <% end %>
+      <% if @tickets.any? %>
+        <tr>
+          <!-- Ensure the entire background is white for the row -->
+          <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
+            <div class="flex justify-center"> <!-- Center the pagination -->
+              <%= paginate @tickets, class: 'flex items-center space-x-6 text-white' %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>  
+  </table>
+<% else %>
+    <p class="text-gray-700 blank_value">No ticket found.</p>
+  <% end %>
 </div>
 
 <style>
+
+.blank_value{
+  width: 75% !important; 
+  margin-left: auto;     
+  margin-right: auto;    
+  display: block;
+
+}
   .ticket_filer {
     margin: auto;
     margin-left: 7%;
@@ -115,10 +126,12 @@
   .my_table tr:nth-child(even) {
   }
 
-  .container {
+    .container {
     width: 85%;
     margin-right: auto;
     display: block;
+    background-color: white;
+    padding: 10px;
   }
   
   .new-button {
