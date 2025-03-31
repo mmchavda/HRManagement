@@ -38,7 +38,7 @@ class TicketsController < ApplicationController
 	  if @ticket.save
 		  redirect_to @ticket, notice: "Ticket successfully created."
 	  else
-		  render :new, alert: "Error creating ticket."
+		  render :new, alert: @ticket.errors.full_messages
 	  end
 	end
   
@@ -50,9 +50,9 @@ class TicketsController < ApplicationController
   
 	def update
 	  if @ticket.update(ticket_params)
-		redirect_to @ticket, notice: "Ticket successfully updated."
+		  redirect_to @ticket, notice: "Ticket successfully updated."
 	  else
-		render :edit, alert: "Error updating ticket."
+		  render :edit, alert: @ticket.errors.full_messages
 	  end
 	rescue ActiveRecord::RecordNotFound => e
 	  Rails.logger.error "Ticket not found: #{e.message}"

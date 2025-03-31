@@ -1,57 +1,63 @@
-<div class="bg-gray-800 p-4 rounded-lg form-container my_form">
+<div class="bg-white p-6 rounded-lg shadow-lg form-container my_form">
 
 <%= form_with(model: @expense, local: true) do |form| %>
   <% if @expense.errors.any? %>
-    <div class="alert alert-danger">
+    <div class="alert alert-danger bg-red-100 text-red-700 border-l-4 border-red-500 p-4 mb-6">
       <ul>
-        <% @expense.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+        <% @expense.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
   <div class="mb-4">
-    <%= form.label :title, 'Title', class: 'block text-sm font-medium text-white' %>
-    <%= form.text_field :title, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm text-white' %>
+    <%= form.label :title, class: 'inline-flex items-center text-sm font-medium text-gray-900' %>
+    <span class="text-gray-600 ml-1">*</span> <!-- Asterisk with darker white color -->
+    <%= form.text_field :title, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900' %>
   </div>
 
   <div class="mb-4">
-    <%= form.label :amount, 'Amount', class: 'block text-sm font-medium text-white' %>
-    <%= form.number_field :amount, step: 0.01, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm text-white' %>
+    <%= form.label :amount, 'Amount', class: 'inline-flex items-center text-sm font-medium text-gray-900' %>
+    <span class="text-gray-600 ml-1">*</span> <!-- Asterisk with darker white color -->
+    <%= form.number_field :amount, step: 0.01, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900' %>
   </div>
 
   <div class="mb-4">
-    <%= form.label :category, class: "block text-sm font-medium text-white" %>
-    <%= form.select :category, Expense.categories.keys.map { |category| [category.humanize, category] }, { prompt: "Select category" }, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-white bg-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+    <%= form.label :category, class: "inline-flex items-center text-sm font-medium text-gray-900" %>
+    <%= form.select :category, Expense.categories.keys.map { |category| [category.humanize, category] }, { prompt: "Select category" }, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-900 bg-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>
 
   <div class="mb-4">
-    <%= form.label :description, 'Description', class: 'block text-sm font-medium text-white' %>
-    <%= form.text_area :description, rows: 4, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm text-white' %>
+    <%= form.label :description, 'Description', class: 'inline-flex items-center text-sm font-medium text-gray-900' %>
+    <%= form.text_area :description, rows: 4, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900' %>
   </div>
 
   <div class="mb-4">
-    <%= form.label :date, 'Date', class: 'block text-sm font-medium text-white' %>
-    <%= form.date_field :date, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm text-white' %>
+    <%= form.label :date, 'Date', class: 'inline-flex items-center text-sm font-medium text-gray-900' %>
+    <span class="text-gray-600 ml-1">*</span> <!-- Asterisk with darker white color -->
+    <%= form.date_field :date, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900' %>
   </div>
 
   <div class="mb-4">
-    <%= form.label :proof, class: "block text-sm font-medium text-white" %>
-    <%= form.file_field :proof, class: "mt-1 block w-full text-sm border border-gray-300 rounded-md text-white" %>
+    <%= form.label :proof, class: "inline-flex items-center text-sm font-medium text-gray-900" %>
+    <%= form.file_field :proof, class: "mt-1 block w-full text-sm border border-gray-300 rounded-md text-gray-900" %>
   </div>
 
   <div class="mb-4">
-    <%= form.submit "Update Expense", class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition duration-300 ease-in-out transform hover:scale-105" %>
+    <%= form.submit "Update Expense", class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-black hover:bg-Black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out transform hover:scale-105" %>
   </div>
 <% end %>
 
 </div>
 
 <style>
+  .ml-1{
+    color: red;
+  }
   .my_form {
     width: 500px;
     margin: 0 auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 </style>

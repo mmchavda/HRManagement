@@ -9,7 +9,7 @@
     <%= form_with(url: reimbursement_requests_path, method: :get) do %>
       <div>
         <table>
-        <tr><td><%= label_tag :status, "Status", class: "text-sm font-medium text-white" %></td>          
+        <tr><td><%= label_tag :status, "Status", class: "text-sm font-medium text-black" %></td>          
           <td><%= select_tag :status, options_for_select([['All', '']] + ReimbursementRequest.statuses.keys.map { |status| [status.titleize, status] }, params[:status]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700' %></td>        
           <td>
             <%= button_tag type: 'submit' do %>
@@ -91,8 +91,8 @@
         <% if @reimbursement_requests.any? %>
           <tr>
             <!-- Ensure the entire background is white for the row -->
-            <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
-              <div class="flex justify-center"> <!-- Center the pagination -->
+            <td style="background-color: white; padding-top: 15px;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
+              <div class="flex">
                 <%= paginate @reimbursement_requests, class: 'flex items-center space-x-6 text-white' %>
               </div>
             </td>
@@ -132,6 +132,7 @@
     margin-left: auto;     
     margin-right: auto;    
     display: block;
+    height: 500px;
 }
 
   .blank_value{
@@ -151,6 +152,7 @@
   }
 
     .container {
+  #  height: 600px !important;
     width: 85%;
     margin-right: auto;
     display: block;

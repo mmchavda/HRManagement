@@ -12,7 +12,7 @@
       <div>
         <table>
           <tr>
-            <td><%= label_tag :role, "Role", class: "text-sm font-medium text-white" %></td>
+            <td><%= label_tag :role, "Role", class: "text-sm font-medium text-black" %></td>
             <td>
               <%= select_tag :role, options_for_select([['All', '']] + User.roles.keys.map { |role| [role.titleize, role] }, params[:role]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700' %>
             </td>
@@ -71,8 +71,8 @@
         <!-- Pagination -->
         <% if @users.any? %>
           <tr>
-            <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
-              <div class="flex justify-center"> <!-- Center the pagination -->
+            <td style="background-color: white; padding-top: 15px;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
+              <div class="flex">
                 <%= paginate @users, class: 'flex items-center space-x-6 text-white' %>
               </div>
             </td>
@@ -93,6 +93,7 @@
     display: block;
     background-color: white;
     padding: 10px;
+
   }
   
   .blank_value{
@@ -121,6 +122,8 @@
     margin-left: auto;
     margin-right: auto;
     display: block;
+    height: 500px;
+
   }
 
   .my_table th {

@@ -9,7 +9,7 @@
     <%= form_with(url: tickets_path, method: :get) do %>
       <div>
         <table>
-        <tr><td><%= label_tag :status, "Status", class: "text-sm font-medium text-white" %></td>
+        <tr><td><%= label_tag :status, "Status", class: "text-sm font-medium text-black" %></td>
         <td><%= select_tag :status, options_for_select([['All', '']] + Ticket.statuses.keys.map { |status| [status.titleize, status] }, params[:status]), class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700' %></td>        
         <td>
             <%= button_tag type: 'submit' do %>
@@ -30,7 +30,6 @@
         <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Title</th>
         <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Status</th>
         <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Priority</th>
-        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Reported By</th>
         <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Assigned To</th>
         <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 25%;">Actions</th>
       </tr>
@@ -45,7 +44,6 @@
           <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.status %>
           </td>
           <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.priority %></td>
-          <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user.email %></td>
           <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.assigned_user.email if ticket.assigned_user%></td>
           <td class="px-4 py-2 text-sm">
             <div class="flex space-x-2 items-center">
@@ -77,8 +75,8 @@
       <% if @tickets.any? %>
         <tr>
           <!-- Ensure the entire background is white for the row -->
-          <td style="background-color: white;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
-            <div class="flex justify-center"> <!-- Center the pagination -->
+          <td style="background-color: white; padding-top: 15px;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
+            <div class="flex"> <!-- Center the pagination -->
               <%= paginate @tickets, class: 'flex items-center space-x-6 text-white' %>
             </div>
           </td>
@@ -92,14 +90,18 @@
 </div>
 
 <style>
+  .padding-top-10 {
+    padding-top: 10px !important;
+  }
 
-.blank_value{
-  width: 75% !important; 
-  margin-left: auto;     
-  margin-right: auto;    
-  display: block;
+  .blank_value{
+    width: 75% !important; 
+    margin-left: auto;     
+    margin-right: auto;    
+    display: block;
 
-}
+  }
+
   .ticket_filer {
     margin: auto;
     margin-left: 7%;
@@ -116,7 +118,9 @@
     margin-left: auto;     
     margin-right: auto;    
     display: block;
-}
+    height: 500px;
+
+  }
 
    .my_table th {
     border: .1px solid black;
@@ -126,7 +130,7 @@
   .my_table tr:nth-child(even) {
   }
 
-    .container {
+  .container {
     width: 85%;
     margin-right: auto;
     display: block;

@@ -4,7 +4,6 @@
 <%= form_with model: @ticket, local: true, class: "space-y-4" do |form| %>
   <% if @ticket.errors.any? %>
     <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-      <h2 class="font-semibold"><%= pluralize(@ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
       <ul class="list-disc pl-5">
         <% @ticket.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
