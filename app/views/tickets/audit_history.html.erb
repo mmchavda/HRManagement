@@ -1,40 +1,60 @@
 <div class="container mx-auto py-12">
-  <div class="max-w-4xl mx-auto shadow-xl rounded-xl p-8 bg-white relative">
-  <!-- Audit History Section -->
-    <div class="mt-6">
-      <h2 class="text-white text-lg font-semibold">Audit History</h2>
-      <ul class="text-gray-300 space-y-4">
-        <% @ticket.audits.each do |audit| %>
-          <li class="border-b border-gray-500 pb-2">
-            <strong><%= audit.action.capitalize %></strong> by <%= audit.user.email %> on <%= audit.created_at %>
-            <ul class="ml-4 space-y-2">
-              <% audit.audited_changes.each do |field, change| %>
-                <% if change.is_a?(Array) && change.length == 2 %>
-                  <% if field == "status" %>
-                    <li><%= field.capitalize %>: <%= Ticket.statuses.key(change[0]) %> → <%= Ticket.statuses.key(change[1]) %></li>
-                  <% else %>
-                    <li><%= field.capitalize %>: <%= change[0] %> → <%= change[1] %></li>
-                  <% end %>
-                <% end %>
-              <% end %>
-            </ul>
-          </li>
-        <% end %>
-      </ul>
+  <div class="flex justify-between items-center">
+    
+    <!-- Image Section -->
+    <div class="w-2/3">
+      <%= image_tag '/show_bg.png', alt: 'ticketbg', class: 'w-3/4 h-auto rounded-lg shadow-lg', size: '600x600' %>
     </div>
-		<div class="mt-6">
-			<%= link_to 'Back to Request', ticket_path(@ticket), class: 'px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300' %>
-		</div>
-	</div>
-</div>		
 
+    <!-- Content Section for Audit History -->
+    <div class="w-1/3">
+      <div class="max-w-4xl mx-auto shadow-xl rounded-xl p-8 bg-white relative box">
+        
+        <!-- Heading for the Audit History Section -->
+        <div class="text-center mb-8">
+          <h2 class="text-2xl font-semibold text-gray-800">Audit History</h2>
+        </div>
+
+        <!-- Audit History Info Section -->
+        <div class="space-y-4">
+          <ul class="text-gray-700 space-y-4">
+            <% @ticket.audits.each do |audit| %>
+              <li class="border-b border-gray-500 pb-2">
+                <strong><%= audit.action.capitalize %></strong> by <%= audit.user.email %> on <%= audit.created_at %>
+                <ul class="ml-4 space-y-2">
+                  <% audit.audited_changes.each do |field, change| %>
+                    <% if change.is_a?(Array) && change.length == 2 %>
+                      <% if field == "status" %>
+                        <li><%= field.capitalize %>: <%= Ticket.statuses.key(change[0]) %> → <%= Ticket.statuses.key(change[1]) %></li>
+                      <% else %>
+                        <li><%= field.capitalize %>: <%= change[0] %> → <%= change[1] %></li>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <!-- Back to Request Button -->
+        <div class="mt-6">
+          <%= link_to 'Back to Request', ticket_path(@ticket), class: 'px-4 py-2 bg-gray-200 text-white bg-gray-700 rounded hover:bg-gray-700' %>
+        </div>
+
+      </div>
+    </div>
+
+  </div> <!-- End of Flex container -->
+</div>
 
 <style>
   .container {
-    width: 100%;
+    padding: 4rem 0;
+    width: 80%;
     margin: 0 auto;
     display: block;
-    background: linear-gradient(135deg, #232526, #414345);  
+    background: white; 
     height: 100%;
   }
 
@@ -51,12 +71,12 @@
     margin: 0 auto;
   }
 
-  .space-y-8 {
-    gap: 2rem;
+  .space-y-4 {
+    gap: 1.5rem;
   }
 
   hr {
-     border: .1px solid #27292c;
+    border: .1px solid #27292c;
     margin: 1.5rem 0;
   }
 
