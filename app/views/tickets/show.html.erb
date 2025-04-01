@@ -1,45 +1,45 @@
 <div class="container mx-auto py-12">
-  <div class="max-w-4xl mx-auto shadow-xl rounded-xl p-8 bg-gray-800 relative">
+  <div class="max-w-4xl mx-auto shadow-xl rounded-xl p-8 bg-white relative">
 
     <!-- Ticket Info Section -->
     <div class="space-y-8">
       <div class="flex justify-between items-center">
-        <strong class="text-white text-lg font-semibold">Title:</strong>
+        <strong class="text-black text-lg font-semibold">Title:</strong>
         <p class="text-gray-300 text-lg"><%= @ticket.title %></p> 
       </div>
 
       <hr class="border-gray-500">
 
       <div class="flex justify-between items-center">
-        <strong class="text-white text-lg font-semibold">Status:</strong>
+        <strong class="text-black text-lg font-semibold">Status:</strong>
         <p class="text-gray-300 text-lg"><%= @ticket.status %></p>
       </div>
 
       <hr class="border-gray-500">
 
       <div class="flex justify-between items-center">
-        <strong class="text-white text-lg font-semibold">Priority:</strong>
+        <strong class="text-black text-lg font-semibold">Priority:</strong>
         <p class="text-gray-300 text-lg"><%= @ticket.priority %></p>
       </div>
 
       <hr class="border-gray-500">
 
       <div class="flex justify-between items-center">
-        <strong class="text-white text-lg font-semibold">Description:</strong>
+        <strong class="text-black text-lg font-semibold">Description:</strong>
         <p class="text-gray-300 text-lg"><%= @ticket.description %></p>
       </div>
 
       <hr class="border-gray-500">
 
       <div class="flex justify-between items-center">
-        <strong class="text-white text-lg font-semibold">Reported By:</strong>
+        <strong class="text-black text-lg font-semibold">Reported By:</strong>
         <p class="text-gray-300 text-lg"><%= @ticket.user.email %></p>
       </div>
 
       <hr class="border-gray-500">
 
       <div class="flex justify-between items-center">
-        <strong class="text-white text-lg font-semibold">Assigned To:</strong>
+        <strong class="text-black text-lg font-semibold">Assigned To:</strong>
         <p class="text-gray-300 text-lg"><%= @ticket.assigned_user.email if @ticket.assigned_user %></p> 
         <% if (current_user.admin? || current_user.hr?) %>
           <% @hr_or_admin_users = User.where(role: ['hr', 'admin']).where.not(id: @ticket.assigned_user_id)%>
@@ -53,14 +53,14 @@
       <hr class="border-gray-500">
 
       <div class="flex justify-between items-center">
-        <strong class="text-white text-lg font-semibold">Created At:</strong>
+        <strong class="text-black text-lg font-semibold">Created At:</strong>
         <p class="text-gray-300 text-lg"><%= @ticket.created_at %></p>
       </div>
 
       <hr class="border-gray-500">
 
       <div class="flex justify-between items-center">
-        <strong class="text-white text-lg font-semibold">Updated At:</strong>
+        <strong class="text-black text-lg font-semibold">Updated At:</strong>
         <p class="text-gray-300 text-lg"><%= @ticket.updated_at %></p>
       </div>
     </div>
@@ -78,7 +78,7 @@
     width: 100%;
     margin: 0 auto;
     display: block;
-    background: linear-gradient(135deg, #232526, #414345);  
+    background: white; #linear-gradient(135deg, #232526, #414345);  
     height: 100%;
   }
 
@@ -112,7 +112,7 @@
     background-color: #2b6cb0;
   }
 
-  .text-white {
+  .text-black {
     color: #ffffff;
   }
 

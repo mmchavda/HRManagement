@@ -1,4 +1,4 @@
-<div class="bg-gray-800 p-4 rounded-lg form-container my_form">
+<div class="bg-white p-4 rounded-lg form-container my_form">
   <%= form_for(@user, class: 'space-y-6') do |f| %>
     <% if @user.errors.any? %>
       <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
@@ -81,7 +81,7 @@
 
       <!-- Submit Button -->
       <div>
-        <%= f.submit "Save Changes", class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition duration-300 ease-in-out transform hover:scale-105" %>
+        <%= f.submit "Save Changes", class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-black hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition duration-300 ease-in-out transform hover:scale-105" %>
       </div>
     </div>
   <% end %>
