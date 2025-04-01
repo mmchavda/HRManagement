@@ -11,12 +11,9 @@
       <div class="max-w-4xl mx-auto shadow-xl rounded-xl p-8 bg-white relative">
         
         <!-- Heading for the Right Section -->
-        <div class="text-center mb-6">
+        <div class="text-center mb-8">
           <h2 class="text-2xl font-semibold text-gray-800">Reimbursement Request Details</h2>
         </div>
-
-        <hr class="border-t border-gray-300 my-2">
-
 
         <!-- Reimbursement Request Info Section -->
         <div class="space-y-8">
@@ -63,9 +60,10 @@
 
         <!-- Action Buttons -->
         <div class="mt-6 flex justify-start">
-          <%= link_to 'Back to Requests', reimbursement_requests_path, class: 'px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition duration-200 ease-in-out' %>
-          <%= link_to 'View Audit History', audit_history_reimbursement_request_path(@reimbursement_request), class: 'ml-4 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition duration-200 ease-in-out' %>
+          <%= link_to 'Back to Requests', reimbursement_requests_path, class: 'px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105' %>
+          <%= link_to 'View Audit History', audit_history_reimbursement_request_path(@reimbursement_request), class: 'ml-4 px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform hover:scale-105' %>
         </div>
+
 
       </div>
     </div>  
