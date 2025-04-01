@@ -15,4 +15,6 @@ class Ticket < ApplicationRecord
   # Status and priority defaults can be managed via enum
   enum :status, [ :open, :in_progress, :resolved ]
   enum :priority, [ :low, :medium, :high ]
+
+  has_many :notes, dependent: :destroy
 end

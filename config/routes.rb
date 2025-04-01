@@ -18,12 +18,14 @@ Rails.application.routes.draw do
 
   resources :dashboard
   resources :tickets do
+    resources :notes, only: [:create, :destroy]
     collection do
       get :export_csv  # Add a route for the export action
     end
 
     member do
       get :audit_history
+      get :notes
     end
   end
 

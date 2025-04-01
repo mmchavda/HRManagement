@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :assigned_tickets, class_name: 'Ticket', foreign_key: 'assigned_user_id', dependent: :nullify # Tickets assigned to the user
   has_many :expenses, dependent: :destroy # Expenses submitted by the user
   has_many :reimbursement_requests, through: :expenses # Reimbursement requests related to the user's expenses
+  has_many :notes, dependent: :destroy
 
   validates :email, presence: { message: "Email cannot be blank" }
   validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "Invalid email format" }

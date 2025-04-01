@@ -1,7 +1,7 @@
 class TicketsController < ApplicationController
 	require 'csv'
 
-	before_action :find_ticket, only: [:show, :edit, :update, :destroy, :assign_ticket, :unassign_ticket, :resolve_ticket, :audit_history]
+	before_action :find_ticket, only: [:show, :edit, :update, :destroy, :assign_ticket, :unassign_ticket, :resolve_ticket, :audit_history, :notes, :create_note]
 
 	# Display all tickets
 	def index
@@ -16,10 +16,10 @@ class TicketsController < ApplicationController
     end
     
 		@tickets = @tickets.page(params[:page]).per(10)
-
 	end
   
 	def show
+		@note = @ticket.notes.new
  	rescue ActiveRecord::RecordNotFound => e
 	  Rails.logger.error "Ticket not found: #{e.message}"
 	  redirect_to tickets_path, alert: "Ticket not found"
@@ -114,8 +114,28 @@ class TicketsController < ApplicationController
 
 	def audit_history
 	end
+
+	def notes
+	end
+
+	def create_note
+		@note = @ticket.notes.new(note_params)
+    @note.user = current_user  # Assuming you want to associate the note with the logged-in user
+
+    if @note.save
+      # Redirect to the ticket show page after successfully creating the note
+      redirect_to ticket_path(@ticket), notice: 'Note was successfully added.'
+    else
+      # Handle validation errors and return to ticket show page with errors
+      redirect_to ticket_path(@ticket), alert: 'Failed to add note.'
+    end
+  end
   
 	private
+
+		def note_params
+			params.require(:note).permit(:content)
+		end
 
 	  def find_ticket
 		  @ticket = Ticket.find(params[:id])
