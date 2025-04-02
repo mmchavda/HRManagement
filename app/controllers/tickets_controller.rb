@@ -19,7 +19,7 @@ class TicketsController < ApplicationController
 	end
   
 	def show
-		@note = @ticket.notes.new
+	@note = @ticket.notes.new
  	rescue ActiveRecord::RecordNotFound => e
 	  Rails.logger.error "Ticket not found: #{e.message}"
 	  redirect_to tickets_path, alert: "Ticket not found"
@@ -123,11 +123,11 @@ class TicketsController < ApplicationController
     @note.user = current_user  # Assuming you want to associate the note with the logged-in user
 
     if @note.save
-      # Redirect to the ticket show page after successfully creating the note
+      # Redirect back to the show page with the new note
       redirect_to ticket_path(@ticket), notice: 'Note was successfully added.'
     else
-      # Handle validation errors and return to ticket show page with errors
-      redirect_to ticket_path(@ticket), alert: 'Failed to add note.'
+      # If saving fails, re-render the show page with error messages
+      render :show
     end
   end
   
