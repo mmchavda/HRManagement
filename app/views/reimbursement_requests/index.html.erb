@@ -1,3 +1,14 @@
+<!-- Confirmation Modal -->
+  <div id="confirmationModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-white p-4 rounded-md shadow-lg">
+      <h2 class="text-lg font-semibold"> Delete this Request?</h2>
+      <div class="mt-4 flex justify-between">
+        <button id="cancelDelete" class="bg-gray-300 px-4 py-2 rounded-md">Cancel</button>
+        <button id="confirmDelete" class="bg-red-500 text-white px-4 py-2 rounded-md">Confirm</button>
+      </div>
+    </div>
+  </div>
+
 <div class="container mx-auto">
   <div class="new-button">
     <%= link_to new_reimbursement_request_path, class: 'text-white rounded-md shadow-md', style: 'background-color: #515156;' do %>
@@ -64,9 +75,12 @@
                   <%= image_tag '/edit1.png', alt: 'Edit reimbursement_request', size: '15x15' %>
                 <% end %>
 
-                <!-- Delete Link with Image -->
-                <%= button_to reimbursement_request_path(request), method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <%= button_to reimbursement_request_path(request), method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete-reimbursement_request-btn', id: "delete-btn-#{request.id}", form_id: "delete-form-#{request.id}" do %>
                   <%= image_tag '/delete1.png', alt: 'Delete reimbursement_request', size: '15x15' %>
+                <% end %>
+
+                <%= form_with(model: request, method: :delete, local: true, id: "delete-form-#{request.id}", class: 'hidden') do |form| %>
+                  <%= form.submit 'Delete', class: 'hidden' %>
                 <% end %>
 
                 <% if (current_user.admin? || current_user.hr?) && request.status == 'pending' %>
@@ -165,4 +179,65 @@
     margin-left: 88%;
     margin-bottom: -25px !important;
   }
+
+    #confirmationModal {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: -70px;
+    }
+  
+    #confirmationModal .bg-white {
+      width: 250px;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+  
+    #confirmationModal button {
+      padding: 8px 16px; 
+      font-size: 0.875rem; 
+      margin: 4px; 
+      cursor: pointer;
+  
+    }
+  
+    #confirmationModal button:hover {
+      background-color: #ccc;
+    }
+  
+    #confirmationModal.hidden {
+      display: none !important;
+    }
 </style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const deleteBtns = document.querySelectorAll('.delete-reimbursement_request-btn');
+  const modal = document.getElementById('confirmationModal');
+  const confirmDeleteBtn = document.getElementById('confirmDelete');
+  const cancelDeleteBtn = document.getElementById('cancelDelete');
+  let formToSubmit = null;
+
+  deleteBtns.forEach(btn => {
+    btn.addEventListener('click', function(event) {
+      event.preventDefault();
+      const reimbursement_requestId = btn.id.split('-')[2]; 
+      formToSubmit = document.getElementById(`delete-form-${reimbursement_requestId}`); 
+      modal.classList.remove('hidden');
+    });
+  });
+
+  cancelDeleteBtn.addEventListener('click', function() {
+    modal.classList.add('hidden');
+  });
+
+  confirmDeleteBtn.addEventListener('click', function() {
+    if (formToSubmit) {
+      formToSubmit.submit(); 
+    }
+  });
+});
+
+</script>

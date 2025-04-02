@@ -1,3 +1,14 @@
+<!-- Confirmation Modal -->
+  <div id="confirmationModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-white p-4 rounded-md shadow-lg">
+      <h2 class="text-lg font-semibold"> Delete this user?</h2>
+      <div class="mt-4 flex justify-between">
+        <button id="cancelDelete" class="bg-gray-300 px-4 py-2 rounded-md">Cancel</button>
+        <button id="confirmDelete" class="bg-red-500 text-white px-4 py-2 rounded-md">Confirm</button>
+      </div>
+    </div>
+  </div>
+
 <div class="container mx-auto">
   <!-- Button positioned above the table -->
   <div class="new-button mb-4">
@@ -33,12 +44,12 @@
       <thead class="bg-gray-700">
         <tr>
           <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" style="width: 5%;">S.N.</th>
+          <th class="px-4 py-2 text-white text-sm" style="width: 15%;">First Name</th>
+          <th class="px-4 py-2 text-white text-sm" style="width: 15%;">Last Name</th>
           <th class="px-4 py-2 text-white text-sm" style="width: 15%;">Email</th>
-          <th class="px-4 py-2 text-white text-sm" style="width: 20%;">First Name</th>
-          <th class="px-4 py-2 text-white text-sm" style="width: 20%;">Last Name</th>
           <th class="px-4 py-2 text-white text-sm" style="width: 10%;">Gender</th>
           <th class="px-4 py-2 text-white text-sm" style="width: 10%;">Role</th>
-          <th class="px-4 py-2 text-white text-sm" style="width: 20%;">Is Active</th>
+          <th class="px-4 py-2 text-white text-sm" style="width: 15%;">Is Active</th>
           <th class="px-4 py-2 text-white text-sm" style="width: 20%;">Actions</th>
         </tr>
       </thead>
@@ -46,22 +57,30 @@
         <% @users.each_with_index do |user, i| %>
           <tr class="<%= cycle('bg-white', 'bg-gray-300') %>">
             <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
+            <td class="px-4 py-2 text-sm text-gray-900"><%= user.first_name&.capitalize %></td>
+            <td class="px-4 py-2 text-sm text-gray-900"><%= user.last_name&.capitalize %></td>
             <td class="px-4 py-2 text-sm text-gray-900"><%= user.email %></td>
-            <td class="px-4 py-2 text-sm text-gray-900"><%= user.first_name %></td>
-            <td class="px-4 py-2 text-sm text-gray-900"><%= user.last_name %></td>
-            <td class="px-4 py-2 text-sm text-gray-900"><%= user.gender %></td>
-            <td class="px-4 py-2 text-sm text-gray-900"><%= user.role %></td>
-            <td class="px-4 py-2 text-sm text-gray-900"><%= user.is_active %></td>
+            <td class="px-4 py-2 text-sm text-gray-900"><%= user.gender&.capitalize %></td>
+            <td class="px-4 py-2 text-sm text-gray-900"><%= user.role&.capitalize %></td>
+            <td class="px-4 py-2 text-sm text-gray-900"><%= user.is_active ? "Active": "Inactive" %></td>
 
             <td class="px-4 py-2 text-sm">
               <div class="flex space-x-2 items-center">
+              
+                <%= link_to user_path(user) do %>
+                  <%= image_tag '/show1.png', alt: 'Show User', size: '15x15' %>
+                <% end %>
+
                 <%= link_to edit_user_path(user) do %>
                   <%= image_tag '/edit1.png', alt: 'Edit User', size: '15x15' %>
                 <% end %>
 
-                <!-- Delete Link with Image -->
-                <%= button_to user_path(user), method: :delete, data: { confirm: 'Are you sure?' } do %>
-                  <%= image_tag '/delete1.png', alt: 'Delete User', size: '15x15' %>
+                <%= button_to user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete-user-btn', id: "delete-btn-#{user.id}", form_id: "delete-form-#{user.id}" do %>
+                  <%= image_tag '/delete1.png', alt: 'Delete user', size: '15x15' %>
+                <% end %>
+
+                <%= form_with(model: user, method: :delete, local: true, id: "delete-form-#{user.id}", class: 'hidden') do |form| %>
+                  <%= form.submit 'Delete', class: 'hidden' %>
                 <% end %>
               </div>
             </td>
@@ -131,8 +150,6 @@
     text-align: left;
   }
 
-  /* Removed conflicting styles */
-  /* Ensures alternating background colors */
   .container {
     width: 90%;
     margin-right: auto;
@@ -144,4 +161,65 @@
     margin-left: 88%;
     margin-bottom: -25px !important;
   }
+
+  #confirmationModal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: -70px;
+  }
+
+  #confirmationModal .bg-white {
+    width: 250px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  #confirmationModal button {
+    padding: 8px 16px; 
+    font-size: 0.875rem; 
+    margin: 4px; 
+    cursor: pointer;
+
+  }
+
+  #confirmationModal button:hover {
+    background-color: #ccc;
+  }
+
+  #confirmationModal.hidden {
+    display: none !important;
+  }
 </style>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const deleteBtns = document.querySelectorAll('.delete-user-btn');
+    const modal = document.getElementById('confirmationModal');
+    const confirmDeleteBtn = document.getElementById('confirmDelete');
+    const cancelDeleteBtn = document.getElementById('cancelDelete');
+    let formToSubmit = null;
+
+    deleteBtns.forEach(btn => {
+      btn.addEventListener('click', function(event) {
+        event.preventDefault();
+        const userId = btn.id.split('-')[2]; 
+        formToSubmit = document.getElementById(`delete-form-${userId}`); 
+        modal.classList.remove('hidden');
+      });
+    });
+
+    cancelDeleteBtn.addEventListener('click', function() {
+      modal.classList.add('hidden');
+    });
+
+    confirmDeleteBtn.addEventListener('click', function() {
+      if (formToSubmit) {
+        formToSubmit.submit(); 
+      }
+    });
+  });
+
+</script>
