@@ -1,32 +1,33 @@
-
-<div class="bg-white p-4 rounded-lg form-container my_form">
-
-<%= form_with(model: @reimbursement_request, local: true) do |form| %>
-  <% if @reimbursement_request.errors.any? %>
-    <div class="alert alert-danger">
-      <ul>
-        <% @reimbursement_request.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="mb-4">
-    <%= form.label :status, 'Status', class: 'block text-sm font-medium text-white' %>
-    <%= form.select :status, ReimbursementRequest.statuses.keys.map { |status| [status.humanize, status.to_s] }, { prompt: "Select status" }, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-white bg-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+<div class="container">
+  <div class="text-center mb-8">
+    <h2 class="text-3xl font-semibold text-gray-800">Create a New Reimbursement Request</h2>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :expense, 'Expense', class: 'block text-sm font-medium text-white' %>
-    <%= form.select :expense_id, current_user.expenses.left_outer_joins(:reimbursement_request).where(reimbursement_request: { id: nil }).map { |expense| [expense.title, expense.id] }, { prompt: "Select expense" }, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-white bg-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm', id: "expense_select" %>
-  </div>
+  <div class="bg-white p-4 rounded-lg form-container my_form">
+    <%= form_with(model: @reimbursement_request, local: true) do |form| %>
+      <% if @reimbursement_request.errors.any? %>
+        <div class="alert alert-danger bg-red-100 text-red-700 p-4 rounded mb-4">
+          <%= @reimbursement_request.errors.full_messages.join(", ") %>
+        </div>
+      <% end %>
 
-  <div class="mb-4">
-    <%= form.submit "Create Reimbursement Request", class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-black hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition duration-300 ease-in-out transform hover:scale-105" %>
-  </div>
-<% end %>
+      <div class="mb-4">
+        <%= form.label :status, 'Status', class: 'inline-flex items-center text-sm font-medium' %>
+        <span class="text-red-600 ml-1">*</span> <!-- Red asterisk for required field -->
+        <%= form.select :status, ReimbursementRequest.statuses.keys.map { |status| [status.humanize, status.to_s] }, { prompt: "Select status" }, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+      </div>
 
+      <div class="mb-4">
+        <%= form.label :expense, 'Expense', class: 'inline-flex items-center text-sm font-medium' %>
+        <span class="text-red-600 ml-1">*</span> <!-- Red asterisk for required field -->
+        <%= form.select :expense_id, current_user.expenses.left_outer_joins(:reimbursement_request).where(reimbursement_request: { id: nil }).map { |expense| [expense.title, expense.id] }, { prompt: "Select expense" }, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 focus:outline-none focus:ring-black focus:border-black sm:text-sm', id: "expense_select" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.submit "Create Reimbursement Request", class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-black hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition duration-300 ease-in-out transform hover:scale-105" %>
+      </div>
+    <% end %>
+  </div>
 </div>
 
 <style>
@@ -34,5 +35,66 @@
     width: 500px;
     margin: 0 auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 2);
+  }
+
+  .container {
+    padding: 4rem 0;
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+    background: white;
+  }
+
+  .alert {
+    margin-bottom: 1rem;
+  }
+
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .focus\:ring-black:focus {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .focus\:border-black:focus {
+    border-color: #000;
+  }
+
+  .bg-gray-200 {
+    background-color: #f7fafc;
+  }
+
+  .text-gray-700 {
+    color: #4a5568;
+  }
+
+  .bg-black {
+    background-color: #000;
+  }
+
+  .bg-white {
+    background-color: #fff;
+  }
+
+  .shadow-sm {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .rounded-md {
+    border-radius: 0.375rem;
+  }
+
+  .transition {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .hover\:scale-105:hover {
+    transform: scale(1.05);
+  }
+
+  .focus\:outline-none:focus {
+    outline: none;
   }
 </style>

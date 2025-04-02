@@ -1,95 +1,150 @@
-<div class="bg-white p-4 rounded-lg form-container my_form">
-  <%= form_for(@user, class: 'space-y-6') do |f| %>
-    <% if @user.errors.any? %>
-      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
-        <h2 class="font-semibold"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-        <ul class="list-disc pl-5">
-          <% @user.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+<div class="container">
+  <!-- Heading for Edit Profile Form -->
+  <div class="text-center mb-8">
+    <h2 class="text-3xl font-semibold text-gray-800">Edit Profile</h2>
+  </div>
 
-    <div class="space-y-4">
-      <!-- Email -->
-      <div>
-        <%= f.label :email, class: 'block text-sm font-medium text-black' %>*
-        <%= f.email_field :email, class: "mt-1 block w-full px-3 py-2 border rounded-md shadow-sm text-sm font-medium text-black focus:outline-none focus:ring-black focus:border-black sm:text-sm #{'border-red-500' if @user.errors[:email].any?}" %>
-        <% if @user.errors[:email].any? %>
-          <div class="text-sm text-red-500 mt-1">
-            <%= @user.errors[:email].join(", ") %>
-          </div>
-        <% end %>
-      </div>
+  <div class="bg-white p-4 rounded-lg form-container my_form">
+    <%= form_with model: @user, local: true, class: "space-y-4" do |f| %>
 
-      <!-- First Name -->
-      <div>
-        <%= f.label :first_name, class: 'block text-sm font-medium text-black' %>
-        <%= f.text_field :first_name, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+      <% if @user.errors.any? %>
+        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+          <ul class="list-disc pl-5">
+            <% @user.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- First Name Field -->
+      <div class="mb-4">
+        <%= f.label :first_name, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :first_name, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
-      <!-- Last Name -->
-      <div>
-        <%= f.label :last_name, class: 'block text-sm font-medium text-black' %>
-        <%= f.text_field :last_name, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+      <!-- Last Name Field -->
+      <div class="mb-4">
+        <%= f.label :last_name, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :last_name, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
-      <!-- Username -->
-      <div>
-        <%= f.label :username, class: 'block text-sm font-medium text-black' %>
-        <%= f.text_field :username, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+      <!-- Username Field -->
+      <div class="mb-4">
+        <%= f.label :username, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :username, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
-      <!-- Role -->
-      <div>
-        <%= f.label :role, class: 'block text-sm font-medium text-black' %>
-        <%= f.select :role, User.roles.keys.map { |role| [role.titleize, role] }, selected: @user.role, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+      <!-- Bio Field -->
+      <div class="mb-4">
+        <%= f.label :bio, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :bio, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm", rows: 4 %>
       </div>
 
-      <!-- Phone Number -->
-      <div>
-        <%= f.label :phone_number, class: 'block text-sm font-medium text-black' %>
-        <%= f.text_field :phone_number, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+      <!-- Address Field -->
+      <div class="mb-4">
+        <%= f.label :address, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :address, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm", rows: 4 %>
       </div>
 
-      <!-- Date of Birth -->
-      <div>
-        <%= f.label :dob, class: 'block text-sm font-medium text-black' %>
-        <%= f.date_select :dob, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+      <!-- Phone Number Field -->
+      <div class="mb-4">
+        <%= f.label :phone_number, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :phone_number, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
-      <!-- Gender -->
-      <div>
-        <%= f.label :gender, class: 'block text-sm font-medium text-black' %>
-        <%= f.select :gender, [['Male', 'male'], ['Female', 'female'], ['Other', 'other']], selected: @user.gender, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+      <div class="mb-4">
+        <%= f.label :dob, 'Date', class: 'block text-sm font-medium text-gray-700' %>
+        <%= f.date_field :dob, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
       </div>
 
-      <!-- Is Active -->
-      <div class="flex items-center">
-        <%= f.label :is_active, class: 'block text-sm font-medium text-black mr-2' %>
-        <%= f.check_box :is_active, class: 'w-4 h-4 text-black focus:ring-black border-gray-300 rounded' %>
+      <!-- Blood Group Field -->
+      <div class="mb-4">
+        <%= f.label :blood_group, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :blood_group, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
-      <!-- Bio -->
-      <div>
-        <%= f.label :bio, class: 'block text-sm font-medium text-black' %>
-        <%= f.text_area :bio, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+      <!-- Gender Field -->
+      <div class="mb-4">
+        <%= f.label :gender, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :gender, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
+      </div>
+
+      <!-- Active Checkbox -->
+      <div class="mb-4">
+        <%= f.label :is_active, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.check_box :is_active, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
       </div>
 
       <!-- Submit Button -->
-      <div>
-        <%= f.submit "Save Changes", class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-black hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition duration-300 ease-in-out transform hover:scale-105" %>
+      <div class="mb-4">
+        <%= f.submit "Update Profile", class: "w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2" %>
       </div>
-    </div>
-  <% end %>
+
+    <% end %>
+  </div>
 </div>
 
 <style>
+  .container {
+    padding: 4rem 0;
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+    background: white;
+  }
+
   .my_form {
-    background-color: white;
     width: 500px;
     margin: 0 auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 2);
+  }
+
+  .bg-red-100 {
+    background-color: #f8d7da;
+  }
+
+  .text-red-700 {
+    color: #721c24;
+  }
+
+  .focus\:ring-black:focus {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .focus\:border-black:focus {
+    border-color: #000;
+  }
+
+  .bg-indigo-600 {
+    background-color: #4c51bf;
+  }
+
+  .bg-indigo-700 {
+    background-color: #434190;
+  }
+
+  .text-gray-700 {
+    color: #4a5568;
+  }
+
+  .rounded-md {
+    border-radius: 0.375rem;
+  }
+
+  .transition {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .hover\:scale-105:hover {
+    transform: scale(1.05);
+  }
+
+  .focus\:outline-none:focus {
+    outline: none;
+  }
+
+  .space-y-4 > * + * {
+    margin-top: 1rem;
   }
 </style>
