@@ -20,6 +20,12 @@
         </div>
       <% end %>
 
+      <!-- Current Password Field -->
+      <div class="field mb-4">
+        <%= f.label :current_password, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.password_field :current_password, autocomplete: "current-password", class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black" %>
+      </div>
+
       <!-- Password Field -->
       <div class="field mb-4">
         <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
@@ -28,14 +34,8 @@
 
       <!-- Password Confirmation Field -->
       <div class="field mb-4">
-        <%= f.label :password_confirmation, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.label :confirm_password, class: "block text-sm font-medium text-gray-700" %>
         <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black" %>
-      </div>
-
-      <!-- Current Password Field -->
-      <div class="field mb-4">
-        <%= f.label :current_password, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.password_field :current_password, autocomplete: "current-password", class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black" %>
       </div>
 
       <!-- Submit Button -->
