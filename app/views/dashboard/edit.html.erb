@@ -28,10 +28,28 @@
         <%= f.text_field :last_name, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
-      <!-- Username Field -->
       <div class="mb-4">
-        <%= f.label :username, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :username, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
+        <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :email, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
+      </div>
+
+
+      <div class="flex items-center space-x-2">
+        <%= f.label :role, class: 'block text-sm font-medium text-gray-700' %>
+        
+        <% if (current_user.admin? || current_user.hr?) %>
+          <!-- Show dropdown for Admin or HR users -->
+          <%= f.select :role, 
+              User.roles.keys.map { |role| [role.titleize, role] }, 
+              selected: @user.role, 
+              class: 'mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' 
+          %>
+        <% else %>
+          <!-- Show the current role as text for non-admin/HR users, with caret symbol -->
+          <span class="mt-1 text-sm font-medium text-black bg-gray-300 px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+            <%= @user.role.titleize %> <span class="text-gray-300"></span>
+          </span>
+        <% end %>
       </div>
 
       <!-- Bio Field -->
@@ -64,9 +82,10 @@
       </div>
 
       <!-- Gender Field -->
+      
       <div class="mb-4">
         <%= f.label :gender, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :gender, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
+        <%= f.select :gender, options_for_select([['Female', 'female'], ['Male', 'male'], ['Other', 'other']]), { prompt: 'Select Gender' }, class: "mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
       <!-- Active Checkbox -->

@@ -31,8 +31,8 @@
 
       <!-- Username Field -->
       <div class="mb-4">
-        <%= f.label :username, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :username, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
+        <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :email, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
       <div>
@@ -75,10 +75,9 @@
         <%= f.text_field :blood_group, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
-      <!-- Gender Field -->
       <div class="mb-4">
         <%= f.label :gender, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :gender, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
+        <%= f.select :gender, options_for_select([['Female', 'female'], ['Male', 'male'], ['Other', 'other']]), { prompt: 'Select Gender' }, class: "mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
       <!-- Active Checkbox -->

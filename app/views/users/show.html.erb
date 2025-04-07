@@ -72,15 +72,22 @@
           <div class="flex justify-between custom_ui">
            
             <div class="w-1/2 pl-4">
-              <strong class="text-black text-lg font-semibold">Bio</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @user.bio %></p>
+              <strong class="text-black text-lg font-semibold">Role</strong>
+              <p class="text-gray-800 text-lg text-left"><%= @user.role %></p>
             </div>
 
 						<div class="w-1/2 pr-4">
-              <strong class="text-black text-lg font-semibold">Age</strong>
-              <p class="text-gray-800 text-lg text-left"><%= ((Date.today - @user.dob.to_date).to_i / 365.25).to_i if @user.dob.present? %></p>
+              <strong class="text-black text-lg font-semibold">Date Of Birth</strong>
+              <p class="text-gray-800 text-lg text-left"><%= @user.dob.to_date if @user.dob.present? %></p>
             </div>
 
+          </div>
+
+          <div class="flex justify-between custom_ui">
+            <div class="w-1/2 pl-4">
+              <strong class="text-black text-lg font-semibold">Bio</strong>
+              <p class="text-gray-800 text-lg text-left"><%= @user.bio %></p>
+            </div>
           </div>
 
           <div class="flex justify-between custom_ui">

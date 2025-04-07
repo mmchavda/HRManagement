@@ -45,6 +45,6 @@ class DashboardController < ApplicationController
 
   def user_params
     # Allow these fields to be updated
-    params.require(:user).permit(:first_name, :last_name, :username, :bio, :phone_number, :dob, :avatar, :is_active, :gender, :blood_group, :address)
+    params.require(:user).permit(:first_name, :last_name, :username, :bio, :phone_number, :dob, :avatar, :is_active, :gender, :blood_group, :address, :role)
   end
 end
