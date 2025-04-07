@@ -31,11 +31,11 @@
           <div class="flex justify-between custom_ui">
             <div class="w-1/2 pr-4">
               <strong class="text-black text-lg font-semibold">First Name</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @user.first_name.capitalize %></p>
+              <p class="text-gray-800 text-lg text-left"><%= @user.first_name&.capitalize %></p>
             </div>
             <div class="w-1/2 pl-4">
               <strong class="text-black text-lg font-semibold">Last Name</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @user.last_name.capitalize %></p>
+              <p class="text-gray-800 text-lg text-left"><%= @user.last_name&.capitalize %></p>
             </div>
           </div>
 
@@ -48,12 +48,10 @@
 
 						<div class="w-1/2 pr-4">
 							<strong class="text-black text-lg font-semibold">Gender</strong>
-							<p class="text-gray-800 text-lg text-left"><%= @user.gender.capitalize %></p>
+							<p class="text-gray-800 text-lg text-left"><%= @user.gender&.capitalize %></p>
 						</div>
           </div>
-
-         
-
+        
 
           <!-- Other User Info -->
           <div class="flex justify-between custom_ui">

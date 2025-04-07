@@ -24,16 +24,6 @@ class User < ApplicationRecord
 
   after_create :set_default_role
 
-  private 
-
-  def email_present?
-    email.present?
-  end
-
-  def password_present?
-    password.present?
-  end
-
   def set_default_role
     self.update_columns(role: :employee) if self.role.nil?
   end
@@ -56,5 +46,15 @@ class User < ApplicationRecord
 
   def lead?
     role == 'lead'
+  end
+
+  private 
+
+  def email_present?
+    email.present?
+  end
+
+  def password_present?
+    password.present?
   end
 end
