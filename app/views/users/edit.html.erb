@@ -49,10 +49,16 @@
 
       <!-- Phone Number Field -->
       <div class="mb-4">
-        <%= f.label :phone_number, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :phone_number, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
-      </div>
-
+      <div class="mb-4">
+      <%= f.label :phone_number, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :phone_number, 
+          class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm",
+          inputmode: "numeric", 
+          placeholder: "Enter phone number", 
+          maxlength: "10", 
+          oninput: "this.value = this.value.replace(/[^0-9]/g, '')" 
+      %>
+    </div>
       <div class="mb-4">
         <%= f.label :dob, 'Date', class: 'block text-sm font-medium text-gray-700' %>
         <%= f.date_field :dob, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
