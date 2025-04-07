@@ -20,31 +20,8 @@ class DashboardController < ApplicationController
     end   
   end
 
-  def edit
-    @user = current_user  # Edit current user profile
-  end
-
-  def update
-    @user = current_user  # Get the current user
-    if @user.update(user_params)  # Update user with the params
-      redirect_to dashboard_path, notice: 'Profile updated successfully'
-    else
-      render :edit, status: :unprocessable_entity  # If there's an error, render the edit form again
-    end
-  end
-
-  def show 
-    @user = User.find(params[:id])
-  end 
-
   def reports 
     
   end 
-
-  private
-
-  def user_params
-    # Allow these fields to be updated
-    params.require(:user).permit(:first_name, :last_name, :username, :bio, :phone_number, :dob, :avatar, :is_active, :gender, :blood_group, :address, :role)
-  end
+ 
 end

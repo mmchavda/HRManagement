@@ -3,11 +3,15 @@ class UsersController < ApplicationController
 
   # Display all users (only for admins and hr)
   def index
-    @users = User.all.page(params[:page]).per(10)
+    if current_user.admin? || current_user.hr?
+      @users = User.all.page(params[:page]).per(10)
 
-    if params[:role].present?
-      @users = @users.where(role: params[:role]).page(params[:page]).per(10)
-    end
+      if params[:role].present?
+        @users = @users.where(role: params[:role]).page(params[:page]).per(10)
+      end
+    else 
+      redirect_to root_path, alert: 'You are not authorized to view this page.'
+    end   
   end
 
   def new 
@@ -25,17 +29,31 @@ class UsersController < ApplicationController
 
   # Edit a user
   def edit
+    if (current_user.admin? || current_user.hr?) || (current_user.id == @user.id)
+      # Allow the user to edit their own profile or if they are an admin or HR
+    else
+      redirect_to users_path, alert: 'You are not authorized to edit this profile.'
+    end
   end
 
 	def show 
+    if (current_user.admin? || current_user.hr?) || (current_user.id == @user.id)
+      # Allow the user to edit their own profile or if they are an admin or HR
+    else
+      redirect_to users_path, alert: 'You are not authorized to edit this profile.'
+    end
 	end 
 
   # Update a user
   def update
-    if @user.update(user_params)
-      redirect_to users_path, notice: 'User was successfully updated.'
+    if (current_user.admin? || current_user.hr?) || (current_user.id == @user.id)
+      if @user.update(user_params)
+        redirect_to users_path, notice: 'User was successfully updated.'
+      else
+        render :edit
+      end
     else
-      render :edit
+      redirect_to users_path, alert: 'You are not authorized to edit this profile.'
     end
   end
 
