@@ -9,14 +9,30 @@ class User < ApplicationRecord
   has_many :reimbursement_requests, through: :expenses # Reimbursement requests related to the user's expenses
   has_many :notes, dependent: :destroy
 
-  validates :email, presence: { message: "Email cannot be blank" }
-  validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "Invalid email format" }
+  validates :email, presence: true
+  validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "Invalid email format" }, if: :email_present?
+
+  validates :password, presence: true
+  validates :password, format: { 
+    with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}\z/, 
+    message: "must include at least one lowercase letter, one uppercase letter, and one digit" 
+  }, if: :password_present?
 
   # Roles: Admins, Agents, and Users can be defined here
 	enum :role, [:employee, :hr, :admin, :manager, :lead]
   has_one_attached :avatar
 
   after_create :set_default_role
+
+  private 
+
+  def email_present?
+    email.present?
+  end
+
+  def password_present?
+    password.present?
+  end
 
   def set_default_role
     self.update_columns(role: :employee) if self.role.nil?
