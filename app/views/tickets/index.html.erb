@@ -40,11 +40,11 @@
       <tr class="bg-gray-100">
         <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 5%;">S.N.</th>
         <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700" , style="width: 15%;">User</th>
-        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Title</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 25%;">Title</th>
         <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Status</th>
         <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 10%;">Priority</th>
         <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 15%;">Assigned To</th>
-        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 25%;">Actions</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-white bg-gray-700", style="width: 20%;">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -52,12 +52,12 @@
         <tr class="<%= cycle('bg-white', 'bg-gray-300') %>">
 
           <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
-          <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user.email %></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.user&.full_name %></td>
           <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.title %></td>
           <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.status %>
           </td>
           <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.priority %></td>
-          <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.assigned_user.email if ticket.assigned_user%></td>
+          <td class="px-4 py-2 text-sm text-gray-900"><%= ticket.assigned_user.full_name if ticket.assigned_user%></td>
           <td class="px-4 py-2 text-sm">
             <div class="flex space-x-2 items-center">
               <!-- Show Link with Image -->

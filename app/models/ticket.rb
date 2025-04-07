@@ -17,4 +17,21 @@ class Ticket < ApplicationRecord
   enum :priority, [ :low, :medium, :high ]
 
   has_many :notes, dependent: :destroy
+
+  after_create :assign_hr_user_and_open_status
+
+  private
+
+  def assign_hr_user_and_open_status
+    # Find the HR user
+    hr_user = User.find_by_role(:hr)
+    
+    if hr_user
+      # Assign the HR user to the ticket and set status to "open"
+      self.update(assigned_user_id: hr_user.id, status: "open")
+    else
+      # Optionally handle the case where no HR user is found
+      Rails.logger.error "No HR user found to assign the ticket to."
+    end
+  end
 end

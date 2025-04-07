@@ -15,7 +15,7 @@ class TicketsController < ApplicationController
       @tickets = @tickets.where(status: params[:status]).page(params[:page]).per(10)
     end
     
-		@tickets = @tickets.page(params[:page]).per(10)
+	  @tickets = @tickets.page(params[:page]).per(10)
 	end
   
 	def show
@@ -32,13 +32,10 @@ class TicketsController < ApplicationController
 	def create
 	  @ticket = Ticket.new(ticket_params)
 	  @ticket.user = current_user
-		hr_user = User.find_by_role(:hr)
-		@ticket.assigned_user_id = hr_user.id
-		@ticket.status = "open"
 	  if @ticket.save
-		  redirect_to @ticket, notice: "Ticket successfully created."
+		redirect_to @ticket, notice: "Ticket successfully created."
 	  else
-		  render :new, alert: @ticket.errors.full_messages
+		render :new, alert: @ticket.errors.full_messages
 	  end
 	end
   

@@ -12,7 +12,6 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "Invalid email format" }, if: :email_present?
 
-  validates :password, presence: true
   validates :password, format: { 
     with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}\z/, 
     message: "must include at least one lowercase letter, one uppercase letter, and one digit" 
@@ -26,6 +25,10 @@ class User < ApplicationRecord
 
   def set_default_role
     self.update_columns(role: :employee) if self.role.nil?
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
   end
 
   def admin?
