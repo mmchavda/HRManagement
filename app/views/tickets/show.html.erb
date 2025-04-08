@@ -1,138 +1,142 @@
-<div class="container mx-auto py-12">
+<div class="container mx-auto">
   <div class="flex justify-between items-center"> <!-- Flex container -->
-    
-    <!-- Image Section -->
-    <div class="w-2/3">
-      <%= image_tag '/show_bg.png', alt: 'ticketbg', class: 'w-3/4 h-auto rounded-lg shadow-lg', size: '600x600' %>
-    </div>
 
     <!-- Content Section -->
-    <div class="show w-1/3"> <!-- Adjust the width as needed -->
-      <div class="max-w-4xl mx-auto shadow-xl rounded-xl p-8 bg-white relative box">
-        
-        <!-- Heading for the Right Section -->
-        <div class="text-center mb-8">
-          <h2 class="text-2xl font-semibold text-gray-800">Ticket Details</h2>
-        </div>
+    <div class="show"> <!-- Adjust the width as needed -->
+      
+    <div class="flex justify-between custom_ui bg-black">
+      
+      <%= link_to 'Back to Tickets', tickets_path, class: 'px-4 py-2  text-gray-300 font-semibold rounded-lg shadow-md  focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform' %>
+    <!-- Heading for the Right Section -->
+      <%= link_to 'Update Ticket', edit_ticket_path(@ticket), class: 'px-4 py-2  text-gray-300 font-semibold rounded-lg shadow-md  focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform' %>
+      <%= link_to 'View Audit History', audit_history_ticket_path(@ticket), class: 'px-4 py-2  text-gray-300 font-semibold rounded-lg shadow-md  focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform' %>
+      <%= link_to 'Add Note', new_note_ticket_path(@ticket), class: 'px-4 py-2  text-gray-300 font-semibold rounded-lg shadow-md  focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform' %>
 
-        <!-- Ticket Info Section -->
-        <div class="space-y-8">
-          
-          <!-- First Pair of Labels (Title and Status) -->
-          <div class="flex justify-between custom_ui">
-            <div class="w-1/2 pr-4">
-              <strong class="text-black text-lg font-semibold">Title</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @ticket.title %></p>
-            </div>
-            <div class="w-1/2 pl-4">
-              <strong class="text-black text-lg font-semibold">Status</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @ticket.status %></p>
-            </div>
+      <%= link_to 'View Notes', notes_ticket_path(@ticket), class: 'px-4 py-2  text-gray-300 font-semibold rounded-lg shadow-md  focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform' %>
+    </div>  
+      
+      <div class="mx-auto MY_BOX shadow-xl bg-white relative box">
 
-            <div class="w-1/2 pr-4">
-              <strong class="text-black text-lg font-semibold">Priority</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @ticket.priority %></p>
-            </div>
-          </div>
-
-          <!-- Second Pair of Labels (Priority and Description) -->
-          <div class="flex justify-between custom_ui">
-            <div class="w-1/2 pl-4">
-              <strong class="text-black text-lg font-semibold">Description</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @ticket.description %></p>
-            </div>
-          </div>
-
-          <!-- Third Pair of Labels (Reported By and Assigned To) -->
-          <div class="flex justify-between custom_ui">
-            <div class="w-1/2 pr-4">
-              <strong class="text-black text-lg font-semibold">Reported By</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @ticket.user.email %></p>
-            </div>
-          </div>
-
-          <div class="flex justify-between custom_ui">
-          
-            <div class="w-1/2 pl-4">
-              <strong class="text-black text-lg font-semibold">Assigned To</strong>
-              <p class="text-gray-800 text-lg text-left">
-                <%= @ticket.assigned_user.email if @ticket.assigned_user %>
-              </p>
-            </div>
-
-          </div>
-
-          <% if (current_user.admin? || current_user.hr?) %>
-            <div class="flex justify-between custom_ui">
-              <% @hr_or_admin_users = User.where(role: ['hr', 'admin']).where.not(id: @ticket.assigned_user_id) %>
-              <%= form_with(model: @ticket, url: assign_ticket_path(@ticket), method: :patch, local: true) do |form| %>
-                <div class="flex w-full">
-                  <!-- Left side: Select dropdown -->
-                  <div class="w-1/2 pr-4">
-                    <strong class="text-black text-lg font-semibold mr-2"> <!-- Added margin-right -->
-                      <%= form.select :assigned_user_id, options_from_collection_for_select(@hr_or_admin_users, :id, :email), include_blank: 'Select User', class: 'form-select text-sm w-full' %>
-                    </strong>
-                  </div>
-          
-                  <!-- Right side: Submit button -->
-                  <div class="w-1/2 pl-4">
-                    <p class="text-gray-800 text-lg text-left">
-                      <%= form.submit 'Assign', class: 'px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105' %>
-                    </p>
-                  </div>
-                </div>
-              <% end %>
-            </div>  
-          <% end %>
-        
-
-          <!-- Date Info Section -->
-          <div class="flex justify-between custom_ui">
-            <div class="w-1/2 pr-4">
-              <strong class="text-black text-lg font-semibold">Created At</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @ticket.created_at.strftime('%B %d, %Y') %></p>
-            </div>
-            <div class="w-1/2 pl-4">
-              <strong class="text-black text-lg font-semibold">Updated At</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @ticket.updated_at.strftime('%B %d, %Y') %></p>
-            </div>
-          </div>
-
-          <div class="mt-6 flex justify-start">
-            <%= form_with(model: [ @ticket, @note ], url: create_note_ticket_path(@ticket), method: :post, local: true) do |form| %>
-
-              <div class="form-group">
-                <%= form.label :content, 'Add a Note' %>
-                <%= form.text_area :content, class: "form-control w-full p-3 rounded-md border border-gray-300 shadow-sm cursor-text", rows: 4 %>
+      <div class="flex justify-between custom_ui bg-gray-300", style="margin-bottom: 20px; margin-top: 20px; ">
+      <h1 class="text-2xl font-semibold text-black">Ticket Details</h1>
+      </div>
+      
+      <div class="p-8">
+          <!-- Ticket Info Section -->
+          <div class="space-y-8">
+             <div class="flex justify-between custom_ui bg-gray-300", style="margin-top: 20px;">
+                <h1 class="text-2xl font-semibold text-black">General Details</h1>
               </div>
+            <div class="general_details", style="margin-bottom: 20px; padding: 20px; border-radius: 8px;">
               
-              <div class="form-group">
-                <%= form.submit 'Add Note', class: "btn btn-primary px-6 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+              <!-- First Pair of Labels (Title and Status) -->
+              <div class="flex justify-between custom_ui">
+                <div class="w-1/2 pr-4">
+                  <p><strong class="text-black text-lg font-semibold">Title</strong>
+                  <%= @ticket.title %></p>
+                </div>
+
+                
               </div>
-            <% end %>
-        </div>
 
-          <!-- Action Buttons -->
-          <div class="mt-6 flex justify-start">
-            <%= link_to 'Update Ticket', edit_ticket_path(@ticket), class: 'px-6 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300 ease-in-out transform hover:scale-105' %>
-            <%= link_to 'View Audit History', audit_history_ticket_path(@ticket), class: 'ml-4 px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform hover:scale-105' %>
-            <%= link_to 'View Notes', notes_ticket_path(@ticket), class: 'ml-4 px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform hover:scale-105' %>
+              
+
+              <!-- Second Pair of Labels (Priority and Description) -->
+              <div class="flex justify-between custom_ui">
+                <div class="w-1/2 pl-4">
+                  <p><strong class="text-black text-lg font-semibold">Status</strong>
+                  <%= @ticket.status %></p>
+                </div>
+              </div>
+              <div class="flex justify-between custom_ui">
+                <div class="w-1/2 pr-4">
+                  <p><strong class="text-black text-lg font-semibold">Priority</strong>
+                  <%= @ticket.priority %></p>
+                </div>
+              </div> 
+              
+              <div class="flex justify-between custom_ui">
+                <div class="w-1/2 pl-4">
+                  <p><strong class="text-black text-lg font-semibold">Description</strong>
+                  <%= @ticket.description %></p>
+                </div>
+
+              </div>
+            </div>  
+
+            <div class="flex justify-between custom_ui bg-gray-300", style="margin-top: 20px;">
+                <h1 class="text-2xl font-semibold text-black">User Assignment</h1>
+              </div>
+            <div class="user_assignment", style="margin-bottom: 20px; padding: 20px; border-radius: 8px;">
+              <div class="flex justify-between custom_ui">
+
+                <div class="w-1/2 pr-4">
+                  <p><strong class="text-black text-lg font-semibold">Reported By</strong>
+                  <%= @ticket.user.full_name %>
+                  <%= @ticket.user.email %></p>
+
+                </div>
+              </div>
+
+              <!-- Third Pair of Labels (Reported By and Assigned To) -->
+              <div class="flex justify-between custom_ui">
+
+                <div class="w-1/2 pl-4">
+                  <p><strong class="text-black text-lg font-semibold">Assigned To</strong>
+                  
+                  <%= @ticket.assigned_user.full_name if @ticket.assigned_user %>
+                  <%= @ticket.assigned_user.email if @ticket.assigned_user %></p>
+                </div>
+              </div>
+              <div class="flex justify-between custom_ui">
+                <% if (current_user.admin? || current_user.hr?) %>
+                  <% @hr_or_admin_users = User.where(role: ['hr', 'admin']).where.not(id: @ticket.assigned_user_id) %>
+                  <%= form_with(model: @ticket, url: assign_ticket_path(@ticket), method: :patch, local: true) do |form| %>
+                    <div class="flex w-full">
+                      <!-- Left side: Select dropdown -->
+                      <div class="w-1/2 pr-4">
+                        <strong class="text-black text-lg font-semibold mr-2"> <!-- Added margin-right -->
+                          <%= form.select :assigned_user_id, options_from_collection_for_select(@hr_or_admin_users, :id, :email), include_blank: 'Select User', class: 'form-select text-sm w-full' %>
+                        </strong>
+                      </div>
+              
+                      <!-- Right side: Submit button -->
+                      <div class="w-1/2 pl-4">
+                        <p class="text-black text-lg text-left">
+                          <%= form.submit 'Assign', class: 'px-4 py-2' %>
+                        </p>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+            
+
+            <!-- Action Buttons -->
+            
           </div>
-        </div>
-
+        </div> <!-- End of Ticket Info Section -->
       </div>
     </div>  
   </div> <!-- End of Flex container -->
 </div>
 
 <style>
+  .custom_ui {
+   # background-color: #f8f9fa; 
+  #  border-radius: 8px; 
+    padding: 5px;
+    margin-bottom: 5px; 
+    #box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  }
 
   select#ticket_assigned_user_id {
       width: 250px;
   }
   .container {
     padding: 4rem 0;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     display: block;
     background: white; 
@@ -143,17 +147,20 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 1.2);
   }
 
-  .show{
-    width: 45%;
+  .show {
+    width: 97%;
     height: 100%;
+    ALIGN-CONTENT: CENTER;
+    PADDING-LEFT: 50PX;
+}
+
+.w-1/2{
+    padding: 20px;
+    margin: 20px;
   }
 
-  .p-8 {
-    padding: 2rem;
-  }
-
-  .max-w-4xl {
-    width: 90%;
+  .MY_BOX {
+    width: 100%;
     height: auto;
     margin: 0 auto;
     overflow-y: auto; 

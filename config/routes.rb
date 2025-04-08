@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   resources :dashboard
   
   resources :tickets do
+
     #resources :notes, only: [:create, :destroy]
     collection do
       get :export_csv  # Add a route for the export action
@@ -28,6 +29,7 @@ Rails.application.routes.draw do
       get :audit_history
       get :notes
       post :create_note
+      get :new_note
     end
   end
 

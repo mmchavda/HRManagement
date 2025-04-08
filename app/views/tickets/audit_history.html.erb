@@ -3,7 +3,7 @@
     
     <!-- Image Section -->
     <div class="w-2/3">
-      <%= image_tag '/show_bg.png', alt: 'ticketbg', class: 'w-3/4 h-auto rounded-lg shadow-lg', size: '600x600' %>
+      <%= image_tag '/show_bg1.png', alt: 'ticketbg', class: 'w-3/4 h-auto rounded-lg shadow-lg', size: '600x600' %>
     </div>
 
     <!-- Content Section for Audit History -->
@@ -20,7 +20,7 @@
           <ul class="text-gray-700 space-y-4">
             <% @ticket.audits.each do |audit| %>
               <li class="border-b border-gray-500 pb-2">
-                <strong><%= audit.action.capitalize %></strong> by <%= audit.user.email %> on <%= audit.created_at %>
+                <strong><%= audit.action.capitalize %></strong> by <%= audit.user&.email %> on <%= audit.created_at %>
                 <ul class="ml-4 space-y-2">
                   <% audit.audited_changes.each do |field, change| %>
                     <% if change.is_a?(Array) && change.length == 2 %>

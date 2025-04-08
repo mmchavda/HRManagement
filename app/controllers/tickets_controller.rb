@@ -115,6 +115,11 @@ class TicketsController < ApplicationController
 	def notes
 	end
 
+	def new_note
+    @ticket = Ticket.find(params[:id])
+    @note = @ticket.notes.new
+  end
+
 	def create_note
 		@note = @ticket.notes.new(note_params)
     @note.user = current_user  # Assuming you want to associate the note with the logged-in user
