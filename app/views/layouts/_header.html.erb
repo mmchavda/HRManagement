@@ -41,11 +41,13 @@
               id="dropdown-menu" style="margin-right: -78px;">
               <div class="py-1">
                 <!-- Display User Email -->
-                <div class="px-4 py-2 text-sm text-gray-500 font-medium border-b border-gray-200">
-                  <%= current_user.email %>
-                </div>
-                <a class="block px-4 py-2 text-gray-700 hover:bg-gray-300" href="/users/<%= current_user.id %>">Profile</a>
-                <a class="block px-4 py-2 text-gray-700 hover:bg-gray-300" href="/users/edit">Change Password</a>
+                <% if current_user.is_active == true %>
+                  <div class="px-4 py-2 text-sm text-gray-500 font-medium border-b border-gray-200">
+                    <%= current_user.email %>
+                  </div>
+                  <a class="block px-4 py-2 text-gray-700 hover:bg-gray-300" href="/users/<%= current_user.id %>">Profile</a>
+                  <a class="block px-4 py-2 text-gray-700 hover:bg-gray-300" href="/users/edit">Change Password</a>
+                <%end %>  
 
                 <form class="block" action="/users/sign_out" accept-charset="UTF-8" method="post">
                   <input type="hidden" name="_method" value="delete" autocomplete="off">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_01_133020) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_07_125528) do
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -90,6 +90,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_133020) do
     t.bigint "manager_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "rejection_reason"
     t.index ["expense_id"], name: "index_reimbursement_requests_on_expense_id"
     t.index ["manager_id"], name: "index_reimbursement_requests_on_manager_id"
   end
