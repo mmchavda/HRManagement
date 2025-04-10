@@ -19,20 +19,26 @@
 
       <!-- First Name Field -->
       <div class="mb-4">
-        <%= f.label :first_name, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :first_name, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
+        <%= f.label :first_name, class: "block text-sm font-medium text-gray-700" do %>
+          First Name <span class="text-red-500">*</span> 
+        <% end %>
+        <%= f.text_field :first_name, required: true, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
       <!-- Last Name Field -->
       <div class="mb-4">
-        <%= f.label :last_name, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :last_name, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
+        <%= f.label :last_name, class: "block text-sm font-medium text-gray-700" do %>
+          Last Name <span class="text-red-500">*</span> 
+        <% end %>
+        <%= f.text_field :last_name, required: true, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
-      <!-- Username Field -->
+      <!-- Email Field -->
       <div class="mb-4">
-        <%= f.label :username, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :username, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
+        <%= f.label :email, class: "block text-sm font-medium text-gray-700" do %>
+           Email <span class="text-red-500">*</span> 
+        <% end %>
+        <%= f.text_field :email, required: true, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
       <!-- Bio Field -->

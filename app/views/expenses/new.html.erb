@@ -14,19 +14,19 @@
       <div class="mb-4">
         <%= form.label :title, 'Title', class: 'inline-flex items-center text-sm font-medium' %>
         <span class="text-red-600 ml-1">*</span> <!-- Red asterisk for required field -->
-        <%= form.text_field :title, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+        <%= form.text_field :title, required: true, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
       </div>
 
       <div class="mb-4">
         <%= form.label :amount, 'Amount', class: 'inline-flex items-center text-sm font-medium' %>
         <span class="text-red-600 ml-1">*</span> <!-- Red asterisk for required field -->
-        <%= form.number_field :amount, step: 0.01, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+        <%= form.number_field :amount,required: true, step: 0.01, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
       </div>
 
       <div class="mb-4">
         <%= form.label :category, 'Category', class: 'inline-flex items-center text-sm font-medium' %>
         <span class="text-red-600 ml-1">*</span> <!-- Red asterisk for required field -->
-        <%= form.select :category, Expense.categories.keys.map { |category| [category.humanize, category] }, { prompt: "Select Category" }, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+        <%= form.select :category, Expense.categories.keys.map { |category| [category.humanize, category] }, { prompt: "Select Category" }, required: true, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
       </div>
 
       <div class="mb-4">
@@ -37,13 +37,13 @@
       <div class="mb-4">
         <%= form.label :date, 'Date', class: 'inline-flex items-center text-sm font-medium' %>
         <span class="text-red-600 ml-1">*</span> <!-- Red asterisk for required field -->
-        <%= form.date_field :date, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+        <%= form.date_field :date, required: true, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
       </div>
 
       <div class="mb-4">
         <%= form.label :proof, 'Proof', class: 'inline-flex items-center text-sm font-medium' %>
         <span class="text-red-600 ml-1">*</span> <!-- Red asterisk for required field -->
-        <%= form.file_field :proof, class: 'mt-1 block w-full text-sm border border-gray-700 rounded-md text-gray-700' %>
+        <%= form.file_field :proof, required: true, class: 'mt-1 block w-full text-sm border border-gray-700 rounded-md text-gray-700' %>
       </div>
 
       <div class="mb-4">

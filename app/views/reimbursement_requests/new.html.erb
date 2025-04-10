@@ -14,13 +14,13 @@
       <div class="mb-4">
         <%= form.label :status, 'Status', class: 'inline-flex items-center text-sm font-medium' %>
         <span class="text-red-600 ml-1">*</span> <!-- Red asterisk for required field -->
-        <%= form.select :status, ReimbursementRequest.statuses.keys.map { |status| [status.humanize, status.to_s] }, { prompt: "Select status" }, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+        <%= form.select :status, ReimbursementRequest.statuses.keys.map { |status| [status.humanize, status.to_s] }, { prompt: "Select status" }, required: true, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
       </div>
 
       <div class="mb-4">
         <%= form.label :expense, 'Expense', class: 'inline-flex items-center text-sm font-medium' %>
         <span class="text-red-600 ml-1">*</span> <!-- Red asterisk for required field -->
-        <%= form.select :expense_id, current_user.expenses.left_outer_joins(:reimbursement_request).where(reimbursement_request: { id: nil }).map { |expense| [expense.title, expense.id] }, { prompt: "Select expense" }, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 focus:outline-none focus:ring-black focus:border-black sm:text-sm', id: "expense_select" %>
+        <%= form.select :expense_id, current_user.expenses.left_outer_joins(:reimbursement_request).where(reimbursement_request: { id: nil }).map { |expense| [expense.title, expense.id] }, { prompt: "Select expense" }, required: true, class: 'mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 focus:outline-none focus:ring-black focus:border-black sm:text-sm', id: "expense_select" %>
       </div>
 
       <div class="mb-4">
