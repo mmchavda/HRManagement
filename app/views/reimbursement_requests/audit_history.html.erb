@@ -21,7 +21,7 @@
           <ul class="text-gray-700 space-y-4">
             <% @reimbursement_request.audits.each do |audit| %>
               <li class="border-b border-gray-500 pb-4">
-                <strong><%= audit.action.capitalize %></strong> by <%= audit.user.email %> on <%= audit.created_at %>
+                <strong><%= audit.action.capitalize %></strong> by <%= audit.user&.email %> on <%= audit.created_at %>
                 <ul class="ml-4 space-y-2">
                   <% audit.audited_changes.each do |field, change| %>
                     <% if change.is_a?(Array) && change.length == 2 %>
