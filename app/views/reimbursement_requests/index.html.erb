@@ -77,20 +77,17 @@
                 else 'text-gray-500' # Default color in case the status is something unexpected
               end %>
 
-              <span class="<%= status_class %>"><%= request.status.capitalize %></span>
-
-              <% if (current_user.admin? || current_user.hr?) && request.status == 'pending' %>
+              <% if (current_user.admin? || current_user.hr?) %>
                 <div class="relative">
-                  <button class="text-gray-700 py-2 px-4 rounded-md" onclick="toggleDropdownNew(<%= i %>)">
-                    <%= image_tag '/drop-down.png', size: '15x15', alt: 'Actions' %>
-                  </button>
-                  
-                  <div id="dropdown-<%= i %>" class="hidden absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg">
-                    <%= link_to 'Approve', approve_reimbursement_request_path(request), method: :put, class: 'block px-4 py-2 text-green-500 hover:text-green-300' %>
-                    <button onclick="openRejectModal(<%= request.id %>)" class="block px-4 py-2 text-red-500 hover:text-red-300 w-full text-left">Reject</button>
-
-                    </div>
-
+                  <% if request.status == 'pending' %>
+                    <%= form_with url: update_status_reimbursement_request_path(request), method: :put, local: true, id: "status-form-#{request.id}" do |f| %>
+                      <%= f.select :status, options_for_select([['Pending', 'pending'], ['Approve', 'approved'], ['Reject', 'rejected']], request.status), { onchange: "handleStatusChange(event, #{request.id})" }, class: 'py-2 px-4 rounded-md bg-white border shadow-md' %>
+                      <%= f.submit 'Update', class: 'hidden' %> 
+                    <% end %>
+                  <% else %>
+                    <!-- Show the current status if it's 'approved' or 'rejected' -->
+                    <span class="text-gray-700 py-2 px-4 rounded-md"><%= request.status.capitalize %></span>
+                  <% end %>
                 </div>
               <% end %>
             </td>
@@ -252,8 +249,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-
- const container = document.querySelector('.my_table');  // Adjusted to get the main container
+ const container = document.querySelector('.my_table');
  new_button =  document.querySelector('.new-button');
  ticket_filer =  document.querySelector('.ticket_filer');
 
@@ -264,10 +260,23 @@ document.addEventListener('DOMContentLoaded', function () {
     dropdown.classList.toggle('hidden');
   }
 
+  function handleStatusChange(event, requestId) {
+    console.log("Dropdown change detected for request ID:", requestId);
+    const selectedStatus = event.target.value;
+
+    if (selectedStatus === 'rejected') {
+      openRejectModal(requestId);  
+      event.preventDefault();  
+    } else {
+      
+      const form = document.getElementById('status-form-${requestId}');
+      form.submit();
+    }
+  }
+
   function openRejectModal(requestId) {
     document.getElementById('rejectModal').classList.remove('hidden');
     document.getElementById('rejectRequestId').value = requestId;
-
     container.style.opacity = 0.5;
     new_button.style.opacity = 0.5;
     ticket_filer.style.opacity = 0.5; 
@@ -281,14 +290,11 @@ document.addEventListener('DOMContentLoaded', function () {
     new_button.style.opacity = 1;
     ticket_filer.style.opacity = 1;
     container.style.opacity = 1;
-
   }
 
   document.getElementById('rejectForm').addEventListener('submit', function() {
-      // Reset opacity when the form is submitted
-      container.style.opacity = 1;
-      new_button.style.opacity = 1;
-      ticket_filer.style.opacity = 1;
+    container.style.opacity = 1;
+    new_button.style.opacity = 1;
+    ticket_filer.style.opacity = 1;
   });
-
 </script>

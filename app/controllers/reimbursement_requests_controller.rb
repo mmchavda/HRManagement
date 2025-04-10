@@ -1,5 +1,5 @@
 class ReimbursementRequestsController < ApplicationController
-    before_action :set_reimbursement_request, only: %i[show edit update destroy approve_request reject_request audit_history]
+    before_action :set_reimbursement_request, only: %i[show edit update destroy approve_request reject_request audit_history update_status]
     skip_before_action :verify_authenticity_token, only: [:reject_request]  # TEMP ONLY!
 
   	require 'csv'
@@ -82,6 +82,16 @@ class ReimbursementRequestsController < ApplicationController
     #     redirect_to reimbursement_requests_url, alert: "Error rejecting reimbursement request: #{e.message}"
     #   end
     # end
+
+    def update_status
+      if @reimbursement_request.update(status: params[:status])
+        # Handle success (redirect to index or show page, for example)
+        redirect_to reimbursement_requests_path, notice: 'Reimbursement request status updated successfully.'
+      else
+        # Handle failure (you may want to render an error or re-render the index page)
+        redirect_to reimbursement_requests_path, alert: 'Failed to update status.'
+      end
+    end
 
     def reject_request
       begin
