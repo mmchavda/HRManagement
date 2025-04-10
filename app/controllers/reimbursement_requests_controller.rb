@@ -1,5 +1,7 @@
 class ReimbursementRequestsController < ApplicationController
     before_action :set_reimbursement_request, only: %i[show edit update destroy approve_request reject_request audit_history]
+    skip_before_action :verify_authenticity_token, only: [:reject_request]  # TEMP ONLY!
+
   	require 'csv'
 
     def index
@@ -83,6 +85,7 @@ class ReimbursementRequestsController < ApplicationController
 
     def reject_request
       begin
+        @reimbursement_request = ReimbursementRequest.find(params[:request_id])
         reason = params[:reason]
       
         if reason.blank?
@@ -128,7 +131,7 @@ class ReimbursementRequestsController < ApplicationController
     private
   
     def set_reimbursement_request
-      @reimbursement_request = ReimbursementRequest.find(params[:id])
+      @reimbursement_request = ReimbursementRequest.find_by_id(params[:id])
     end
   
     def reimbursement_request_params
