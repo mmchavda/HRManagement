@@ -29,7 +29,10 @@
 <div class="container mx-auto">
   <div class="new-button">
     <%= link_to new_reimbursement_request_path, class: 'text-white rounded-md shadow-md', style: 'background-color: #515156;' do %>
-      <%= image_tag '/new.png', alt: 'New Ticket Icon', size: '30x30' %>
+      <div class="flex items-center">
+        <%= image_tag '/plus.png', alt: 'New Request Icon', size: '20x20', title: 'create a new request' %>
+        <span class="ml-2 text-gray-700">New</span>  <!-- Added margin for spacing -->
+      </div>
     <% end %>
   </div>
 
