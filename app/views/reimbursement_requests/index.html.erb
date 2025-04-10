@@ -18,6 +18,8 @@
 
   <div class="ticket_filer">
     <%= form_with(url: reimbursement_requests_path, method: :get) do %>
+    <%= form_with url: reject_request_reimbursement_request_path(0), method: :put, local: true, id: "rejectForm" do |f| %>
+
       <div>
         <table>
         <tr><td><%= label_tag :status, "Status", class: "text-sm font-medium text-black" %></td>          
@@ -46,6 +48,23 @@
         </tr>
       </thead>
       <tbody>
+      <div id="rejectModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-md w-96">
+          <h2 class="text-lg font-semibold mb-4">Reject Request</h2>
+          <%= form_with url: reject_reimbursement_request_path(0), method: :put, local: true, id: "rejectForm" do |f| %>
+            <%= hidden_field_tag :request_id, nil, id: "rejectRequestId" %>
+            <div class="mb-4">
+              <%= label_tag :reason, "Reason for rejection", class: "block text-sm font-medium text-gray-700" %>
+              <%= text_area_tag :reason, "", required: true, class: "w-full mt-1 p-2 border border-gray-300 rounded-md" %>
+            </div>
+            <div class="flex justify-end space-x-2">
+              <button type="button" onclick="closeRejectModal()" class="px-4 py-2 bg-gray-300 rounded-md">Cancel</button>
+              <%= submit_tag "Submit", class: "px-4 py-2 bg-red-500 text-white rounded-md" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      
         <% @reimbursement_requests.each_with_index do |request, i| %>
           <tr class="<%= cycle('bg-white', 'bg-gray-300') %>">
             <td class="px-4 py-2 text-sm text-gray-900"><%= i + 1 %></td>
@@ -93,8 +112,10 @@
                     <!-- Dropdown Menu -->
                     <div id="dropdown-<%= i %>" class="hidden absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg">
                       <%= link_to 'Approve', approve_reimbursement_request_path(request), method: :put, class: 'block px-4 py-2 text-green-500 hover:text-green-300' %>
-                      <%= link_to 'Reject', reject_reimbursement_request_path(request), method: :put, class: 'block px-4 py-2 text-red-500 hover:text-red-300' %>
-                    </div>
+                      <%#= link_to 'Reject', reject_reimbursement_request_path(request), method: :put, class: 'block px-4 py-2 text-red-500 hover:text-red-300' %>
+                      <button onclick="openRejectModal(<%= request.id %>)" class="block px-4 py-2 text-red-500 hover:text-red-300 w-full text-left">Reject</button>
+
+                      </div>
 
                   </div>
                 <% end %>
@@ -121,11 +142,21 @@
 
 <script>
   function toggleDropdownNew(index) {
-    // Get the dropdown element using the index
     const dropdown = document.getElementById(`dropdown-${index}`);
     
-    // Toggle visibility
     dropdown.classList.toggle('hidden');
+  }
+
+  function openRejectModal(requestId) {
+    document.getElementById('rejectModal').classList.remove('hidden');
+    document.getElementById('rejectRequestId').value = requestId;
+
+    const form = document.getElementById('rejectForm');
+    form.action = `/reimbursement_requests/${requestId}/reject_request`;
+  }
+
+  function closeRejectModal() {
+    document.getElementById('rejectModal').classList.add('hidden');
   }
 </script>
 
