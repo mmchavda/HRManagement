@@ -19,9 +19,9 @@
       <!-- Ticket Title Field -->
       <div>
       <%= form.label :title, class: "block text-sm font-medium text-black" do %>
-        <span class="text-red-500">*</span> Title
+        Title <span class="text-red-500">*</span> 
       <% end %>        
-      <%= form.text_field :title, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
+      <%= form.text_field :title, required: true, class: "text-gray-700 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
       </div>
 
       <% if (@ticket.assigned_user == current_user) %>
@@ -39,8 +39,10 @@
 
       <!-- Ticket Priority Field -->
       <div>
-        <%= form.label :priority, class: 'block text-sm font-medium text-black' %>
-        <%= form.select :priority, Ticket.priorities.keys.map { |priority| [priority.capitalize, priority] }, { prompt: 'Select Priority' }, class: 'text-gray-700 bg-gray-300 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
+        <%= form.label :priority, class: "block text-sm font-medium text-black" do %>
+          Priority <span class="text-red-500">*</span> 
+        <% end %>  
+        <%= form.select :priority, Ticket.priorities.keys.map { |priority| [priority.capitalize, priority] }, { prompt: 'Select Priority' }, required: true, class: 'text-gray-700 bg-gray-300 mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm' %>
       </div>
 
       <!-- Submit Button for Edit Ticket -->

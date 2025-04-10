@@ -26,13 +26,19 @@
           <% end %>
 
           <div class="mb-4">
-            <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
-            <%= f.email_field :email, autofocus: true, class: "mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm", autocomplete: "email" %>
+            <div class="flex items-center">
+              <%= f.label :email, class: "block text-sm font-medium text-gray-700 inline-flex" %>
+              <span class="text-red-600 ml-1">*</span>
+            </div>
+            <%= f.email_field :email, autofocus: true, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm", autocomplete: "email" %>
           </div>
 
           <div class="mb-4">
-            <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
-            <%= f.password_field :password, autocomplete: "current-password", class: "mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
+            <div class="flex items-center">
+              <%= f.label :password, class: "block text-sm font-medium text-gray-700 inline-flex" %>
+              <span class="text-red-600 ml-1">*</span>
+            </div>
+            <%= f.password_field :password, autocomplete: "current-password", required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
           </div>
 
           <div class="flex items-center justify-between mb-4">
