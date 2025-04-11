@@ -1,48 +1,73 @@
 <div class="container mx-auto py-12 shadow-xl p-8 ">
-  <h1 class="text-2xl font-bold text-center text-white mb-6">Download CSV Reports</h1>
+  <h1 class="text-2xl font-bold text-center text-black mb-6">Download CSV Reports</h1>
+
+  <div class="flex justify-center mb-6 space-x-4">
+    <div>
+      <label for="start_date" class="block text-black font-semibold">Start Date</label>
+      <input type="date" id="start_date" class="border rounded px-2 py-1">
+    </div>
+
+    <div>
+      <label for="end_date" class="block text-black font-semibold">End Date</label>
+      <input type="date" id="end_date" class="border rounded px-2 py-1">
+    </div>
+  </div>
 
   <table class="w-full">
     <tbody>
+      <!-- Tickets CSV -->
       <tr class="text-gray-700">
-        <td class="align-middle pr-2 text-white py-3"> <!-- Added padding for spacing -->
-          Tickets CSV
-        </td>
-
-        <td class="align-middle inline-flex items-center py-3"> <!-- Added padding for spacing -->
-          <%= link_to export_csv_tickets_path, class: 'inline-flex items-center' do %>
+        <td class="align-middle pr-2 text-black py-3">Tickets CSV</td>
+        <td class="align-middle inline-flex items-center py-3">
+          <a id="tickets_link" class="inline-flex items-center" href="#">
             <img src="/download_csv.png" alt="Download CSV" class="h-8 w-8 mr-2">
-          <% end %>
+          </a>
         </td>
       </tr>
+      <tr><td colspan="2"><hr class="border-gray-500"></td></tr>
 
-      <tr><td colspan="2"><hr class="border-gray-500"></td></tr> <!-- Adjusted the separator -->
-
+      <!-- Reimbursement CSV -->
       <tr class="text-gray-700">
-        <td class="align-middle pr-2 text-white py-3"> <!-- Added padding for spacing -->
-        Reimbursement Requests CSV
-        </td>
-        <td class="align-middle inline-flex items-center py-3"> <!-- Added padding for spacing -->
-          <%= link_to export_csv_reimbursement_requests_path, class: 'inline-flex items-center' do %>
+        <td class="align-middle pr-2 text-black py-3">Reimbursement Requests CSV</td>
+        <td class="align-middle inline-flex items-center py-3">
+          <a id="reimbursement_link" class="inline-flex items-center" href="#">
             <img src="/download_csv.png" alt="Download CSV" class="h-8 w-8 mr-2">
-          <% end %>
+          </a>
         </td>
       </tr>
+      <tr><td colspan="2"><hr class="border-gray-500"></td></tr>
 
-      <tr><td colspan="2"><hr class="border-gray-500"></td></tr> <!-- Adjusted the separator -->
-
+      <!-- Expenses CSV -->
       <tr class="text-gray-700">
-        <td class="align-middle pr-2 text-white py-3"> <!-- Added padding for spacing -->
-        Expenses CSV
-        </td>
-        <td class="align-middle inline-flex items-center py-3"> <!-- Added padding for spacing -->
-          <%= link_to export_csv_expenses_path, class: 'inline-flex items-center' do %>
+        <td class="align-middle pr-2 text-black py-3">Expenses CSV</td>
+        <td class="align-middle inline-flex items-center py-3">
+          <a id="expenses_link" class="inline-flex items-center" href="#">
             <img src="/download_csv.png" alt="Download CSV" class="h-8 w-8 mr-2">
-          <% end %>
+          </a>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+
+<script>
+  function updateLinks() {
+    const start = document.getElementById("start_date").value;
+    const end = document.getElementById("end_date").value;
+
+    const params = `?start_date=${start}&end_date=${end}`;
+
+    document.getElementById("tickets_link").href = "/tickets/export_csv" + params;
+    document.getElementById("reimbursement_link").href = "/reimbursement_requests/export_csv" + params;
+    document.getElementById("expenses_link").href = "/expenses/export_csv" + params;
+  }
+
+  // Update links when dates change
+  document.getElementById("start_date").addEventListener("change", updateLinks);
+  document.getElementById("end_date").addEventListener("change", updateLinks);
+</script>
+
+
 
 <style>
   .container {

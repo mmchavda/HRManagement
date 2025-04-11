@@ -96,8 +96,16 @@ class TicketsController < ApplicationController
 	end
 
 	def export_csv
-    @tickets = Ticket.all
-
+    debugger
+		if params[:start_date].present? && params[:end_date].present?
+			start_date = Date.parse(params[:start_date])
+			end_date = Date.parse(params[:end_date])
+			# Replace `Ticket` with the appropriate model per report
+			@tickets = Ticket.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+		else
+			@tickets = Ticket.all
+		end
+		
     csv_data = CSV.generate(headers: true) do |csv|
       csv << ['ID', 'Title', 'Description', 'Status', 'Created At', 'Updated At']
       
