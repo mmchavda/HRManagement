@@ -254,8 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-
- const container = document.querySelector('.my_table');  // Adjusted to get the main container
+ const container = document.querySelector('.my_table');
  new_button =  document.querySelector('.new-button');
  ticket_filer =  document.querySelector('.ticket_filer');
 
@@ -266,10 +265,23 @@ document.addEventListener('DOMContentLoaded', function () {
     dropdown.classList.toggle('hidden');
   }
 
+  function handleStatusChange(event, requestId) {
+    console.log("Dropdown change detected for request ID:", requestId);
+    const selectedStatus = event.target.value;
+
+    if (selectedStatus === 'rejected') {
+      openRejectModal(requestId);  
+      event.preventDefault();  
+    } else {
+      
+      const form = document.getElementById('status-form-${requestId}');
+      form.submit();
+    }
+  }
+
   function openRejectModal(requestId) {
     document.getElementById('rejectModal').classList.remove('hidden');
     document.getElementById('rejectRequestId').value = requestId;
-
     container.style.opacity = 0.5;
     new_button.style.opacity = 0.5;
     ticket_filer.style.opacity = 0.5; 
@@ -283,14 +295,11 @@ document.addEventListener('DOMContentLoaded', function () {
     new_button.style.opacity = 1;
     ticket_filer.style.opacity = 1;
     container.style.opacity = 1;
-
   }
 
   document.getElementById('rejectForm').addEventListener('submit', function() {
-      // Reset opacity when the form is submitted
-      container.style.opacity = 1;
-      new_button.style.opacity = 1;
-      ticket_filer.style.opacity = 1;
+    container.style.opacity = 1;
+    new_button.style.opacity = 1;
+    ticket_filer.style.opacity = 1;
   });
-
 </script>

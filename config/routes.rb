@@ -41,10 +41,8 @@ Rails.application.routes.draw do
     member do
       get :audit_history
       put :reject_request  # this should be put, not get
-
+      put :update_status
     end
-
-   
   end   
 
   resources :expenses do
