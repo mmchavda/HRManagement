@@ -1,0 +1,13 @@
+<%= form_with(url: users_path, method: :get, data: { controller: "filter" }, local: false) do %>
+  <table>
+    <tr>
+      <td><%= label_tag :role, "Role", class: "text-sm font-medium text-black" %></td>
+      <td>
+        <%= select_tag :role,
+              options_for_select([['All', '']] + User.roles.keys.map { |role| [role.titleize, role] }, params[:role]),
+              class: 'mt-1 p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700',
+              data: { action: "change->filter#submit" } %>
+      </td>
+    </tr>
+  </table>
+<% end %>
