@@ -11,8 +11,6 @@ class TicketsController < ApplicationController
 			@tickets = current_user.created_tickets
 		end	
 
-		debugger
-
 		if params[:search].present?
 			term = "%#{params[:search]}%"
 			@tickets = @tickets.where("title LIKE ? OR description LIKE ? OR priority LIKE ? OR status LIKE ? ", term, term, term, term)

@@ -118,7 +118,15 @@ class ReimbursementRequestsController < ApplicationController
 
     def export_csv
       begin
-        @reimbursement_requests = ReimbursementRequest.all
+        if params[:start_date].present? && params[:end_date].present?
+          start_date = Date.parse(params[:start_date])
+          end_date = Date.parse(params[:end_date])
+          # Replace `Ticket` with the appropriate model per report
+          @reimbursement_requests = ReimbursementRequest.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+        else
+          @reimbursement_requests = ReimbursementRequest.all
+        end
+        
         # Create the CSV data
         csv_data = CSV.generate(headers: true) do |csv|
           csv << ['ID', 'Amount', 'Status', 'Created At', 'Updated At']
