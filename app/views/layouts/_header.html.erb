@@ -1,89 +1,78 @@
-<header class="text-white" style="background-color: black; position: fixed; top: 0; width: 100%; z-index: 1000;">
-  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-    <div class="relative flex items-center justify-between h-16">
-      
-      <!-- Navigation Links -->
-      <div class="flex items-center">
-        <div class="hidden sm:block sm:ml-6">
-          <div class="flex space-x-4">
-            <%= image_tag '/hr.png', alt: 'HR Management Logo', size: "50x50" %>
-            <% if current_user && current_user.is_active %>
-              <%= nav_link('Dashboard', root_path) %>
-              <%= nav_link('Tickets', tickets_path) %>
-              <%= nav_link('Expenses', expenses_path) %>
-              <%= nav_link('ReimbursementRequests', reimbursement_requests_path) %>
-              <% if ((current_user.role == "hr") | (current_user.role == "admin")) %>
-                <%= nav_link('Manage Users', users_path) %>
-                <%= nav_link('Reports', reports_path) %>
+<body>
+  <!--Container -->
+  <div class="mx-auto bg-grey-400">
+    <!--Screen-->
+    <header class="bg-nav">
+        <div class="flex justify-between">
+            <div class="p-1 mx-3 inline-flex items-center">
+                <i class="fas fa-bars pr-2 text-white" onclick="sidebarToggle()"></i>
+                <%= image_tag '/hr.png', alt: 'HR Management Logo', size: "50x50" %>
+            </div>
+            <div class="p-1 flex flex-row items-center">
+              <div class="flex items-center ml-auto relative">
+                <% if user_signed_in? %>
+                  <div class="relative">
+                    <button 
+                      class="flex items-center space-x-2 text-white hover:text-gray-300 focus:outline-none" 
+                      id="dropdown-btn"
+                      type="button"
+                      data-turbo="false">
+                      <%= image_tag('profile-user.png', alt: 'User', class: 'inline-block h-8 w-8 rounded-full bg-gray-300', size: "32x32") rescue content_tag(:div, "👤", class: "w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-white") %>
+                      <span class="text-white p-2 no-underline hidden md:block lg:block">
+                        <%= current_user.email.split('@').first.capitalize %>
+                      </span>
+                    </button>
 
-              <% end %>
-            <% end %>  
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Section with Profile Icon -->
-      <div class="flex items-center ml-auto">
-        <% if user_signed_in? %>
-         <!-- Profile Icon and Dropdown -->
-          <div class="relative">
-            <!-- Dropdown Button -->
-            <button 
-              class="flex items-center space-x-2 text-white hover:text-gray-300 focus:outline-none" 
-              id="dropdown-btn" 
-              onclick="toggleDropdown(event)">
-                  <%= image_tag('profile-user.png', alt: 'User', class: 'rounded-full bg-gray-300', size: "25x25") rescue content_tag(:div, "👤", class: "w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-white") %>
-                </button>
-
-            <!-- Dropdown Menu -->
-            <div 
-              class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 transition-opacity duration-300 ease-in-out hidden"
-              id="dropdown-menu" style="margin-right: -78px;">
-              <div class="py-1">
-                <!-- Display User Email -->
-                <% if current_user.is_active == true %>
-                  <div class="px-4 py-2 text-sm text-gray-500 font-medium border-b border-gray-200">
-                    <%= current_user.email %>
+                    <!-- Profile Dropdown -->
+                    <div id="ProfileDropDown" class="hidden absolute right-0 mt-2 w-48 rounded shadow-md bg-white z-50">
+                      <ul class="list-reset">
+                        <% if current_user.is_active %>
+                          <li>
+                            <span class="block px-4 py-2 text-sm text-gray-500 font-medium border-b border-gray-200">
+                              <%= current_user.email %>
+                            </span>
+                          </li>
+                          <li>
+                            <%= link_to 'Profile', "/users/#{current_user.id}", class: "no-underline px-4 py-2 block text-black hover:bg-gray-100" %>
+                          </li>
+                          <li>
+                            <%= link_to 'Change Password', "/users/edit", class: "no-underline px-4 py-2 block text-black hover:bg-gray-100" %>
+                          </li>
+                          <li><hr class="border-t mx-2 border-gray-200"></li>
+                        <% end %>
+                        <li>
+                          <%= form_with url: destroy_user_session_path, method: :delete, class: 'block' do |form| %>
+                            <%= form.submit 'Logout', class: "block w-full text-left px-4 py-2 text-black hover:bg-gray-100", data: { disable_with: 'Logging out...' } %>
+                          <% end %>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                  <a class="block px-4 py-2 text-gray-700 hover:bg-gray-300" href="/users/<%= current_user.id %>">Profile</a>
-                  <a class="block px-4 py-2 text-gray-700 hover:bg-gray-300" href="/users/edit">Change Password</a>
-                <%end %>  
-
-                <form class="block" action="/users/sign_out" accept-charset="UTF-8" method="post">
-                  <input type="hidden" name="_method" value="delete" autocomplete="off">
-                  <input type="hidden" name="authenticity_token" value="BsFqDbcDh4GB5_-ftwrgE0aV_tpMo_Db6PqB82di303fTpgMBmLi7L_kF4lZrgJ3z0gZ_IywltUR7E66WXZRnA" autocomplete="off">
-                
-                <%= form_with url: destroy_user_session_path, method: :delete, class: 'block' do |form| %>
-                  <%= form.submit 'Logout', class: "block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-300", data: { disable_with: 'Logging out...' } %>
                 <% end %>
-                
-                </form>
               </div>
             </div>
-          </div>
-        <% end %>
-      </div>
-      
-    </div>
+        </div>
+    </header>
   </div>
-</header>
+</body>
 
 <script>
-    // Toggle dropdown visibility
-  function toggleDropdown(event) {
-    event.stopPropagation();
-    const dropdown = document.getElementById('dropdown-menu');
-    dropdown.classList.toggle('hidden');
-  }
+  document.addEventListener("turbo:load", () => {
+    const button = document.getElementById("dropdown-btn");
+    const dropdown = document.getElementById("ProfileDropDown");
 
-  // Hide dropdown when clicking outside
-  document.addEventListener('click', (event) => {
-    const dropdown = document.getElementById('dropdown-menu');
-    const button = document.getElementById('dropdown-btn');
+    if (button && dropdown) {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        dropdown.classList.toggle("hidden");
+      });
 
-    // Hide the dropdown only if the click is outside the dropdown and button
-    if (!dropdown.contains(event.target) && !button.contains(event.target)) {
-      dropdown.classList.add('hidden');
+      // Hide dropdown if clicking outside
+      document.addEventListener("click", (event) => {
+        if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+          dropdown.classList.add("hidden");
+        }
+      });
     }
   });
 </script>

@@ -1,17 +1,14 @@
-# Pin the application.js entrypoint
-pin "application"
+# config/importmap.rb
 
-pin "@hotwired/turbo-rails", to: "turbo.min.js"  # or your desired version of turbo.js
-pin "@hotwired/stimulus", to: "https://ga.jspm.io/npm:@hotwired/stimulus@3.2.2/dist/stimulus.js"
-pin "stimulus-loading", to: "stimulus-loading.js"
+pin "application", preload: true
+pin "@hotwired/turbo-rails", to: "turbo.min.js"
+pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
+pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 
-# Pin the controllers directory for Stimulus
 pin_all_from "app/javascript/controllers", under: "controllers"
 
-# Third-party libraries
-pin "flowbite", to: "https://unpkg.com/flowbite@2.2.1/dist/flowbite.js"
-pin "lodash", to: "https://cdn.jsdelivr.net/npm/lodash-es/lodash.js"
 pin "jquery", to: "https://code.jquery.com/jquery-3.6.0.min.js"
+pin "flowbite", to: "https://unpkg.com/flowbite@2.2.1/dist/flowbite.js"
 
-# Local files
+# Custom local JS (if needed)
 pin "hello", to: "hello.js"

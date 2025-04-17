@@ -1,7 +1,4 @@
 @import "tailwindcss";
-@import "flowbite/src/themes/default";
-@plugin "flowbite/plugin";
-
 
 #dropdown-btn {
 	transition: background 0.3s;

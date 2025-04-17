@@ -8,6 +8,10 @@ class UsersController < ApplicationController
 
       if params[:role].present?
         @users = @users.where(role: params[:role]).page(params[:page]).per(10)
+        respond_to do |format|
+          format.html
+          format.turbo_stream { render partial: "users_list", locals: { users: @users } }
+        end
       end
     else 
       redirect_to root_path, alert: 'You are not authorized to view this page.'
@@ -60,7 +64,11 @@ class UsersController < ApplicationController
   # Destroy a user
   def destroy
     @user.destroy
-    redirect_to users_path, notice: 'User was successfully deleted.'
+  
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to users_path, notice: 'User was successfully deleted.' }
+    end
   end
 
   def inactive

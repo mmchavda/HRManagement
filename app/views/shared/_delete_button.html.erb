@@ -1,0 +1,15 @@
+<% model_name = model.model_name.singular %>
+<% dom_id = "#{model_name}_#{model.id}" %>
+
+<!-- Delete Button Trigger -->
+<button
+  type="button"
+  data-action="click->confirm-modal#show"
+  data-confirm-modal-form-id-value="delete-form-<%= dom_id %>"
+  data-confirm-modal-message-value="Are you sure you want to delete this user?">
+  <%= image_tag '/delete1.png', alt: 'Delete', width: 15, height: 15 %>
+</button>
+
+<!-- Hidden Form -->
+<%= form_with(model: model, method: :delete, data: { turbo: true }, id: "delete-form-#{dom_id}", class: "hidden") do |form| %>
+<% end %>
