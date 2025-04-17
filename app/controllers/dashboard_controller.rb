@@ -1,7 +1,6 @@
 class DashboardController < ApplicationController
 
   def index
-    # debugger
     if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
       @total_expenses = Expense.sum(:amount)
       @recent_expenses = Expense.order(created_at: :desc).limit(5)

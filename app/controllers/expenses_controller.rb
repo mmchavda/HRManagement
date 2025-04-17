@@ -50,7 +50,14 @@ class ExpensesController < ApplicationController
     end
 
     def export_csv
-      @expense = Expense.all
+      if params[:start_date].present? && params[:end_date].present?
+        start_date = Date.parse(params[:start_date])
+        end_date = Date.parse(params[:end_date])
+        @expense = Expense.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+      else
+        @expense = Expense.all
+      end
+
       csv_data = CSV.generate(headers: true) do |csv|
         csv << ['ID', 'User', 'Amount', 'Description', 'Date', 'Category', 'Created At', 'Updated At']
         

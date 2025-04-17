@@ -10,6 +10,19 @@ class TicketsController < ApplicationController
 		else
 			@tickets = current_user.created_tickets
 		end	
+		
+		if params[:search].present?
+			term = "%#{params[:search]}%"
+			@tickets = @tickets.left_joins(:user).where("tickets.title LIKE :term OR tickets.description LIKE :term OR users.first_name LIKE :term OR users.last_name LIKE :term", term: term)
+
+			if Ticket.priorities.key?(params[:search])
+				@tickets = @tickets.or(Ticket.where(priority: params[:search]))
+			end
+
+			if Ticket.statuses.key?(params[:search])
+				@tickets = @tickets.or(Ticket.where(status: params[:search]))
+			end
+		end
 
 		if params[:status].present?
       @tickets = @tickets.where(status: params[:status]).page(params[:page]).per(10)
@@ -96,8 +109,14 @@ class TicketsController < ApplicationController
 	end
 
 	def export_csv
-    @tickets = Ticket.all
-
+		if params[:start_date].present? && params[:end_date].present?
+			start_date = Date.parse(params[:start_date])
+			end_date = Date.parse(params[:end_date])
+			@tickets = Ticket.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+		else
+			@tickets = Ticket.all
+		end
+		
     csv_data = CSV.generate(headers: true) do |csv|
       csv << ['ID', 'Title', 'Description', 'Status', 'Created At', 'Updated At']
       
@@ -122,32 +141,29 @@ class TicketsController < ApplicationController
 
 	def create_note
 		@note = @ticket.notes.new(note_params)
-    @note.user = current_user  # Assuming you want to associate the note with the logged-in user
-
+    @note.user = current_user 
     if @note.save
-      # Redirect back to the show page with the new note
       redirect_to ticket_path(@ticket), notice: 'Note was successfully added.'
     else
-      # If saving fails, re-render the show page with error messages
       render :show
     end
   end
   
 	private
 
-		def note_params
-			params.require(:note).permit(:content)
-		end
+	def note_params
+		params.require(:note).permit(:content)
+	end
 
-	  def find_ticket
-		  @ticket = Ticket.find(params[:id])
-			if @ticket.nil?
-				redirect_to tickets_path, alert: "Ticket not found"
-			end
-		end 	
-
-		def ticket_params
-			params.require(:ticket).permit(:title, :description, :status, :priority)
+	def find_ticket
+	  @ticket = Ticket.find(params[:id])
+		if @ticket.nil?
+			redirect_to tickets_path, alert: "Ticket not found"
 		end
-  end
+	end 	
+
+	def ticket_params
+		params.require(:ticket).permit(:title, :description, :status, :priority)
+	end
+end
   

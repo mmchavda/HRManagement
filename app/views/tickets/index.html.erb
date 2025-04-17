@@ -10,16 +10,41 @@
   </div>
 <div class="container mx-auto">
   
-
   <div class="new-button">
-   
     <%= link_to new_ticket_path, class: 'text-white shadow-md', style: 'background-color: #515156;' do %>
-      <%= image_tag '/new.png', alt: 'New Ticket Icon', size: '30x30' %>
+      <div class="flex items-center">
+        <%= image_tag '/plus.png', alt: 'New Ticket Icon', size: '20x20', title: 'create a new ticket' %>
+        <span class="ml-2 text-gray-700">New</span>  <!-- Added margin for spacing -->
+      </div>
     <% end %>
-    
   </div>
+    
+  <%= form_with url: tickets_path, method: :get, class: "max-w-3xl mx-auto", local: true do %>
+    <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+    
+    <div class="flex items-center space-x-2">
+      <!-- Relative container for input + icon -->
+      <div class="relative flex-grow">
+        
+        <!-- Search input -->
+        <%= text_field_tag :search, params[:search], placeholder: "Search by user name, status, priority, or title", id: "search", style: "width: 310px; height: 30px;", class: "w-full pl-10 pr-4 p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+      </div>
+  
+      <!-- Search button on the right -->
+      <div class="search-submit">
+        <button type="submit" class="flex items-center gap-2 bg-gray-700 hover:bg-gray-800 text-white font-medium rounded-lg text-sm px-4 py-2 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-gray-700 dark:hover:bg-gray-800 dark:focus:ring-blue-800">
+          <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+          </svg>
+          Search
+        </button>
+      </div>
+    </div>
+  <% end %>
+ 
   <div class="ticket_filer">
     <%= form_with(url: tickets_path, method: :get) do %>
+      
       <div>
         <table>
         <tr><td><%= label_tag :status, "Status", class: "text-sm font-medium text-black" %></td>
@@ -110,8 +135,29 @@
   <% end %>
 </div>
 
-
 <style>
+.search-submit {
+    margin-left: -8px;
+}
+.search_img{
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .search_img svg {
+    width: 20px;
+    height: 20px;
+    color: #999; /* Change this to your desired color */
+  }
+
+  .search_img input {
+    padding-left: 30px; /* Adjust this value to create space for the icon */
+  }
+}
+
 h2.text-lg.font-semibold {
     padding-left: 30px;
 }
