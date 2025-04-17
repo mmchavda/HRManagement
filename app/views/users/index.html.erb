@@ -1,16 +1,41 @@
+<div class="text-xl text-gray-500", style="margin-bottom:20px;">User List</div>
+
 <%= form_with url: users_path, method: :get, html: { id: 'filter-form' } do %>
-  <div class="flex items-center space-x-4 mb-4">
-    <label for="role" class="text-sm font-medium text-black">Role</label>
+  <div class="flex items-center space-x-4 mb-4", style="margin-left: 20px;">
     <%= select_tag :role,
-          options_for_select([['All', '']] + User.roles.keys.map { |role| [role.titleize, role] }, params[:role]),
-          class: 'p-2 border border-gray-300 rounded-md text-sm font-medium text-white bg-gray-700',
+          options_for_select([['All Roles', '']] + User.roles.keys.map { |role| [role.titleize, role] }, params[:role]),
+          class: 'p-2 border border-gray-500 rounded-md text-sm font-medium text-gray-700',
           onchange: "document.getElementById('filter-form').requestSubmit();" %>
 
-    <%= link_to new_user_path, class: 'text-white rounded-md shadow-md p-1', style: 'background-color: #515156;' do %>
-      <%= image_tag '/new.png', alt: 'New User Icon', size: '30x30' %>
+    <%= form_with url: tickets_path, method: :get, class: "max-w-3xl mx-auto", local: true do %>
+      <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+      
+      <div class="flex items-center space-x-2">
+        <!-- Relative container for input + icon -->
+        <div class="relative flex-grow">
+          
+          <!-- Search input -->
+          <%= text_field_tag :search, params[:search], placeholder: "Search by name or email", id: "search", style: "width: 500px; height: 30px;", class: "w-full pl-10 pr-4 p-4 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+        </div>
+    
+        <!-- Search button on the right -->
+        <div class="search-submit", style="margin-right: 120px;">
+          <button type="submit" class="flex items-center gap-2 bg-blue-600 hover:bg-gray-800 text-white font-medium rounded-lg text-sm px-4 py-2 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-gray-700 dark:hover:bg-gray-800 dark:focus:ring-blue-800">
+          🔍
+            Search
+          </button>
+        </div>
+      </div>
     <% end %>
-  </div>
-<% end %>
+
+    <%= link_to new_user_path, class: 'text-white shadow-md', style: "margin-left: 291px;" do %>
+      <div class="flex items-center">
+        <%= image_tag '/plus.png', alt: 'New Ticket Icon', size: '20x20', title: 'create a new user' %>
+        <span class="ml-2 text-gray-700">New</span>  <!-- Added margin for spacing -->
+      </div>
+    <% end %>
+    </div>
+  <% end %>
 
 <%= turbo_frame_tag "users_list" do %>
   <%= render partial: "users_list", locals: { users: @users } %>
