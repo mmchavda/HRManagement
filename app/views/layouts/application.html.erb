@@ -6,24 +6,31 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="keywords" content="tailwind,tailwindcss,tailwind css,css,starter template,free template,admin templates, admin template, admin dashboard, free tailwind templates, tailwind example">
+   
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <%# <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i" rel="stylesheet"> %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-    <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js"></script>
 
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
   <body style="background: white; min-height: 100vh; font-family: 'Roboto', sans-serif;">
+    <div data-controller="hello">
+      <div data-hello-target="output"></div>
+    </div>
+
     <% if flash[:alert] %>
       <div class="alert alert-warning" style="background-color: yellow; color: black; border-color: #e0e0e0;">
         <%= flash[:alert] %>
@@ -41,9 +48,61 @@
         <%= flash[:notice] %>
       </div>
     <% end %>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
-    </main>
+    <div class="flex flex-1">
+      <!--Sidebar-->
+      <aside id="sidebar" class="bg-side-nav w-1/2 md:w-1/6 lg:w-1/6 border-r border-side-nav hidden md:block lg:block">
+        <ul class="list-reset flex flex-col">
+          <% if current_user && current_user.is_active %>
+            <%= nav_link(root_path) do %>
+              <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
+                  <i class="fas fa-tachometer-alt float-left mx-2"></i> Dashboard
+                  <span><i class="fas fa-angle-right float-right"></i></span>
+              </li>
+            <% end %>
+            
+            <%= nav_link(tickets_path) do %>
+              <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
+                <i class="fas fa-ticket-alt float-left mx-2"></i> Tickets
+                <span><i class="fas fa-angle-right float-right"></i></span>
+              </li>
+            <% end %>
+
+            <%= nav_link(expenses_path) do %>
+              <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
+                <i class="fas fa-coins float-left mx-2"></i> Expenses
+                <span><i class="fas fa-angle-right float-right"></i></span>
+              </li>
+            <% end %>
+
+            <%= nav_link(reimbursement_requests_path) do %>
+              <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
+                <i class="fas fa-file-invoice-dollar float-left mx-2"></i> Reimbursements
+                <span><i class="fas fa-angle-right float-right"></i></span>
+              </li>
+            <% end %>
+
+            <% if current_user.role == "hr" || current_user.role == "admin" %>
+              <%= nav_link(users_path) do %>
+                <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
+                  <i class="fas fa-users float-left mx-2"></i> Manage Users
+                  <span><i class="fas fa-angle-right float-right"></i></span>
+                </li>
+              <% end %>
+
+              <%= nav_link(reports_path) do %>
+                <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
+                  <i class="fas fa-chart-bar float-left mx-2"></i> Reports
+                  <span><i class="fas fa-angle-right float-right"></i></span>
+                </li>
+              <% end %>
+            <% end %>
+          <% end %>
+        </ul>
+      </aside>
+      <main class="bg-white-300 flex-1 p-3 overflow-hidden">
+        <%= yield %>
+      </main>
+    </div>
   </body>
 
   <%= render 'layouts/footer' %>

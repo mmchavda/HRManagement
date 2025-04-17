@@ -1,4 +1,20 @@
+// app/javascript/application.js
+
+import "@hotwired/turbo-rails"
+import "controllers"
 import "flowbite"
-import _ from "lodash"
-console.log(_.capitalize("rails 8 rocks"))
-import "hello"
+import "jquery"
+
+window.$ = window.jQuery = window.$ || window.jQuery
+
+$(document).ready(function () {
+  console.log("jQuery is ready!")
+})
+
+document.addEventListener("turbo:frame-load", () => {
+  application.controllers.forEach((controller) => {
+    if (typeof controller.connect === "function") {
+      controller.connect()
+    }
+  })
+})
