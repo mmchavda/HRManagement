@@ -5,7 +5,7 @@ module ApplicationHelper
 	# end
 
 	def nav_link(path, html_options = {}, &block)
-		active_class = current_page?(path) ? 'bg-white' : 'text-gray-300 hover:bg-white hover:text-gray'
+		active_class = current_page?(path) ? 'bg-white' : 'text-gray-300'
 		html_options[:class] = "#{html_options[:class] || ''} text-sm font-medium #{active_class}".strip
 	  
 		link_to path, html_options, &block

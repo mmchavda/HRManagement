@@ -48,58 +48,11 @@
         <%= flash[:notice] %>
       </div>
     <% end %>
+
     <div class="flex flex-1">
-      <!--Sidebar-->
-      <aside id="sidebar" class="bg-side-nav w-1/2 md:w-1/6 lg:w-1/6 border-r border-side-nav hidden md:block lg:block">
-        <ul class="list-reset flex flex-col">
-          <% if current_user && current_user.is_active %>
-            <%= nav_link(root_path) do %>
-              <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
-                  <i class="fas fa-tachometer-alt float-left mx-2"></i> Dashboard
-                  <span><i class="fas fa-angle-right float-right"></i></span>
-              </li>
-            <% end %>
-            
-            <%= nav_link(tickets_path) do %>
-              <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
-                <i class="fas fa-ticket-alt float-left mx-2"></i> Tickets
-                <span><i class="fas fa-angle-right float-right"></i></span>
-              </li>
-            <% end %>
+      <%= render 'layouts/sidebar' %>
 
-            <%= nav_link(expenses_path) do %>
-              <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
-                <i class="fas fa-coins float-left mx-2"></i> Expenses
-                <span><i class="fas fa-angle-right float-right"></i></span>
-              </li>
-            <% end %>
-
-            <%= nav_link(reimbursement_requests_path) do %>
-              <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
-                <i class="fas fa-file-invoice-dollar float-left mx-2"></i> Reimbursements
-                <span><i class="fas fa-angle-right float-right"></i></span>
-              </li>
-            <% end %>
-
-            <% if current_user.role == "hr" || current_user.role == "admin" %>
-              <%= nav_link(users_path) do %>
-                <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
-                  <i class="fas fa-users float-left mx-2"></i> Manage Users
-                  <span><i class="fas fa-angle-right float-right"></i></span>
-                </li>
-              <% end %>
-
-              <%= nav_link(reports_path) do %>
-                <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
-                  <i class="fas fa-chart-bar float-left mx-2"></i> Reports
-                  <span><i class="fas fa-angle-right float-right"></i></span>
-                </li>
-              <% end %>
-            <% end %>
-          <% end %>
-        </ul>
-      </aside>
-      <main class="bg-white-300 flex-1 p-3 overflow-hidden">
+      <main class="bg-white-300 flex-1 p-3 overflow-hidden", style="margin-left: 18%; margin-top: 60px; padding-bottom: 60px;">
         <%= yield %>
       </main>
     </div>
