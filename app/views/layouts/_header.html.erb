@@ -6,7 +6,7 @@
         <div class="flex justify-between">
             <div class="p-1 mx-3 inline-flex items-center">
                 <i class="fas fa-bars pr-2 text-white" onclick="sidebarToggle()"></i>
-                <%= image_tag '/hr.png', alt: 'HR Management Logo', size: "50x50" %>
+                <%= image_tag '/logo-primary.png', alt: 'HR Management Logo', size: "60x60" %>
             </div>
             <div class="p-1 flex flex-row items-center">
               <div class="flex items-center ml-auto relative">
@@ -17,7 +17,7 @@
                       id="dropdown-btn"
                       type="button"
                       data-turbo="false">
-                      <%= image_tag('profile-user.png', alt: 'User', class: 'inline-block h-8 w-8 rounded-full bg-gray-300', size: "32x32") rescue content_tag(:div, "👤", class: "w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-white") %>
+                      <%= image_tag('profile-user.png', alt: 'User', class: 'inline-block rounded-full bg-gray-300', size: "25x25") rescue content_tag(:div, "👤", class: "rounded-full bg-gray-300 flex items-center justify-center text-white") %>
                       <span class="text-white p-2 no-underline hidden md:block lg:block">
                         <%= current_user.email.split('@').first.capitalize %>
                       </span>
