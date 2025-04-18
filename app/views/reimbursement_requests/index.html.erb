@@ -34,7 +34,7 @@
     <div>
       <%= form_with url: reimbursement_requests_path, method: :get, local: true do %>
         <div class="flex items-center space-x-2", style="margin-left: 20px;">
-          <%= select_tag :status, options_for_select([['All', '']] + ReimbursementRequest.statuses.keys.map { |s| [s.titleize, s] }, params[:status]), class: 'p-2 border border-gray-500 rounded-md text-sm text-gray-700' %>
+          <%= select_tag :status, options_for_select([['All Status', '']] + ReimbursementRequest.statuses.keys.map { |s| [s.titleize, s] }, params[:status]), class: 'p-2 border border-gray-500 rounded-md text-sm text-gray-700' %>
         </div>
       <% end %>
     </div>
@@ -44,7 +44,7 @@
       <%= form_with url: tickets_path, method: :get, local: true do %>
         <div class="flex items-center space-x-2">
           <div class="relative w-full">
-            <%= text_field_tag :search, params[:search], placeholder: "Search by user name, status, priority, or title", style: "width: 500px; height: 30px;", class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600" %>
+            <%= text_field_tag :search, params[:search], placeholder: "Search by user name or title", style: "width: 500px; height: 30px;", class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600" %>
             <!-- Optional icon inside input -->
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 20 20" stroke="currentColor">
@@ -129,19 +129,17 @@
                         <%= form.submit 'Delete', class: 'hidden' %>
                       <% end %>
 
-                      <% if (current_user.admin? || current_user.hr?) && request.status == 'pending' %>
+                      <% if (current_user.admin? || current_user.hr?) %>
                         <div class="relative">
-                          <!-- Icon to Toggle Dropdown -->
-                          <button class="text-gray-700 py-2 px-4 rounded-md" onclick="toggleDropdownNew(<%= i %>)">
-                            <%= image_tag '/drop-down.png', size: '15x15', alt: 'Actions' %>
-                          </button>
-                          
-                          <!-- Dropdown Menu -->
-                          <div id="dropdown-<%= i %>" class="hidden absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg">
-                            <%= link_to 'Approve', approve_reimbursement_request_path(request), method: :put, class: 'block px-4 py-2 text-green-500 hover:text-green-300' %>
-                            <%= link_to 'Reject', reject_reimbursement_request_path(request), method: :put, class: 'block px-4 py-2 text-red-500 hover:text-red-300' %>
-                          </div>
-
+                        <% if request.status == 'pending' %>
+                          <%= form_with url: update_status_reimbursement_request_path(request), method: :put, local: true, id: "status-form-#{request.id}" do |f| %>
+                            <%= f.select :status, options_for_select([['Pending', 'pending'], ['Approve', 'approved'], ['Reject', 'rejected']], request.status), { onchange: "handleStatusChange(event, #{request.id})" }, class: 'py-2 px-4 rounded-md bg-white border shadow-md' %>
+                            <%= f.submit 'Update', class: 'hidden' %> 
+                          <% end %>
+                        <% else %>
+                          <!-- Show the current status if it's 'approved' or 'rejected' -->
+                          <span class="text-gray-700 py-2 px-4 rounded-md"><%= request.status.capitalize %></span>
+                        <% end %>
                         </div>
                       <% end %>
                     </div> 
@@ -167,94 +165,6 @@
     <p class="text-gray-700 blank_value">No reimbursement request found.</p>
   <% end %>
 </div>
-
-
-
-<style>
-  div#rejectModal {
-  
- } 
-  .ticket_filer {
-    margin: auto;
-    margin-left: 7%;
-    margin-bottom: 15px !important;
-  }
-  .ticket_filer table {
-    width: 25%;
-  }
-  .ticket_filer table tr td {
-    padding: 1px;
-  } 
-  .my_table {
-    width: 85% !important; 
-    margin-left: auto;     
-    margin-right: auto;    
-    display: block;
-    height: 500px;
-}
-
-  .blank_value{
-    width: 75% !important; 
-    margin-left: auto;     
-    margin-right: auto;    
-    display: block;
-
-  }
-
-   .my_table th {
-    border: .1px solid black;
-    text-align: left;
-  }
-
-  .my_table tr:nth-child(even) {
-  }
-
-    .container {
-    width: 85%;
-    margin-right: auto;
-    display: block;
-    background-color: white;
-    padding: 10px;
-  }
- 
-  .new-button {
-    margin: auto;
-    margin-left: 88%;
-    margin-bottom: -25px !important;
-  }
-
-    #confirmationModal {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: -70px;
-    }
-  
-    #confirmationModal .bg-white {
-      width: 250px;
-      padding: 10px;
-      border-radius: 8px;
-      backgroungd-color: black;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
-  
-    #confirmationModal button {
-      padding: 8px 16px; 
-      font-size: 0.875rem; 
-      margin: 4px; 
-      cursor: pointer;
-  
-    }
-  
-    #confirmationModal button:hover {
-      background-color: #ccc;
-    }
-  
-    #confirmationModal.hidden {
-      display: none !important;
-    }
-</style>
-
 
 <!-- Reusable Delete Modal -->
 <div id="global-delete-modal" tabindex="-1" class="hidden fixed inset-0 z-50 w-full h-full bg-black/40 backdrop-blur-sm flex justify-center items-center transition-opacity duration-300">
