@@ -13,7 +13,7 @@ class ReimbursementRequestsController < ApplicationController
 
       if params[:search].present?
         term = "%#{params[:search]}%"
-        @reimbursement_requests = @reimbursement_requests.left_joins(:user).where("reimbursement_requests.title LIKE :term OR users.first_name LIKE :term OR users.last_name LIKE :term", term: term)
+        @reimbursement_requests = @reimbursement_requests.left_joins(expense: :user).where("expenses.title LIKE :term OR users.first_name LIKE :term OR users.last_name LIKE :term", term: "%#{params[:search]}%")      
       end
 
       if params[:status].present?

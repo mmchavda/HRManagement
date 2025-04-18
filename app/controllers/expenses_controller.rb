@@ -9,6 +9,11 @@ class ExpensesController < ApplicationController
         @expenses = current_user.expenses
       end 
       
+      if params[:search].present?
+        term = "%#{params[:search]}%"
+        @expenses = @expenses.left_joins(:user).where("title LIKE :term OR users.first_name LIKE :term OR users.last_name LIKE :term", term: "%#{params[:search]}%")      
+      end
+
       if params[:category].present?
         @expenses = @expenses.where(category: params[:category])
       end

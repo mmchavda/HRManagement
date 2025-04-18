@@ -41,7 +41,7 @@
     
     <!-- Search Form -->
     <div class="flex-grow max-w-xl">
-      <%= form_with url: tickets_path, method: :get, local: true do %>
+      <%= form_with url: reimbursement_requests_path, method: :get, local: true do %>
         <div class="flex items-center space-x-2">
           <div class="relative w-full">
             <%= text_field_tag :search, params[:search], placeholder: "Search by user name or title", style: "width: 500px; height: 30px;", class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600" %>
@@ -69,7 +69,7 @@
       <% end %>
     </div>
   </div>
-
+  
   <% if @reimbursement_requests.present? %>
   <!-- Card Section Starts Here -->
     <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
@@ -129,19 +129,21 @@
                         <%= form.submit 'Delete', class: 'hidden' %>
                       <% end %>
 
-                      <% if (current_user.admin? || current_user.hr?) %>
+                      <% if (current_user.admin? || current_user.hr?) && request.status == 'pending' %>
                         <div class="relative">
-                        <% if request.status == 'pending' %>
-                          <%= form_with url: update_status_reimbursement_request_path(request), method: :put, local: true, id: "status-form-#{request.id}" do |f| %>
-                            <%= f.select :status, options_for_select([['Pending', 'pending'], ['Approve', 'approved'], ['Reject', 'rejected']], request.status), { onchange: "handleStatusChange(event, #{request.id})" }, class: 'py-2 px-4 rounded-md bg-white border shadow-md' %>
-                            <%= f.submit 'Update', class: 'hidden' %> 
-                          <% end %>
-                        <% else %>
-                          <!-- Show the current status if it's 'approved' or 'rejected' -->
-                          <span class="text-gray-700 py-2 px-4 rounded-md"><%= request.status.capitalize %></span>
-                        <% end %>
+                          <button class="text-gray-700 py-2 px-4 rounded-md" onclick="toggleDropdownNew(<%= i %>)">
+                            <%= image_tag '/drop-down.png', size: '15x15', alt: 'Actions' %>
+                          </button>
+                          
+                          <div id="dropdown-<%= i %>" class="hidden absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg">
+                            <%= link_to 'Approve', approve_reimbursement_request_path(request), method: :put, class: 'block px-4 py-2 text-green-500 hover:text-green-300' %>
+                            <button onclick="openRejectModal(<%= request.id %>)" class="block px-4 py-2 text-red-500 hover:text-red-300 w-full text-left">Reject</button>
+      
+                            </div>
+      
                         </div>
                       <% end %>
+
                     </div> 
                   </td>
                 </tr>
@@ -236,7 +238,6 @@
         }
       }
     });
-  });
 
   cancelDeleteBtn.addEventListener('click', function() {
     modal.classList.add('hidden');
