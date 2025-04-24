@@ -1,0 +1,33 @@
+<div id="global-delete-modal" tabindex="-1" class="hidden fixed inset-0 z-50 w-full h-full bg-black/40 backdrop-blur-sm flex justify-center items-center transition-opacity duration-300">
+  <div class="relative w-full max-w-md max-h-full">
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      
+      <!-- Close -->
+      <button type="button"
+              class="absolute top-3 right-2.5 text-gray-400 hover:text-gray-900"
+              data-modal-hide="global-delete-modal">✖</button>
+
+      <div class="p-6 text-center" style="margin-bottom: 167px;">
+        <h3 id="delete-modal-message" class="mb-5 text-lg text-gray-500 dark:text-gray-300">
+          Are you sure you want to delete this?
+        </h3>
+
+        <!-- Yes button -->
+        <button id="confirm-delete-btn"
+                type="button"
+                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded mr-2"
+                data-modal-hide="global-delete-modal">
+          Yes, delete
+        </button>
+
+        <!-- Cancel -->
+        <button type="button"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-900 px-4 py-2 rounded"
+                data-modal-hide="global-delete-modal">
+          Cancel
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
