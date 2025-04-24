@@ -22,7 +22,7 @@
       <button type="submit" class="flex items-center">
         <%= select_tag :status, options_for_select([['All Status', '']] + Ticket.statuses.keys.map { |status| [status.titleize, status] }, params[:status]), class: 'p-2 border border-gray-500 rounded-md text-sm text-gray-700' %>
         
-        </button>
+      </button>
       </div>
     <% end %>
   </div>
