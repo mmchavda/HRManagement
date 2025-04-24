@@ -8,8 +8,8 @@
     </div>
   </div>
 
-  <div id="rejectModal" class="hidden fixed inset-0 z-50 bg-white bg-opacity-50 flex items-center justify-center ">
-  <div class="bg-white p-6 rounded-md w-96">
+  <div id="rejectModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+  <div class="bg-white p-4 rounded-md shadow-lg">
     <h2 class="text-lg font-semibold mb-4">Reject Request</h2>
     <%= form_with(url: reject_request_reimbursement_request_path(0), method: :put, local: true, id: "rejectForm") do |f| %>
       
@@ -280,24 +280,16 @@
   function openRejectModal(requestId) {
     document.getElementById('rejectModal').classList.remove('hidden');
     document.getElementById('rejectRequestId').value = requestId;
-    container.style.opacity = 0.5;
-    new_button.style.opacity = 0.5;
-    ticket_filer.style.opacity = 0.5; 
-    rejectModal.style.opacity = 1.1;
     const form = document.getElementById('rejectForm');
     form.action = `/reimbursement_requests/${requestId}/reject_request`;
   }
 
   function closeRejectModal() {
     document.getElementById('rejectModal').classList.add('hidden');
-    new_button.style.opacity = 1;
-    ticket_filer.style.opacity = 1;
-    container.style.opacity = 1;
+    
   }
 
   document.getElementById('rejectForm').addEventListener('submit', function() {
-    container.style.opacity = 1;
-    new_button.style.opacity = 1;
-    ticket_filer.style.opacity = 1;
+    
   });
 </script>
