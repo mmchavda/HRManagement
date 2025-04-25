@@ -3,7 +3,6 @@
   <%= form_with url: users_path, method: :get, html: { id: 'filter-form' } do %>
     <div class="flex items-center space-x-4 mb-4", style="margin-left: 20px;">
       <div>
-
         <%= select_tag :role,
             options_for_select([['All Roles', '']] + User.roles.keys.map { |role| [role.titleize, role] }, params[:role]),
             class: 'p-2 border border-gray-500 rounded-md text-sm font-medium text-gray-700',
@@ -34,9 +33,8 @@
       </div>
 
       <div>
-
         <%= link_to new_user_path, style:"margin-right: 20px;", class: 'flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-800 rounded-md shadow-md border border-gray-500' do %>
-          <%= image_tag '/plus.png', alt: 'New Expense Icon', size: '20x20', title: 'Create a new expense' %>
+          <%= image_tag '/plus.png', data: { turbo_frame: "modal", turbo_action: "replace" }, alt: 'New Expense Icon', size: '20x20', title: 'Create a new expense' %>
           <span>New</span>
         <% end %>
       </div>
@@ -51,4 +49,3 @@
   <% end %>
   <%= render 'shared/confirmation_modal' %>
 <% end %>
-
