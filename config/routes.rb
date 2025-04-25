@@ -17,7 +17,8 @@ Rails.application.routes.draw do
   get 'users/inactive', to: 'users#inactive', as: 'inactive_user'
 
   resources :dashboard
-  
+  resources :assets, path: "inventory_assets"
+
   resources :tickets do
 
     #resources :notes, only: [:create, :destroy]

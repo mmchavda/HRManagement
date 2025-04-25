@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_07_125528) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_25_053809) do
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,45 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_125528) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "asset_assignments", charset: "utf8", force: :cascade do |t|
+    t.bigint "asset_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "assigned_at"
+    t.datetime "returned_at"
+    t.text "comments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["asset_id"], name: "index_asset_assignments_on_asset_id"
+    t.index ["user_id"], name: "index_asset_assignments_on_user_id"
+  end
+
+  create_table "asset_categories", charset: "utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_asset_categories_on_name", unique: true
+  end
+
+  create_table "assets", charset: "utf8", force: :cascade do |t|
+    t.string "unique_id", null: false
+    t.string "name", null: false
+    t.bigint "asset_category_id", null: false
+    t.string "brand"
+    t.string "model"
+    t.text "specifications"
+    t.string "serial_number"
+    t.date "purchase_date"
+    t.date "warranty_expiry"
+    t.string "status", default: "Available", null: false
+    t.string "condition"
+    t.string "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["asset_category_id"], name: "index_assets_on_asset_category_id"
+    t.index ["unique_id"], name: "index_assets_on_unique_id", unique: true
   end
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
@@ -75,11 +114,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_125528) do
 
   create_table "notes", charset: "utf8", force: :cascade do |t|
     t.text "content"
-    t.bigint "ticket_id", null: false
     t.bigint "user_id", null: false
+    t.string "notable_type"
+    t.bigint "notable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ticket_id"], name: "index_notes_on_ticket_id"
+    t.index ["notable_type", "notable_id"], name: "index_notes_on_notable"
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
@@ -138,8 +178,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_125528) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "asset_assignments", "assets"
+  add_foreign_key "asset_assignments", "users"
+  add_foreign_key "assets", "asset_categories"
   add_foreign_key "expenses", "users"
-  add_foreign_key "notes", "tickets"
   add_foreign_key "notes", "users"
   add_foreign_key "reimbursement_requests", "expenses"
   add_foreign_key "reimbursement_requests", "users", column: "manager_id"

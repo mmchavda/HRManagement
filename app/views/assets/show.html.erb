@@ -1,0 +1,28 @@
+<!-- app/views/assets/show.html.erb -->
+<h1>Asset Details</h1>
+
+<p>
+  <strong>Name:</strong>
+  <%= @asset.name %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @asset.description %>
+</p>
+<p>
+  <strong>Category:</strong>
+  <%= @asset.asset_category.name %>
+</p>
+<p>
+  <strong>Status:</strong>
+  <%= @asset.status.capitalize %>
+</p>
+
+<h2>Notes</h2>
+<ul>
+  <% @notes.each do |note| %>
+    <li><%= note.content %> - <%= note.created_at.strftime("%B %d, %Y") %></li>
+  <% end %>
+</ul>
+
+<%= link_to 'Back', assets_path %>

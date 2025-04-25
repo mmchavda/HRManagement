@@ -133,3 +133,5 @@ Ticket.find_or_create_by!(user: employee, title: "Request for Office Supplies", 
 Ticket.find_or_create_by!(user: hr_user, title: "Update on Recruitment Process", description: "Please provide an update on the recruitment process for the new positions.", status: "open" , priority: "medium")
 Ticket.find_or_create_by!(user: employee, title: "Request for Performance Review", description: "Can I get a performance review scheduled for this month?", status: "open" , priority: "medium")
 
+AssetCategory.create!(name: "Monitor")
+AssetCategory.create!(name: "Keyboard")

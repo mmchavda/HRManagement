@@ -1,0 +1,37 @@
+<!-- app/views/assets/_form.html.erb -->
+<%= form_with(model: asset, local: true) do |form| %>
+  <% if asset.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(asset.errors.count, "error") %> prohibited this asset from being saved:</h2>
+      <ul>
+        <% asset.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :asset_category_id %>
+    <%= form.collection_select :asset_category_id, @asset_categories, :id, :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Save Asset' %>
+  </div>
+<% end %>
