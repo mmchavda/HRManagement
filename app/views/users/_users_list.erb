@@ -29,11 +29,11 @@
                 <td class="px-4 py-2"><%= user.is_active ? "Active" : "Inactive" %></td>
                 <td class="px-4 py-2">
                   <div class="flex space-x-2 items-center">
-                    <%= link_to user_path(user) do %>
+                    <%= link_to user_path(user), data: { turbo: false } do %>
                       <%= image_tag '/show1.png', alt: 'Show User', size: '15x15' %>
                     <% end %>
 
-                    <%= link_to edit_user_path(user) do %>
+                    <%= link_to edit_user_path(user), data: { turbo: false } do %>
                       <%= image_tag '/edit1.png', alt: 'Edit User', size: '15x15' %>
                     <% end %>
 

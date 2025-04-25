@@ -1,231 +1,69 @@
-<div class="container mx-auto py-12">
-  <div class="flex justify-between items-center"> <!-- Flex container -->
-
-    <!-- Content Section -->
-    <div class="show"> <!-- Adjust the width as needed -->
-      <div class="flex justify-between custom_ui bg-black">
-        <%= link_to 'Update Profile', edit_user_path(@user), class: 'px-6 py-3 text-white' %>
-
-      </div>  
-
-      <div class="mx-auto shadow-xl MY_BOX bg-white relative">
-        <div class="flex justify-between custom_ui bg-gray-300", style="margin-bottom: 20px; margin-top: 20px; ">
-        <h1 class="text-2xl font-semibold text-black">User Details</h1>
-        </div>
-        
-        <div class="p-8">
-          <!-- Heading for the Right Section -->
-
-          <!-- Profile Info Section -->
-          <div class="space-y-8">
-
-          <!-- Second Pair of Labels (Username and Email) -->
-          <div class="flex justify-between custom_ui">
-            
-            <div class="w-1/2 pl-4">
-              <p><strong class="text-black text-lg font-semibold">Email</strong>
-              <%= @user.email %></p>
-            </div>
-          </div >	
-            
-            <!-- First Pair of Labels (First Name and Last Name) -->
-            <div class="flex justify-between custom_ui">
-              <div class="w-1/2 pr-4">
-                <p><strong class="text-black text-lg font-semibold">First Name</strong>
-                <%= @user.first_name&.capitalize %></p>
-              </div>
-            </div>  
-            <div class="flex justify-between custom_ui">
-
-              <div class="w-1/2 pl-4">
-                <p><strong class="text-black text-lg font-semibold">Last Name</strong>
-                <%= @user.last_name&.capitalize %></p>
-              </div>
-            </div>
-
-            <div class="flex justify-between custom_ui">
-
-              <div class="w-1/2 pr-4">
-                <p><strong class="text-black text-lg font-semibold">Username</strong>
-                <%= @user.username %></p>
-              </div>
-            </div>
-            <div class="flex justify-between custom_ui">
-
-              <div class="w-1/2 pr-4">
-                <p><strong class="text-black text-lg font-semibold">Gender</strong>
-                <%= @user.gender&.capitalize %></p>
-              </div>
-            </div>
-
-            <!-- Other User Info -->
-            <div class="flex justify-between custom_ui">
-              
-              <div class="w-1/2 pr-4">
-                <p><strong class="text-black text-lg font-semibold">Phone Number</strong>
-                <%= @user.phone_number %></p>
-              </div>
-            </div>
-            <div class="flex justify-between custom_ui">
-
-              <div class="w-1/2 pl-4">
-                <p><strong class="text-black text-lg font-semibold">Blood Group</strong>
-                <%= @user.blood_group %></p>
-              </div>
-            </div>  
-            
-            <div class="flex justify-between custom_ui">
-            
-              <div class="w-1/2 pl-4">
-                <p><strong class="text-black text-lg font-semibold">Role</strong>
-                <%= @user.role %></p>
-              </div>
-            </div>
-            <div class="flex justify-between custom_ui">
-
-              <div class="w-1/2 pr-4">
-                <p><strong class="text-black text-lg font-semibold">Date Of Birth</strong>
-                <%= @user.dob.to_date if @user.dob.present? %></p>
-              </div>
-
-            </div>
-
-            <div class="flex justify-between custom_ui">
-              <div class="w-1/2 pl-4">
-                <p><strong class="text-black text-lg font-semibold">Bio</strong>
-                <%= @user.bio %></p>
-              </div>
-            </div>
-          </div>  
-
-        </div>
-
-      </div>
-    </div>  
-  </div> <!-- End of Flex container -->
-</div>
-
-<style>
+<div class="container mx-auto px-6">
+  <div class="flex flex-wrap justify-between items-center px-8 py-2 shadow-lg mb-4 bg-white rounded-md">
+    <h2 class="font-semibold text-gray-600 text-xl">User Information</h2>
+    <%= link_to 'Back to users', users_path, data: { turbo: false }, class: 'bg-gray-600 hover:bg-gray-700 text-white px-5 py-1 rounded-md text-sm font-medium shadow-sm transition duration-200' %>
+  </div>
   
- .w-1/2{
-    padding: 20px;
-    margin: 20px;
-  }
+  <div class="bg-white shadow-xl rounded-2xl p-10 space-y-10 border border-gray-200">
+    <!-- Section: Contact Info -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">User Contact</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Email</label>
+          <p class="text-gray-700 text-base mt-1"><%= @user.email %></p>
+        </div>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Phone Number</label>
+          <p class="text-gray-700 text-base mt-1"><%= @user.phone_number %></p>
+        </div>
+      </div>
+    </div>
 
-  .custom_ui {
-    margin-bottom: 1rem;
-  }
+    <!-- Section: Personal Info -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Personal Details</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">First Name</label>
+          <p class="text-gray-700 text-base mt-1"><%= @user.first_name&.capitalize %></p>
+        </div>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Last Name</label>
+          <p class="text-gray-700 text-base mt-1"><%= @user.last_name&.capitalize %></p>
+        </div>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Username</label>
+          <p class="text-gray-700 text-base mt-1"><%= @user.username %></p>
+        </div>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Gender</label>
+          <p class="text-gray-700 text-base mt-1"><%= @user.gender&.capitalize %></p>
+        </div>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Blood Group</label>
+          <p class="text-gray-700 text-base mt-1"><%= @user.blood_group %></p>
+        </div>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Date of Birth</label>
+          <p class="text-gray-700 text-base mt-1"><%= @user.dob.to_date if @user.dob.present? %></p>
+        </div>
+      </div>
+    </div>
 
-  .MY_BOX {
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
-    overflow-y: auto; 
-    max-height: 100vh; 
-  }
-
-  .container {
-    padding: 4rem 0;
-    width: 80%;
-    margin: 0 auto;
-    display: block;
-    background: white;
-    height: 100%;
-  }
-
-	.shadow-xl {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 1.2);
-  }
-
-  .show{
-    width: 100%;
-  }
-
-  .p-8 {
-    padding: 2rem;
-  }
-
-  .space-y-8 {
-    gap: 2rem;
-  }
-
-  .text-gray-700 {
-    color: #4a5568;
-  }
-
-  .rounded-lg {
-    border-radius: 10px;
-  }
-
-  .font-semibold {
-    font-weight: 600;
-  }
-
-  .ml-4 {
-    margin-left: 1rem;
-  }
-
-  .space-y-4 {
-    gap: 1.5rem;
-  }
-
-  .pb-4 {
-    padding-bottom: 1rem;
-  }
-
-  .border-b {
-    border-bottom: 1px solid #4a5568;
-  }
-
-  .hover\:shadow-lg:hover {
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-  }
-
-  .transition {
-    transition: transform 0.2s ease-in-out;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .text-2xl {
-    font-size: 1.5rem;
-  }
-
-  .text-gray-800 {
-    color: #2d3748;
-  }
-
-  .font-semibold {
-    font-weight: 600;
-  }
-
-  .mb-8 {
-    margin-bottom: 2rem;
-  }
-
-  .hover\:bg-blue-600:hover {
-    background-color: #3182ce;
-  }
-
-  .transform {
-    transform: scale(1);
-  }
-
-  .hover\:scale-105:hover {
-    transform: scale(1.05);
-  }
-
-  .focus\:outline-none:focus {
-    outline: none;
-  }
-
-  .focus\:ring-2:focus {
-    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5);
-  }
-
-  .focus\:ring-blue-500:focus {
-    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5);
-  }
-</style>
+    <!-- Section: Role -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Account Information</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Role</label>
+          <p class="text-gray-700 text-base mt-1"><%= @user.role.titleize %></p>
+        </div>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Bio</label>
+          <p class="text-gray-700 text-base mt-1 whitespace-pre-line"><%= @user.bio.presence || "N/A" %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
