@@ -1,37 +1,51 @@
-<!-- app/views/assets/_form.html.erb -->
-<%= form_with(model: asset, local: true) do |form| %>
-  <% if asset.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(asset.errors.count, "error") %> prohibited this asset from being saved:</h2>
-      <ul>
-        <% asset.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+<div class="container mx-auto px-6">
+  <!-- Heading for Asset Form -->
+  <div class="flex flex-wrap justify-between items-center px-6 py-2 shadow-lg mb-4 bg-white rounded-md">
+    <h2 class="font-semibold text-gray-600 text-xl"><%= form_type == "edit" ? "Update Asset" : "Create Asset" %></h2>
+    <%= link_to 'Back to Assets', assets_path, data: { turbo: false }, class: 'bg-gray-600 hover:bg-gray-700 text-white px-5 py-1 rounded-md text-sm font-medium shadow-sm transition duration-200' %>
   </div>
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
+  <div class="bg-white p-6 rounded-lg shadow-lg">
+    <%= form_with(model: asset, local: true, class: "space-y-6") do |form| %>
 
-  <div class="field">
-    <%= form.label :asset_category_id %>
-    <%= form.collection_select :asset_category_id, @asset_categories, :id, :name %>
-  </div>
+      <% if asset.errors.any? %>
+        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+          <ul class="list-disc pl-5">
+            <% asset.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status %>
-  </div>
+      <div class="mb-4">
+        <%= form.label :name, "Asset Name <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :name, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+      </div>
 
-  <div class="actions">
-    <%= form.submit 'Save Asset' %>
+      <div class="mb-4">
+        <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_area :description, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700", rows: 4 %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :asset_category_id, "Asset Category <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+        <%= form.collection_select :asset_category_id, @asset_categories, :id, :name,
+            { prompt: "Select Category" },
+            { required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" }
+        %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :status, "Asset Status <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :status, required: true, placeholder: "Available, Assigned, Maintenance...", class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.submit form_type == "edit" ? "Update Asset" : "Create Asset",
+          class: "w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+
+    <% end %>
   </div>
-<% end %>
+</div>

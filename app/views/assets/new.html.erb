@@ -1,6 +1,3 @@
 <!-- app/views/assets/new.html.erb -->
-<h1>New Asset</h1>
 
-<%= render 'form', asset: @asset, asset_categories: @asset_categories %>
-
-<%= link_to 'Back', assets_path %>
+<%= render 'form', asset: @asset, asset_categories: @asset_categories, form_type: "new" %>
