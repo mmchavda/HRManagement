@@ -1,9 +1,6 @@
-// confirm_modal_controller.js
-
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  debugger
   static targets = ["modal", "message"]
   static values = {
     formId: String,
@@ -23,7 +20,6 @@ export default class extends Controller {
   }
   
   show(event) {
-    debugger 
     event.preventDefault();
   
     console.log("Delete button clicked");

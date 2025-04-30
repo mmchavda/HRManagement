@@ -57,7 +57,6 @@ Rails.application.routes.draw do
   get 'tickets/:id/close_ticket', to: 'tickets#close_ticket', as: 'close_ticket'
   get 'tickets/:id/reopen_ticket', to: 'tickets#reopen_ticket', as: 'reopen_ticket'
   get 'tickets/:id/resolve_ticket', to: 'tickets#resolve_ticket', as: 'resolve_ticket'
-  get 'tickets/:id/unassign_ticket', to: 'tickets#unassign_ticket', as: 'unassign_ticket'
   get 'reports', to: 'dashboard#reports', as: 'reports'
 
 end
