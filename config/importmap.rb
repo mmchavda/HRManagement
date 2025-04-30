@@ -8,4 +8,4 @@ pin "jquery", to: "https://code.jquery.com/jquery-3.6.0.min.js"
 pin "flowbite", to: "https://unpkg.com/flowbite@2.2.1/dist/flowbite.js"
 
 # Custom local JS (if needed)
-pin "hello", to: "hello.js"
+pin "main", to: "main.js"

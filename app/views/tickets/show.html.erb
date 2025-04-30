@@ -1,286 +1,76 @@
-<div class="container mx-auto">
-  <div class="flex justify-between items-center"> <!-- Flex container -->
-
-    <!-- Content Section -->
-    <div class="show"> <!-- Adjust the width as needed -->
-      
-    <div class="flex justify-between custom_ui bg-black">
-      
-      <%= link_to 'Back to Tickets', tickets_path, class: 'px-4 py-2  text-gray-300 font-semibold rounded-lg shadow-md  focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform' %>
-    <!-- Heading for the Right Section -->
-      <%= link_to 'Update Ticket', edit_ticket_path(@ticket), class: 'px-4 py-2  text-gray-300 font-semibold rounded-lg shadow-md  focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform' %>
-      <%= link_to 'View Audit History', audit_history_ticket_path(@ticket), class: 'px-4 py-2  text-gray-300 font-semibold rounded-lg shadow-md  focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform' %>
-      <%= link_to 'Add Note', new_note_ticket_path(@ticket), class: 'px-4 py-2  text-gray-300 font-semibold rounded-lg shadow-md  focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform' %>
-
-      <%= link_to 'View Notes', notes_ticket_path(@ticket), class: 'px-4 py-2  text-gray-300 font-semibold rounded-lg shadow-md  focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out transform' %>
-    </div>  
-      
-      <div class="mx-auto MY_BOX shadow-xl bg-white relative box">
-
-      <div class="flex justify-between custom_ui bg-gray-300", style="margin-bottom: 20px; margin-top: 20px; ">
-      <h1 class="text-2xl font-semibold text-black">Ticket Details</h1>
+<div class="container mx-auto px-6 py-10">
+  <div class="max-w-6xl mx-auto">
+    <!-- Top Buttons -->
+    <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+      <%= link_to 'Back to Tickets', tickets_path, class: 'bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition' %>
+      <div class="flex flex-wrap gap-4">
+        <%= link_to 'Update Ticket', edit_ticket_path(@ticket), class: 'bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition' %>
+        <%= link_to 'View Audit History', audit_history_ticket_path(@ticket), class: 'bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition' %>
+        <%= link_to 'Add Note', new_note_ticket_path(@ticket), class: 'bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition' %>
+        <%= link_to 'View Notes', notes_ticket_path(@ticket), class: 'bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition' %>
       </div>
-      
-      <div class="p-8">
-          <!-- Ticket Info Section -->
-          <div class="space-y-8">
-             <div class="flex justify-between custom_ui bg-gray-300", style="margin-top: 20px;">
-                <h1 class="text-2xl font-semibold text-black">General Details</h1>
-              </div>
-            <div class="general_details", style="margin-bottom: 20px; padding: 20px; border-radius: 8px;">
-              
-              <!-- First Pair of Labels (Title and Status) -->
-              <div class="flex justify-between custom_ui">
-                <div class="w-1/2 pr-4">
-                  <p><strong class="text-black text-lg font-semibold">Title</strong>
-                  <%= @ticket.title %></p>
-                </div>
-              </div>
+    </div>
 
-              <div class="flex justify-between custom_ui">
-                <div class="w-1/2 pl-4">
-                  <p><strong class="text-black text-lg font-semibold">Status</strong>
-                  <%= @ticket.status %></p>
-                </div>
-              </div>
-              <div class="flex justify-between custom_ui">
-                <div class="w-1/2 pr-4">
-                  <p><strong class="text-black text-lg font-semibold">Priority</strong>
-                  <%= @ticket.priority %></p>
-                </div>
-              </div> 
-              
-              <div class="flex justify-between custom_ui">
-                <div class="w-1/2 pl-4">
-                  <p><strong class="text-black text-lg font-semibold">Description</strong>
-                  <%= @ticket.description %></p>
-                </div>
+    <!-- Ticket Details Card -->
+    <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+      <div class="bg-gray-200 px-6 py-4 border-b">
+        <h2 class="text-2xl font-semibold text-gray-800">Ticket Details</h2>
+      </div>
+      <div class="p-6 space-y-8">
 
-              </div>
-            </div>  
-
-            <div class="flex justify-between custom_ui bg-gray-300", style="margin-top: 20px;">
-                <h1 class="text-2xl font-semibold text-black">User Assignment</h1>
-              </div>
-            <div class="user_assignment", style="margin-bottom: 20px; padding: 20px; border-radius: 8px;">
-              <div class="flex justify-between custom_ui">
-
-                <div class="w-1/2 pr-4">
-                  <p><strong class="text-black text-lg font-semibold">Reported By</strong>
-                  <%= @ticket.user.full_name %>
-                  <%= @ticket.user.email %></p>
-
-                </div>
-              </div>
-
-              <!-- Third Pair of Labels (Reported By and Assigned To) -->
-              <div class="flex justify-between custom_ui">
-
-                <div class="w-1/2 pl-4">
-                  <p><strong class="text-black text-lg font-semibold">Assigned To</strong>
-                  
-                  <%= @ticket.assigned_user.full_name if @ticket.assigned_user %>
-                  <%= @ticket.assigned_user.email if @ticket.assigned_user %></p>
-                </div>
-              </div>
-              <div class="flex justify-between custom_ui">
-                <% if (current_user.admin? || current_user.hr?) %>
-                  <% @hr_or_admin_users = User.where(role: ['hr', 'admin']).where.not(id: @ticket.assigned_user_id) %>
-                  <%= form_with(model: @ticket, url: assign_ticket_path(@ticket), method: :patch, local: true) do |form| %>
-                    <div class="flex w-full">
-                      <!-- Left side: Select dropdown -->
-                      <div class="w-1/2 pr-4">
-                        <strong class="text-black text-lg font-semibold mr-2"> <!-- Added margin-right -->
-                          <%= form.select :assigned_user_id, options_from_collection_for_select(@hr_or_admin_users, :id, :email), include_blank: 'Select User', class: 'form-select text-sm w-full' %>
-                        </strong>
-                      </div>
-              
-                      <!-- Right side: Submit button -->
-                      <div class="w-1/2 pl-4">
-                        <p class="text-black text-lg text-left">
-                          <%= form.submit 'Assign', class: 'px-4 py-2' %>
-                        </p>
-                      </div>
-                    </div>
-                  <% end %>
-                <% end %>
-              </div>
+        <!-- General Details -->
+        <div>
+          <h3 class="text-xl font-semibold text-gray-700 mb-4 border-b pb-2">General Details</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <p><span class="font-semibold text-gray-800">Title:</span> <%= @ticket.title %></p>
             </div>
-            
-
-            <!-- Action Buttons -->
-            
+            <div>
+              <p><span class="font-semibold text-gray-800">Status:</span> <%= @ticket.status %></p>
+            </div>
+            <div>
+              <p><span class="font-semibold text-gray-800">Priority:</span> <%= @ticket.priority %></p>
+            </div>
+            <div>
+              <p><span class="font-semibold text-gray-800">Description:</span> <%= @ticket.description %></p>
+            </div>
           </div>
-        </div> <!-- End of Ticket Info Section -->
+        </div>
+
+        <!-- User Assignment -->
+        <div>
+          <h3 class="text-xl font-semibold text-gray-700 mb-4 border-b pb-2">User Assignment</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <p><span class="font-semibold text-gray-800">Assigned To:</span> 
+                <%= @ticket.assigned_user&.full_name %> 
+                (<%= @ticket.assigned_user&.email %>)
+              </p>
+            </div>
+          </div>
+
+          <% if (current_user.admin? || current_user.hr?) %>
+            <% @hr_or_admin_users = User.where(role: ['hr', 'admin']).where.not(id: @ticket.assigned_user_id) %>
+            <%= form_with(model: @ticket, url: assign_ticket_path(@ticket), method: :patch, local: true) do |form| %>
+              <div class="flex w-full">
+                <!-- Left side: Select dropdown -->
+                <div class="w-1/2 pr-4">
+                  <strong class="text-black text-lg font-semibold mr-2"> <!-- Added margin-right -->
+                    <%= form.select :assigned_user_id, options_from_collection_for_select(@hr_or_admin_users, :id, :email), include_blank: 'Select User', class: 'form-select text-sm w-full' %>
+                  </strong>
+                </div>
+        
+                <!-- Right side: Submit button -->
+                <div class="w-1/2 pl-4">
+                  <p class="text-black text-lg text-left">
+                    <%= form.submit 'Assign', class: 'px-4 py-2' %>
+                  </p>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
       </div>
-    </div>  
-  </div> <!-- End of Flex container -->
+    </div>
+  </div>
 </div>
-
-<style>
-  .custom_ui {
-   # background-color: #f8f9fa; 
-  #  border-radius: 8px; 
-    padding: 5px;
-    margin-bottom: 5px; 
-    #box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  }
-
-  select#ticket_assigned_user_id {
-      width: 250px;
-  }
-  .container {
-    padding: 4rem 0;
-    width: 100%;
-    margin: 0 auto;
-    display: block;
-    background: white; 
-    height: 100%;
-  }
-
-  .shadow-xl {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 1.2);
-  }
-
-  .show {
-    width: 97%;
-    height: 100%;
-    ALIGN-CONTENT: CENTER;
-    PADDING-LEFT: 50PX;
-}
-
-.w-1/2{
-    padding: 20px;
-    margin: 20px;
-  }
-
-  .MY_BOX {
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
-    overflow-y: auto; 
-    max-height: 100vh; 
-  }
-
-  .space-y-8 {
-    gap: 2rem;
-  }
-
-  .bg-gray-200 {
-    background-color: #edf2f7;
-  }
-
-  .text-gray-700 {
-    color: #4a5568;
-  }
-
-  .rounded {
-    border-radius: 8px;
-  }
-
-  .px-4 {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  .py-2 {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
-
-  .bg-yellow-500 {
-    background-color: #f59e0b;
-  }
-
-  .hover\:bg-yellow-600:hover {
-    background-color: #d97706;
-  }
-
-  .bg-red-500 {
-    background-color: #ef4444;
-  }
-
-  .hover\:bg-red-600:hover {
-    background-color: #dc2626;
-  }
-
-  .ml-4 {
-    margin-left: 1rem;
-  }
-
-  .space-y-4 {
-    gap: 1.5rem;
-  }
-
-  .pb-4 {
-    padding-bottom: 1rem;
-  }
-
-  .border-b {
-    border-bottom: 1px solid #4a5568;
-  }
-
-  .hover\:shadow-lg:hover {
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-  }
-
-  .transition {
-    transition: transform 0.2s ease-in-out;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .text-2xl {
-    font-size: 1.5rem;
-  }
-
-  .font-semibold {
-    font-weight: 600;
-  }
-
-  .mb-6 {
-    margin-bottom: 1.5rem;
-  }
-
-  .bg-green-500 {
-    background-color: #38a169;
-  }
-
-  .hover\:bg-green-600:hover {
-    background-color: #2f855a;
-  }
-
-  .bg-gray-800 {
-    background-color: #2d3748;
-  }
-
-  .hover\:bg-gray-700:hover {
-    background-color: #4a5568;
-  }
-
-  .shadow-md {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .focus\:outline-none:focus {
-    outline: none;
-  }
-
-  .focus\:ring-2:focus {
-    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.5);
-  }
-
-  .focus\:ring-green-500:focus {
-    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.5); 
-  }
-
-  .transition {
-    transition: all 0.3s ease;
-  }
-
-  .hover\:scale-105:hover {
-    transform: scale(1.05);
-  }
-</style>

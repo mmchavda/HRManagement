@@ -1,0 +1,48 @@
+<div class="container mx-auto px-6">
+  <!-- Heading for Edit Profile Form -->
+  <div class="flex flex-wrap justify-between items-center px-6 py-2 shadow-lg mb-4 bg-white rounded-md">
+    <h2 class="font-semibold text-gray-600 text-xl"><%= form_type == "edit" ? "Update Ticket" : "Create Ticket" %></h2>
+    <%= link_to 'Back to tickets', tickets_path, data: { turbo: false }, class: 'bg-gray-600 hover:bg-gray-700 text-white px-5 py-1 rounded-md text-sm font-medium shadow-sm transition duration-200' %>
+  </div>
+
+  <div class="bg-white p-6 rounded-lg shadow-lg">
+    <%= form_with model: ticket, data: { turbo: false }, class: "space-y-6" do |f| %>
+
+      <% if ticket.errors.any? %>
+        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+          <ul class="list-disc pl-5">
+            <% ticket.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-4">
+        <%= f.label :title, "Title <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :title, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+      </div>
+
+      <% if (ticket.assigned_user == current_user) && (form_type == "edit") %>
+        <div>
+          <%= f.label :status, class: "block text-sm font-medium text-black" %>
+          <%= f.select :status, Ticket.statuses.keys.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+        </div>
+      <% end %>
+
+      <div class="mb-4">
+        <%= f.label :description, "Description", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :description, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :priority, "Priority <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :priority, Ticket.priorities.keys.map { |priority| [priority.capitalize, priority] }, { prompt: 'Select Priority' }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.submit form_type == "edit" ? "Update Ticket" : "Create Ticket", class: "w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+      </div>
+    <% end %>
+  </div>
+</div>

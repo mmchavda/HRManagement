@@ -1,221 +1,65 @@
-<div class="container mx-auto py-12">
-  <div class="flex justify-between items-center"> <!-- Flex container -->
+<div class="container mx-auto px-6">
+  <!-- Header with back button -->
+  <div class="flex flex-wrap justify-between items-center px-8 py-2 shadow-lg mb-4 bg-white rounded-md">
+    <h2 class="font-semibold text-gray-600 text-xl">Expense Details</h2>
+    <%= link_to 'Back to Expenses', expenses_path, class: 'bg-gray-600 hover:bg-gray-700 text-white px-5 py-1 rounded-md text-sm font-medium shadow-sm transition duration-200' %>
+  </div>
+
+  <!-- Expense Content Card -->
+  <div class="bg-white shadow-xl rounded-2xl p-10 space-y-10 border border-gray-200">
     
-    <!-- Image Section -->
-    <div class="w-2/3">
-      <%= image_tag '/show_bg1.png', alt: 'showbg', class: 'w-3/4 h-auto rounded-lg shadow-lg', size: '600x600' %>
+    <!-- Basic Info -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Basic Information</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Title</label>
+          <p class="text-gray-700 text-base mt-1"><%= @expense.title %></p>
+        </div>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Amount</label>
+          <p class="text-gray-700 text-base mt-1"><%= number_to_currency(@expense.amount) %></p>
+        </div>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Category</label>
+          <p class="text-gray-700 text-base mt-1"><%= @expense.category&.humanize %></p>
+        </div>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Date</label>
+          <p class="text-gray-700 text-base mt-1"><%= @expense.date&.strftime('%B %d, %Y') %></p>
+        </div>
+      </div>
     </div>
 
-
-    <!-- Content Section -->
-    <div class="w-1/3 show"> <!-- Adjust the width as needed -->
-      <div class="max-w-4xl mx-auto shadow-xl rounded-xl p-8 bg-white relative">
-        
-        <!-- Heading for the Right Section -->
-        <div class="text-center mb-8">
-          <h2 class="text-2xl font-semibold text-gray-800">Expense Details</h2>
+    <!-- Submission Info -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Submission Information</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Submitted By</label>
+          <p class="text-gray-700 text-base mt-1"><%= @expense.user.email %></p>
         </div>
-
-        <!-- Expense Info Section -->
-        <div class="space-y-8">
-          
-          <!-- First Pair of Labels (Title and Amount) -->
-          <div class="flex justify-between custom_ui">
-            <div class="w-1/2 pr-4">
-              <strong class="text-black text-lg font-semibold">Title</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @expense.title %></p>
-            </div>
-            <div class="w-1/2 pl-4">
-              <strong class="text-black text-lg font-semibold">Amount</strong>
-              <p class="text-gray-800 text-lg text-left"><%= number_to_currency(@expense.amount) %></p>
-            </div>
-          </div>
-
-          <!-- Second Pair of Labels (Category and Date) -->
-          <div class="flex justify-between custom_ui">
-            <div class="w-1/2 pr-4">
-              <strong class="text-black text-lg font-semibold">Category</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @expense.category&.humanize %></p>
-            </div>
-            <div class="w-1/2 pl-4">
-              <strong class="text-black text-lg font-semibold">Date</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @expense.date&.strftime('%B %d, %Y') %></p>
-            </div>
-          </div>
-
-          <!-- Other Expense Info -->
-          <div class="flex justify-between custom_ui">
-            <div class="w-1/2 pr-4">
-              <strong class="text-black text-lg font-semibold">Submitted By</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @expense.user.email %></p>
-            </div>
-          </div>  
-          <div class="flex justify-between custom_ui">
-  
-            <div class="w-1/2 pl-4">
-              <strong class="text-black text-lg font-semibold">Created At</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @expense.created_at.strftime('%B %d, %Y %I:%M %p') %></p>
-            </div>
-          </div>
-
-          <!-- Updated At Section -->
-          <div class="flex justify-between custom_ui">
-            <div class="w-1/2 pr-4">
-              <strong class="text-black text-lg font-semibold">Updated At</strong>
-              <p class="text-gray-800 text-lg text-left"><%= @expense.updated_at.strftime('%B %d, %Y %I:%M %p') %></p>
-            </div>
-          </div>
-
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Created At</label>
+          <p class="text-gray-700 text-base mt-1"><%= @expense.created_at.strftime('%B %d, %Y %I:%M %p') %></p>
         </div>
-
-        <div class="mt-6 flex space-x-4"> <!-- space-x-4 for better spacing between buttons -->
-        <!-- Back Button -->
-        <%= link_to 'Back', expenses_path, class: 'px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out transform hover:scale-105' %>
-      
-        <!-- Edit Button -->
-        <%= link_to 'Edit', edit_expense_path(@expense), class: 'px-6 py-3 bg-yellow-500 text-white font-semibold rounded-lg shadow-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out transform hover:scale-105' %>
-      
-        <!-- Delete Button -->
-        <%= button_to 'Delete', expense_path(@expense), method: :delete, data: { confirm: 'Are you sure you want to delete this expense?' }, class: 'px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out transform hover:scale-105' %>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Updated At</label>
+          <p class="text-gray-700 text-base mt-1"><%= @expense.updated_at.strftime('%B %d, %Y %I:%M %p') %></p>
+        </div>
       </div>
+    </div>
 
+    <!-- File Attachment (Optional Section) -->
+    <% if @expense.proof.attached? %>
+      <div>
+        <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Attachment</h2>
+        <div>
+          <label class="text-gray-500 text-sm uppercase tracking-wide">Proof</label>
+          <p class="text-blue-600 mt-1">
+            <%= link_to @expense.proof.filename.to_s, url_for(@expense.proof), target: "_blank", class: "underline" %>
+          </p>
+        </div>
       </div>
-    </div>  
-  </div> <!-- End of Flex container -->
+    <% end %>
 </div>
-
-<style>
-  .custom_ui {
-    
-  }
-
-  .container {
-    padding: 4rem 0;
-    width: 80%;
-    margin: 0 auto;
-    display: block;
-    background: white; 
-    height: 100%;
-  }
-
-  .shadow-xl {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 1.2);
-  }
-
-  .max-w-4xl {
-    width: 90%;
-    height: auto;
-    margin: 0 auto;
-    overflow-y: auto; 
-    max-height: 100vh; 
-  }
-
-  .p-8 {
-    padding: 2rem;
-  }
-
-  .space-y-8 {
-    gap: 2rem;
-  }
-
-  hr {
-    border: .1px solid #27292c;
-    margin: 1.5rem 0;
-  }
-
-  .text-gray-700 {
-    color: #4a5568;
-  }
-
-  .show{
-    width: 35%;
-  }
-
-  .rounded-lg {
-    border-radius: 10px;
-  }
-
-  .font-semibold {
-    font-weight: 600;
-  }
-
-  .ml-4 {
-    margin-left: 1rem;
-  }
-
-  .space-y-4 {
-    gap: 1.5rem;
-  }
-
-  .pb-4 {
-    padding-bottom: 1rem;
-  }
-
-  .border-b {
-    border-bottom: 1px solid #4a5568;
-  }
-
-  .hover\:shadow-lg:hover {
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-  }
-
-  .transition {
-    transition: transform 0.2s ease-in-out;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .text-2xl {
-    font-size: 1.5rem;
-  }
-
-  .text-gray-800 {
-    color: #2d3748;
-  }
-
-  .font-semibold {
-    font-weight: 600;
-  }
-
-  .mb-8 {
-    margin-bottom: 2rem;
-  }
-
-  .hover\:bg-blue-600:hover {
-    background-color: #3182ce;
-  }
-
-  .hover\:bg-yellow-600:hover {
-    background-color: #d97706;
-  }
-
-  .hover\:bg-red-600:hover {
-    background-color: #dc2626;
-  }
-
-  .transform {
-    transform: scale(1);
-  }
-
-  .hover\:scale-105:hover {
-    transform: scale(1.05);
-  }
-
-  .focus\:outline-none:focus {
-    outline: none;
-  }
-
-  .focus\:ring-2:focus {
-    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5);
-  }
-
-  .focus\:ring-yellow-500:focus {
-    box-shadow: 0 0 0 2px rgba(249, 168, 37, 0.5);
-  }
-
-  .focus\:ring-red-500:focus {
-    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5);
-  }
-</style>
