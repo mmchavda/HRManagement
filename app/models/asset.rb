@@ -3,8 +3,11 @@ class Asset < ApplicationRecord
   has_many_attached :documents
   has_many :asset_assignments, dependent: :destroy
   belongs_to :asset_category
+  has_one :current_assignment, -> { where(active: true) }, class_name: 'AssetAssignment'
 
-  enum :status, [ :available, :assigned, :scrapped ]
+  enum :status, [ :available, :assigned, :scrapped, :in_maintenance ] 
+#  enum :condition, [ :new, :good, :damaged ]
 
-  audited
+  audited except: [:purchase_date, :warranty_expiry]
+  
 end

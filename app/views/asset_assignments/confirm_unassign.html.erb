@@ -1,0 +1,17 @@
+<h1>Confirm Unassign</h1>
+<p>Are you sure you want to unassign this asset?</p>
+
+<%#= form_with(model: @asset_assignment, url: unassign_asset_assignment_path(@asset_assignment), method: :patch) do |form| %>
+<%#= form_with(model: @asset_assignment, url: unassign_inventory_asset_path(@asset_assignment), method: :patch) do |form| %>
+<%#= form_with(model: @asset_assignment, url: unassign_inventory_asset_path(@asset), method: :patch) do |form| %>
+<%= form_with(model: @asset_assignment, url: unassign_asset_path(@asset), method: :patch) do |form| %>
+
+    <div>
+    <%= form.label :status, 'New Status' %>
+    <%= form.select :status, options_for_select(Asset.statuses.keys.reject { |status| status == 'assigned' }, @asset_assignment.asset.status) %>
+  </div>
+  
+  <div>
+    <%= form.submit 'Unassign Asset' %>
+  </div>
+<% end %>

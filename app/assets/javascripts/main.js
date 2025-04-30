@@ -18,7 +18,6 @@ function profileToggle() {
     }
 }
 
-
 /**
  * ### Modals ###
  */

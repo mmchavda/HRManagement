@@ -53,6 +53,7 @@
               <th class="px-4 py-2 text-left">Name</th>
               <th class="px-4 py-2 text-left">Category</th>
               <th class="px-4 py-2 text-left">Status</th>
+              <th class="px-4 py-2 text-left">Assigned To</th>
               <th class="px-4 py-2 text-left">Actions</th>
             </tr>
           </thead>
@@ -64,9 +65,11 @@
                 <td class="px-4 py-2"><%= asset.asset_category.name %></td>
                 <td class="px-4 py-2">
                   <span class="px-2 py-1 rounded-full text-xs font-semibold <%= asset.status == 'active' ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' %>">
-                    <%= asset.status.capitalize %>
+                    <%= asset.status&.capitalize %>
                   </span>
                 </td>
+                <td class="px-4 py-2"><%= asset.current_assignment&.user&.full_name  %></td>
+
                 <td class="px-4 py-2">
                   <div class="flex items-center space-x-2">
                     <%= link_to asset_path(asset) do %>

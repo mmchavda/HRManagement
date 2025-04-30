@@ -17,7 +17,16 @@ Rails.application.routes.draw do
   get 'users/inactive', to: 'users#inactive', as: 'inactive_user'
 
   resources :dashboard
-  resources :assets, path: "inventory_assets"
+
+  resources :assets, path: "inventory_assets" do
+    resources :asset_assignments, only: [:create, :destroy, :index]
+  
+    member do
+      get :assign, to: 'asset_assignments#new'
+      get :confirm_unassign, to: 'asset_assignments#confirm_unassign'
+      patch :unassign, to: 'asset_assignments#unassign'
+    end
+  end
 
   resources :tickets do
 

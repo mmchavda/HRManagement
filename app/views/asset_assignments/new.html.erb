@@ -1,0 +1,18 @@
+<h2 class="text-xl font-bold mb-4">Assign Asset: <%= @asset.name %></h2>
+
+<%= form_with url: asset_asset_assignments_path(@asset), method: :post, local: true do |f| %>
+  <div class="mb-4">
+    <%= label_tag :user_id, "Select User", class: "block text-sm font-medium text-gray-700" %>
+    <%= select_tag :user_id, options_from_collection_for_select(@users, :id, :full_name), prompt: "Choose a user", class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm" %>
+  </div>
+
+  <div class="mb-4">
+    <%= label_tag :comments, "Comments (optional)", class: "block text-sm font-medium text-gray-700" %>
+    <%= text_area_tag :comments, nil, rows: 3, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm" %>
+  </div>
+
+  <div class="flex space-x-2">
+    <%= submit_tag "Assign Asset", class: "bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700" %>
+    <%= link_to "Cancel", @asset, class: "text-gray-600 underline hover:text-gray-900" %>
+  </div>
+<% end %>

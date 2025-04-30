@@ -1,28 +1,89 @@
-<!-- app/views/assets/show.html.erb -->
-<h1>Asset Details</h1>
+<div class="container mx-auto px-6">
+  <!-- Heading for Asset Show Page -->
+  <div class="flex flex-wrap justify-between items-center px-6 py-2 shadow-lg mb-4 bg-white rounded-md">
+    <h2 class="font-semibold text-gray-600 text-xl">Asset Details</h2>
+    <%= link_to 'Back to Assets', assets_path, data: { turbo: false }, class: 'bg-gray-600 hover:bg-gray-700 text-white px-5 py-1 rounded-md text-sm font-medium shadow-sm transition duration-200' %>
+  
+    <% if @asset.status == "available" || @asset.status == "in_maintenance" %>
+      <%= button_to "Assign Asset", assign_asset_path(@asset), method: :get, class: "btn btn-primary" %>
+    <% elsif @asset.status == "assigned" %>
+      <%= button_to "Unassign Asset", confirm_unassign_asset_path(@asset), method: :get, class: "btn btn-warning" %>
+    <% end %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @asset.name %>
-</p>
-<p>
-  <strong>Description:</strong>
-  <%= @asset.description %>
-</p>
-<p>
-  <strong>Category:</strong>
-  <%= @asset.asset_category.name %>
-</p>
-<p>
-  <strong>Status:</strong>
-  <%= @asset.status.capitalize %>
-</p>
+    <%= link_to "View Assignment History", asset_asset_assignments_path(@asset), class: "btn btn-secondary mt-2" %>
+    </div>
 
-<h2>Notes</h2>
-<ul>
-  <% @notes.each do |note| %>
-    <li><%= note.content %> - <%= note.created_at.strftime("%B %d, %Y") %></li>
-  <% end %>
-</ul>
+  <div class="bg-white p-6 rounded-lg shadow-lg">
+    <div class="mb-4">
+      <%= content_tag :h3, "Unique ID:", class: "block text-sm font-medium text-gray-700" %>
+      <p class="mt-1 text-gray-700"><%= @asset.unique_id %></p>
+    </div>
 
-<%= link_to 'Back', assets_path %>
+    <div class="mb-4">
+      <%= content_tag :h3, "Asset Name:", class: "block text-sm font-medium text-gray-700" %>
+      <p class="mt-1 text-gray-700"><%= @asset.name %></p>
+    </div>
+
+    <div class="mb-4">
+      <%= content_tag :h3, "Asset Category:", class: "block text-sm font-medium text-gray-700" %>
+      <p class="mt-1 text-gray-700"><%= @asset.asset_category.name %></p>
+    </div>
+
+    <div class="mb-4">
+      <%= content_tag :h3, "Brand:", class: "block text-sm font-medium text-gray-700" %>
+      <p class="mt-1 text-gray-700"><%= @asset.brand.present? ? @asset.brand : 'N/A' %></p>
+    </div>
+
+    <div class="mb-4">
+      <%= content_tag :h3, "Model:", class: "block text-sm font-medium text-gray-700" %>
+      <p class="mt-1 text-gray-700"><%= @asset.model.present? ? @asset.model : 'N/A' %></p>
+    </div>
+
+    <div class="mb-4">
+      <%= content_tag :h3, "Specifications:", class: "block text-sm font-medium text-gray-700" %>
+      <p class="mt-1 text-gray-700"><%= @asset.specifications.present? ? @asset.specifications : 'N/A' %></p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= content_tag :h3, "Serial Number:", class: "block text-sm font-medium text-gray-700" %>
+        <p class="mt-1 text-gray-700"><%= @asset.serial_number.present? ? @asset.serial_number : 'N/A' %></p>
+      </div>
+
+      <div>
+        <%= content_tag :h3, "Location:", class: "block text-sm font-medium text-gray-700" %>
+        <p class="mt-1 text-gray-700"><%= @asset.location.present? ? @asset.location : 'N/A' %></p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= content_tag :h3, "Purchase Date:", class: "block text-sm font-medium text-gray-700" %>
+        <p class="mt-1 text-gray-700"><%= @asset.purchase_date ? @asset.purchase_date.strftime('%B %d, %Y') : 'N/A' %></p>
+      </div>
+
+      <div>
+        <%= content_tag :h3, "Warranty Expiry:", class: "block text-sm font-medium text-gray-700" %>
+        <p class="mt-1 text-gray-700"><%= @asset.warranty_expiry ? @asset.warranty_expiry.strftime('%B %d, %Y') : 'N/A' %></p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= content_tag :h3, "Asset Status:", class: "block text-sm font-medium text-gray-700" %>
+        <p class="mt-1 text-gray-700"><%= @asset.status&.humanize %></p>
+      </div>
+
+      <div>
+        <%= content_tag :h3, "Assigned To:", class: "block text-sm font-medium text-gray-700" %>
+        <p class="mt-1 text-gray-700"><%= @asset.current_assignment.present? ? @asset.current_assignment.user.full_name : 'N/A' %></p>
+      </div>
+      
+      <div>
+        <%= content_tag :h3, "Condition:", class: "block text-sm font-medium text-gray-700" %>
+        <p class="mt-1 text-gray-700"><%= @asset.condition.present? ? @asset.condition : 'N/A' %></p>
+      </div>
+    </div>
+
+  </div>
+</div>

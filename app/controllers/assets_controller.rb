@@ -6,6 +6,11 @@ class AssetsController < ApplicationController
 
   def index
     @assets = Asset.all.includes(:asset_category, :notes) # eager load associations
+    if params[:status].present?
+      @assets = @assets.where(status: params[:status])
+    end
+
+    @assets = @assets.page(params[:page]).per(10)
   end
 
   def new
@@ -15,11 +20,12 @@ class AssetsController < ApplicationController
 
   def create
     @asset = Asset.new(asset_params)
+    
     if @asset.save
-      redirect_to assets_path, notice: 'Asset was successfully created.'
+      redirect_to @asset, notice: 'Asset was successfully created.'
     else
       @asset_categories = AssetCategory.all
-      render :new
+      render :new, alert: "Error creating asset."
     end
   end
 
@@ -52,7 +58,20 @@ class AssetsController < ApplicationController
   end
 
   def asset_params
-    params.require(:asset).permit(:name, :description, :asset_category_id, :status, :deleted_at)
+    params.require(:asset).permit(
+      :unique_id,
+      :name,
+      :asset_category_id,
+      :brand,
+      :model,
+      :specifications,
+      :serial_number,
+      :purchase_date,
+      :warranty_expiry,
+      :status,
+      :condition,
+      :location
+    )
   end
 
   def ensure_admin

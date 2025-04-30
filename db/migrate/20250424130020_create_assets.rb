@@ -11,7 +11,7 @@ class CreateAssets < ActiveRecord::Migration[8.0]
       t.string  :serial_number
       t.date    :purchase_date
       t.date    :warranty_expiry
-      t.string  :status, null: false, default: "Available"  # Assigned, Available, Scrapped, etc.
+      t.integer :status, null: false, default: 0 # 0 = Available, 1 = Assigned, 2 = Scrapped, 3 = In Maintenance
       t.string  :condition  # New, Good, Damaged
       t.string  :location
       t.timestamps
