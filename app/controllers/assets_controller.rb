@@ -5,11 +5,25 @@ class AssetsController < ApplicationController
   before_action :set_asset, only: [:show, :edit, :update, :destroy]
 
   def index
-    @assets = Asset.all.includes(:asset_category, :notes) # eager load associations
+    @assets = Asset.all.includes(:asset_category, :notes)
     if params[:status].present?
       @assets = @assets.where(status: params[:status])
     end
 
+    if params[:search].present?
+      term = "%#{params[:search].downcase}%"
+      @assets = @assets
+      .left_joins(:asset_category)
+      .left_joins(asset_assignments: :user)
+      .where(
+        "LOWER(assets.name) LIKE :term
+         OR LOWER(assets.unique_id) LIKE :term
+         OR LOWER(users.first_name) LIKE :term
+         OR LOWER(users.last_name) LIKE :term
+         OR LOWER(asset_categories.name) LIKE :term",
+        term: term
+      ).distinct
+    end
     @assets = @assets.page(params[:page]).per(10)
   end
 
