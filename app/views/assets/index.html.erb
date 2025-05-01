@@ -1,9 +1,8 @@
-<div class="container mx-auto">
-  <div class="text-xl text-gray-700 mb-4">Asset List</div>
+<div class="container mx-auto px-4">
+  <h1 class="text-2xl font-semibold text-gray-600 mb-6">Asset List</h1>
 
-  <!-- Top Bar: Filter + Search + New -->
-  <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-    <!-- Filter Dropdown -->
+  <div class="flex flex-wrap md:flex-nowrap justify-between items-center gap-4 mb-6">
+    <!-- Status Filter -->
     <div>
       <%= form_with url: assets_path, method: :get, local: true do %>
         <div class="flex items-center space-x-2">
@@ -14,7 +13,7 @@
       <% end %>
     </div>
 
-    <!-- Search Field -->
+    <!-- Search Box -->
     <div class="flex-grow max-w-xl">
       <%= form_with url: assets_path, method: :get, local: true do %>
         <div class="flex items-center space-x-2">
@@ -26,79 +25,74 @@
               </svg>
             </div>
           </div>
-          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm">Search</button>
+          <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm">Search</button>
         </div>
       <% end %>
     </div>
 
-    <!-- New Asset Button -->
+    <!-- New Asset -->
     <% if current_user.admin? %>
-      <div class="border border-gray-500 rounded-md hover:bg-gray-500 hover:text-white">
-        <%= link_to new_asset_path, class: 'text-gray-700 font-medium px-4 py-2 rounded-md shadow-md flex items-center gap-2' do %>
-          <%= image_tag '/plus.png', alt: 'New Asset Icon', size: '20x20' %>
-          <span>New</span>
-        <% end %>
-      </div>
+      <%= link_to new_asset_path, class: 'flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-md shadow hover:bg-gray-700 hover:text-white' do %>
+        <%= image_tag '/plus.png', alt: 'New Asset Icon', size: '20x20' %>
+        <span>New</span>
+      <% end %>
     <% end %>
   </div>
 
   <!-- Asset Table -->
   <% if @assets.any? %>
-    <div class="rounded overflow-hidden shadow bg-white mx-2 w-full">
-      <div class="overflow-x-auto">
-        <table class="min-w-full table-auto text-gray-700 text-sm">
-          <thead class="bg-gray-700 text-white">
-            <tr>
-              <th class="px-4 py-2 text-left">S.N.</th>
-              <th class="px-4 py-2 text-left">Name</th>
-              <th class="px-4 py-2 text-left">Category</th>
-              <th class="px-4 py-2 text-left">Status</th>
-              <th class="px-4 py-2 text-left">Assigned To</th>
-              <th class="px-4 py-2 text-left">Actions</th>
+    <div class="overflow-x-auto bg-white shadow">
+      <table class="min-w-full table-auto text-sm text-left text-gray-700">
+        <thead class="bg-gray-700 text-white">
+          <tr>
+            <th class="px-4 py-3">S.N.</th>
+            <th class="px-4 py-3">Name</th>
+            <th class="px-4 py-3">Category</th>
+            <th class="px-4 py-3">Status</th>
+            <th class="px-4 py-3">Assigned To</th>
+            <th class="px-4 py-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @assets.each_with_index do |asset, i| %>
+            <tr class="<%= cycle('bg-white', 'bg-gray-50') %> border-b">
+              <td class="px-4 py-2"><%= i + 1 %></td>
+              <td class="px-4 py-2"><%= asset.name %></td>
+              <td class="px-4 py-2"><%= asset.asset_category.name %></td>
+              <td class="px-4 py-2">
+                <span class="px-2 py-1 rounded-full text-xs font-medium <%= asset.status == 'active' ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' %>">
+                  <%= asset.status&.capitalize %>
+                </span>
+              </td>
+              <td class="px-4 py-2"><%= asset.current_assignment&.user&.full_name %></td>
+              <td class="px-4 py-2">
+                <div class="flex items-center gap-2">
+                  <%= link_to asset_path(asset) do %>
+                    <%= image_tag '/show1.png', alt: 'Show', size: '16x16' %>
+                  <% end %>
+
+                  <% if current_user.admin? %>
+                    <%= link_to edit_asset_path(asset) do %>
+                      <%= image_tag '/edit1.png', alt: 'Edit', size: '16x16' %>
+                    <% end %>
+
+                    <button type="button" class="delete-asset-btn" data-asset-id="<%= asset.id %>" data-asset-message="Are you sure you want to delete this asset?">
+                      <%= image_tag '/delete1.png', alt: 'Delete', size: '16x16' %>
+                    </button>
+
+                    <%= form_with(model: asset, method: :delete, local: true, id: "delete-form-#{asset.id}", class: 'hidden') do |form| %>
+                      <%= form.submit 'Delete', class: 'hidden' %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            <% @assets.each_with_index do |asset, i| %>
-              <tr class="<%= cycle('bg-white', 'bg-gray-100') %>">
-                <td class="px-4 py-2"><%= i + 1 %></td>
-                <td class="px-4 py-2"><%= asset.name %></td>
-                <td class="px-4 py-2"><%= asset.asset_category.name %></td>
-                <td class="px-4 py-2">
-                  <span class="px-2 py-1 rounded-full text-xs font-semibold <%= asset.status == 'active' ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' %>">
-                    <%= asset.status&.capitalize %>
-                  </span>
-                </td>
-                <td class="px-4 py-2"><%= asset.current_assignment&.user&.full_name  %></td>
-
-                <td class="px-4 py-2">
-                  <div class="flex items-center space-x-2">
-                    <%= link_to asset_path(asset) do %>
-                      <%= image_tag '/show1.png', alt: 'Show', size: '15x15' %>
-                    <% end %>
-
-                    <% if current_user.admin? %>
-                      <%= link_to edit_asset_path(asset) do %>
-                        <%= image_tag '/edit1.png', alt: 'Edit', size: '15x15' %>
-                      <% end %>
-
-                      <button type="button" class="delete-asset-btn" data-asset-id="<%= asset.id %>" data-asset-message="Are you sure you want to delete this asset?">
-                        <%= image_tag '/delete1.png', alt: 'Delete', size: '15x15' %>
-                      </button>
-
-                      <%= form_with(model: asset, method: :delete, local: true, id: "delete-form-#{asset.id}", class: 'hidden') do |form| %>
-                        <%= form.submit 'Delete', class: 'hidden' %>
-                      <% end %>
-                    <% end %>
-                  </div>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   <% else %>
-    <p class="text-gray-700 mt-4">No assets found.</p>
+    <p class="text-gray-600 mt-6 text-center">No assets found.</p>
   <% end %>
 </div>
 

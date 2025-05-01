@@ -1,75 +1,72 @@
-<div class="container mx-auto">
-  <div class="text-xl text-gray-700 mb-4">Assignment History for <%= @asset.name %></div>
-
-  <!-- Filter and Search (Optional) -->
-  <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-    <!-- Search Field (Optional) -->
-    <div class="flex-grow max-w-xl">
+<div class="container mx-auto px-6">
+  <div class="p-6 mb-2">
+    <div class="mb-2 flex justify-center">
       <%= form_with url: asset_asset_assignments_path(@asset), method: :get, local: true do %>
-        <div class="flex items-center space-x-2">
-          <div class="relative w-full">
-            <%= text_field_tag :search, params[:search], placeholder: "Search by user or status", class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-50" %>
+        <div class="flex flex-col md:flex-row items-center gap-4">
+          <div class="relative w-full max-w-md">
+            <%= text_field_tag :search, params[:search], placeholder: "Search by user or status", class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50" %>
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 20 20" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
               </svg>
             </div>
           </div>
-          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm">Search</button>
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200">
+            Search
+          </button>
         </div>
       <% end %>
     </div>
   </div>
 
-  <!-- Asset Assignments Table -->
-  <div class="rounded overflow-hidden shadow bg-white mx-2 w-full">
-    <div class="overflow-x-auto">
-      <table class="min-w-full table-auto text-gray-700 text-sm">
-        <thead class="bg-gray-700 text-white">
-          <tr>
-            <th class="px-4 py-2 text-left">S.N.</th>
-            <th class="px-4 py-2 text-left">User</th>
-            <th class="px-4 py-2 text-left">Assigned At</th>
-            <th class="px-4 py-2 text-left">Returned At</th>
-            <th class="px-4 py-2 text-left">Active</th>
-            <th class="px-4 py-2 text-left">Comments</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @assignments.each_with_index do |assignment, i| %>
-            <tr class="<%= cycle('bg-white', 'bg-gray-100') %>">
-              <td class="px-4 py-2"><%= i + 1 %></td>
-              <td class="px-4 py-2"><%= assignment.user.full_name %></td>
-              <td class="px-4 py-2"><%= assignment.assigned_at&.strftime("%d-%b-%Y %H:%M") || "—" %></td>
-              <td class="px-4 py-2"><%= assignment.returned_at&.strftime("%d-%b-%Y %H:%M") || "—" %></td>
-              <td class="px-4 py-2">
-                <% if assignment.active? %>
-                  <span class="text-green-600 font-medium">Active</span>
-                <% else %>
-                  <span class="text-gray-500">Inactive</span>
-                <% end %>
-              </td>
-              <td class="px-4 py-2"><%= assignment.comments.presence || "—" %></td>
-            </tr>
-							
-          <% end %>
-        </tbody>
-      </table>
+  <div class="bg-white shadow-xl rounded-1xl overflow-hidden">
+    <div class="flex items-center justify-between bg-gray-200 px-6 py-4 border-b">
+      <h2 class="text-2xl font-semibold text-gray-600">Assignment History for <%= @asset.name %></h2>
+      <%= link_to @asset, data: { turbo: false },
+            class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" do %>
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        <span>Back to Assets</span>
+      <% end %>
     </div>
-  </div>
-
-  <!-- Pagination -->
-  <div class="mt-4">
-		<% if @assignments.any? %>
-        <!-- Ensure the entire background is white for the row -->
-          <div class="flex"> <!-- Center the pagination -->
-            <%= paginate @assignments, class: 'flex items-center space-x-6 text-white' %>
+    <div class="p-6 space-y-8">
+      <div>
+        <table class="min-w-full table-auto text-sm text-gray-700">
+          <thead class="bg-gray-700 text-white">
+            <tr>
+              <th class="px-4 py-2 text-left">S.N.</th>
+              <th class="px-4 py-2 text-left">User</th>
+              <th class="px-4 py-2 text-left">Assigned At</th>
+              <th class="px-4 py-2 text-left">Returned At</th>
+              <th class="px-4 py-2 text-left">Status</th>
+              <th class="px-4 py-2 text-left">Comments</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @assignments.each_with_index do |assignment, i| %>
+              <tr class="<%= cycle('bg-white', 'bg-gray-50') %> border-b">
+                <td class="px-4 py-2"><%= i + 1 %></td>
+                <td class="px-4 py-2"><%= assignment.user.full_name %></td>
+                <td class="px-4 py-2"><%= assignment.assigned_at&.strftime("%d-%b-%Y %H:%M") || "—" %></td>
+                <td class="px-4 py-2"><%= assignment.returned_at&.strftime("%d-%b-%Y %H:%M") || "—" %></td>
+                <td class="px-4 py-2">
+                  <% if assignment.active? %>
+                    <span class="text-green-600 font-medium">Active</span>
+                  <% else %>
+                    <span class="text-gray-500">Inactive</span>
+                  <% end %>
+                </td>
+                <td class="px-4 py-2"><%= assignment.comments.presence || "—" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+          
+        <% if @assignments.any? %>
+          <div class="mt-6 flex justify-center">
+            <%= paginate @assignments, class: 'flex space-x-4' %>
           </div>
-    <% end %>
-  </div>
-
-  <!-- Back to Asset Link -->
-  <div class="mt-4">
-    <%= link_to "Back to Asset", @asset, class: "inline-block text-blue-600 hover:underline" %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

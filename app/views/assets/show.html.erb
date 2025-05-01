@@ -1,89 +1,101 @@
 <div class="container mx-auto px-6">
-  <!-- Heading for Asset Show Page -->
-  <div class="flex flex-wrap justify-between items-center px-6 py-2 shadow-lg mb-4 bg-white rounded-md">
-    <h2 class="font-semibold text-gray-600 text-xl">Asset Details</h2>
-    <%= link_to 'Back to Assets', assets_path, data: { turbo: false }, class: 'bg-gray-600 hover:bg-gray-700 text-white px-5 py-1 rounded-md text-sm font-medium shadow-sm transition duration-200' %>
-  
-    <% if @asset.status == "available" || @asset.status == "in_maintenance" %>
-      <%= button_to "Assign Asset", assign_asset_path(@asset), method: :get, class: "btn btn-primary" %>
-    <% elsif @asset.status == "assigned" %>
-      <%= button_to "Unassign Asset", confirm_unassign_asset_path(@asset), method: :get, class: "btn btn-warning" %>
-    <% end %>
-
-    <%= link_to "View Assignment History", asset_asset_assignments_path(@asset), class: "btn btn-secondary mt-2" %>
+  <div class="bg-white shadow-xl rounded-1xl overflow-hidden">
+    <div class="flex items-center justify-between  bg-gray-200 px-6 py-4 border-b">
+      <h2 class="text-xl font-semibold text-gray-600">Asset Information</h2>
+      <% if @asset.status == "available" || @asset.status == "in_maintenance" %>
+        <%= button_to assign_asset_path(@asset), method: :get,
+            class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200" do %>
+          <i class="fas fa-user-plus" aria-hidden="true"></i>
+          <span>Assign Asset</span>
+        <% end %>
+      <% elsif @asset.status == "assigned" %>
+        <%= button_to "Unassign Asset", confirm_unassign_asset_path(@asset), method: :get, class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200" %>
+      <% end %>
+      <%= link_to asset_asset_assignments_path(@asset), class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200" do %>
+        <i class="fas fa-history text-gray-700" aria-hidden="true"></i>
+        <span>View Assignment History</span>
+        <span class="sr-only">(history icon)</span>
+      <% end %>
+      <%= link_to assets_path, data: { turbo: false },
+            class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" do %>
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        <span>Back to Assets</span>
+      <% end %>
     </div>
-
-  <div class="bg-white p-6 rounded-lg shadow-lg">
-    <div class="mb-4">
-      <%= content_tag :h3, "Unique ID:", class: "block text-sm font-medium text-gray-700" %>
-      <p class="mt-1 text-gray-700"><%= @asset.unique_id %></p>
-    </div>
-
-    <div class="mb-4">
-      <%= content_tag :h3, "Asset Name:", class: "block text-sm font-medium text-gray-700" %>
-      <p class="mt-1 text-gray-700"><%= @asset.name %></p>
-    </div>
-
-    <div class="mb-4">
-      <%= content_tag :h3, "Asset Category:", class: "block text-sm font-medium text-gray-700" %>
-      <p class="mt-1 text-gray-700"><%= @asset.asset_category.name %></p>
-    </div>
-
-    <div class="mb-4">
-      <%= content_tag :h3, "Brand:", class: "block text-sm font-medium text-gray-700" %>
-      <p class="mt-1 text-gray-700"><%= @asset.brand.present? ? @asset.brand : 'N/A' %></p>
-    </div>
-
-    <div class="mb-4">
-      <%= content_tag :h3, "Model:", class: "block text-sm font-medium text-gray-700" %>
-      <p class="mt-1 text-gray-700"><%= @asset.model.present? ? @asset.model : 'N/A' %></p>
-    </div>
-
-    <div class="mb-4">
-      <%= content_tag :h3, "Specifications:", class: "block text-sm font-medium text-gray-700" %>
-      <p class="mt-1 text-gray-700"><%= @asset.specifications.present? ? @asset.specifications : 'N/A' %></p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="p-6 space-y-8">
       <div>
-        <%= content_tag :h3, "Serial Number:", class: "block text-sm font-medium text-gray-700" %>
-        <p class="mt-1 text-gray-700"><%= @asset.serial_number.present? ? @asset.serial_number : 'N/A' %></p>
-      </div>
+          
+        <div>
+          <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Basic Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Unique ID</label>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.unique_id %></p>
+            </div>
+            <div>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Asset Name</label>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.name %></p>
+            </div>
+            <div>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Asset Category</label>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.asset_category.name %></p>
+            </div>
+            <div>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Brand</label>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.brand.presence || "N/A" %></p>
+            </div>
+            <div>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Model</label>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.model.presence || "N/A" %></p>
+            </div>
+            <div>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Specifications</label>
+              <p class="text-gray-700 text-base mt-1 whitespace-pre-line"><%= @asset.specifications.presence || "N/A" %></p>
+            </div>
+          </div>
+        </div>
 
-      <div>
-        <%= content_tag :h3, "Location:", class: "block text-sm font-medium text-gray-700" %>
-        <p class="mt-1 text-gray-700"><%= @asset.location.present? ? @asset.location : 'N/A' %></p>
+        <div>
+          <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Technical Details</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Serial Number</label>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.serial_number.presence || "N/A" %></p>
+            </div>
+            <div>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Location</label>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.location.presence || "N/A" %></p>
+            </div>
+            <div>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Purchase Date</label>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.purchase_date ? @asset.purchase_date.strftime('%B %d, %Y') : 'N/A' %></p>
+            </div>
+            <div>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Warranty Expiry</label>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.warranty_expiry ? @asset.warranty_expiry.strftime('%B %d, %Y') : 'N/A' %></p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Assignment & Status</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <label class="text-gray-500 text-sm uppercase tracking-wide">Asset Status</label>
+                <p class="text-gray-700 text-base mt-1"><%= @asset.status&.humanize || "N/A" %></p>
+              </div>
+              <div>
+                <label class="text-gray-500 text-sm uppercase tracking-wide">Assigned To</label>
+                <p class="text-gray-700 text-base mt-1"><%= @asset.current_assignment.present? ? @asset.current_assignment.user.full_name : 'N/A' %></p>
+              </div>
+              <div>
+                <label class="text-gray-500 text-sm uppercase tracking-wide">Condition</label>
+                <p class="text-gray-700 text-base mt-1"><%= @asset.condition.presence || "N/A" %></p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <%= content_tag :h3, "Purchase Date:", class: "block text-sm font-medium text-gray-700" %>
-        <p class="mt-1 text-gray-700"><%= @asset.purchase_date ? @asset.purchase_date.strftime('%B %d, %Y') : 'N/A' %></p>
-      </div>
-
-      <div>
-        <%= content_tag :h3, "Warranty Expiry:", class: "block text-sm font-medium text-gray-700" %>
-        <p class="mt-1 text-gray-700"><%= @asset.warranty_expiry ? @asset.warranty_expiry.strftime('%B %d, %Y') : 'N/A' %></p>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <%= content_tag :h3, "Asset Status:", class: "block text-sm font-medium text-gray-700" %>
-        <p class="mt-1 text-gray-700"><%= @asset.status&.humanize %></p>
-      </div>
-
-      <div>
-        <%= content_tag :h3, "Assigned To:", class: "block text-sm font-medium text-gray-700" %>
-        <p class="mt-1 text-gray-700"><%= @asset.current_assignment.present? ? @asset.current_assignment.user.full_name : 'N/A' %></p>
-      </div>
-      
-      <div>
-        <%= content_tag :h3, "Condition:", class: "block text-sm font-medium text-gray-700" %>
-        <p class="mt-1 text-gray-700"><%= @asset.condition.present? ? @asset.condition : 'N/A' %></p>
-      </div>
-    </div>
-
   </div>
 </div>
