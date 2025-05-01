@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Change Your Password - HR Management</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50">
-<div class="container mx-auto">
-
-  <!-- Main Content: Change Password Form -->
-  <main class="py-12">
-    <div class="mx-auto container">
-    <div class="bg-white shadow-lg rounded-lg p-8 w-full mx-auto" style="max-width: 500px;">
+<div class="bg-white shadow-lg rounded-lg p-8 w-full mx-auto" style="max-width: 500px;">
     <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Change your password</h1>
 
         <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
@@ -51,7 +37,3 @@
         </div>
       </div>
     </div>
-  </main>
-</div>
-</body>
-</html>

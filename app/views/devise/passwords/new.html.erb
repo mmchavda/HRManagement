@@ -1,47 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Forgot Your Password - HR Management</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50">
-<div class="container mx-auto">
+<div class="w-full h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center" style="background-image: url('/image.png');">
+    <div class="bg-opacity-20 backdrop-blur-xl p-8 rounded-xl shadow-2xl w-full max-w-md text-gray-700 bg-gray-200">
+      <h2 class="text-3xl font-bold mb-6 text-center">Forgot your password?</h2>
 
-  <!-- Main Content: Forgot Password Form -->
-  <main class="py-12">
-    <div class="mx-auto">
-      <div class="bg-white shadow-lg rounded-lg p-8 w-full mx-auto" style="max-width: 500px;">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Forgot your password?</h1>
-
-        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-          <% if resource.errors.any? %>
-            <div class="bg-red-100 text-red-600 p-4 mb-4 rounded-md">
-              <ul>
-                <% resource.errors.full_messages.each do |msg| %>
-                  <li><%= msg %></li>
-                <% end %>
-              </ul>
-            </div>
-          <% end %>
-
-          <div class="mb-4">
-            <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
-          </div>
-
-          <div>
-            <%= f.submit "Send me reset password instructions", class: "w-full bg-black text-white px-4 py-2 rounded-md hover:bg-black focus:outline-none focus:ring-2 focus:ring-black" %>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+        <% if resource.errors.any? %>
+          <div class="bg-red-100 text-red-600 p-4 mb-4 rounded-md">
+            <ul>
+              <% resource.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
           </div>
         <% end %>
 
-        <div class="mt-6 text-center">
-          <p class="text-sm text-gray-600">Remembered your password? <%= link_to "Log in", new_user_session_path, class: "text-black hover:text-black" %></p>
+        <div class="mb-4">
+          <div class="flex items-center">
+            <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+            <span class="text-red-600 ml-1">*</span>
+          </div>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true,
+            class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
         </div>
+
+        <div>
+          <%= f.submit "Send me reset password instructions",
+            class: "w-full bg-gray-800 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-black" %>
+        </div>
+      <% end %>
+
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-600">
+          Remembered your password?
+          <%= link_to "Log in", new_user_session_path, class: "text-gray-700 hover:text-gray-700" %>
+        </p>
       </div>
     </div>
-  </main>
-</div>
-</body>
-</html>
+  </div>
