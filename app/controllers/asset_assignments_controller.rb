@@ -10,12 +10,10 @@ class AssetAssignmentsController < ApplicationController
 	def new
 		@asset = Asset.find(params[:asset_id] || params[:id])
 		#@asset = Asset.find(params[:asset_id])
-
 		@users = User.all
 	end
 
 	def confirm_unassign
-	
 		@asset = Asset.find(params[:asset_id] || params[:id])
     @asset_assignment = @asset.current_assignment
   end

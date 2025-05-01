@@ -48,14 +48,21 @@
         <%= flash[:notice] %>
       </div>
     <% end %>
+    <% if user_signed_in? %>
+      <div class="flex flex-1">
+        <%= render 'layouts/sidebar' %>
+        <main class="bg-white-300 flex-1 p-3 overflow-hidden", style="margin-left: 18%; margin-top: 60px; padding-bottom: 60px;">
+          <%= yield %>
+        </main>
+      </div>
+    <% else %>  
+      <div class="flex flex-1">
+        <main class="flex-1 p-3 overflow-hidden">
+          <%= yield %>
+        </main>
+      </div>
+    <% end %>
 
-    <div class="flex flex-1">
-      <%= render 'layouts/sidebar' %>
-
-      <main class="bg-white-300 flex-1 p-3 overflow-hidden", style="margin-left: 18%; margin-top: 60px; padding-bottom: 60px;">
-        <%= yield %>
-      </main>
-    </div>
   </body>
 
   <%= render 'layouts/footer' %>

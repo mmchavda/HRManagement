@@ -1,105 +1,53 @@
 <!-- app/views/devise/sessions/new.html.erb -->
+<div class="w-full h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center" style="background-image: url('/login_bg1.jpg');">
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - HR Management</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50">
-<div class="container mx-auto">
+  <div class="bg-opacity-10 backdrop-blur-xl p-8 rounded-xl shadow-2xl w-full max-w-md text-gray-700 bg-gray-200", style="margin-left: 300px;">
 
-  <!-- Main Content: Login Form -->
-  <main class="py-6"> <!-- Reduced py-12 to py-6 -->
-      <div class="bg-white shadow-lg rounded-lg p-8 w-full mx-auto my_form" style="max-width: 500px;">
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-          <% if resource.errors.any? %>
-            <div class="bg-red-100 text-red-600 p-4 mb-4 rounded-md">
-              <ul>
-                <% resource.errors.full_messages.each do |msg| %>
-                  <li><%= msg %></li>
-                <% end %>
-              </ul>
-            </div>
-          <% end %>
-
-          <div class="mb-4">
-            <div class="flex items-center">
-              <%= f.label :email, class: "block text-sm font-medium text-gray-700 inline-flex" %>
-              <span class="text-red-600 ml-1">*</span>
-            </div>
-            <%= f.email_field :email, autofocus: true, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm", autocomplete: "email" %>
-          </div>
-
-          <div class="mb-4">
-            <div class="flex items-center">
-              <%= f.label :password, class: "block text-sm font-medium text-gray-700 inline-flex" %>
-              <span class="text-red-600 ml-1">*</span>
-            </div>
-            <%= f.password_field :password, autocomplete: "current-password", required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm" %>
-          </div>
-
-          <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center">
-              <%= f.check_box :remember_me, class: "h-4 w-4 text-black focus:ring-black border-gray-700 rounded" %>
-              <%= f.label :remember_me, class: "ml-2 block text-sm text-gray-900" %>
-            </div>
-
-            <div class="text-sm">
-              <%= link_to "Forgot your password?", new_user_password_path, class: "font-medium text-black hover:text-black" %>
-            </div>
-          </div>
-
-          <div>
-            <%= f.submit "Log in", class: "w-full bg-black text-white px-4 py-2 rounded-md hover:bg-black focus:outline-none focus:ring-2 focus:ring-black" %>
-          </div>
-        <% end %>
-
-        <div class="mt-6 text-center">
-          <p class="text-sm text-gray-600">Don't have an account? <%= link_to "Sign up", new_user_registration_path, class: "text-black hover:text-black" %></p>
+  <h2 class="text-3xl font-bold mb-6 inline-flex items-center">
+  Login   
+  <%= image_tag '/logo-primary.png', alt: 'HR Management Logo', size: "120x120", class: "bg-gray-700 p-2 rounded-xl" %>
+</h2>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <% if resource.errors.any? %>
+        <div class="bg-red-100 text-red-600 p-4 mb-4 rounded-md">
+          <ul>
+            <% resource.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
         </div>
+      <% end %>
+
+      <div class="mb-4">
+        <%= f.text_field :email, autofocus: true, required: true, placeholder: "Email", class: "w-full px-4 py-2 rounded bg-gray-700 bg-opacity-20 text-gray-700 placeholder-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500" %>
       </div>
+
+      <div class="mb-4">
+        <%= f.password_field :password, required: true, placeholder: "Password", class: "w-full px-4 py-2 rounded bg-gray-700 bg-opacity-20 text-gray-700 placeholder-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500" %>
+      </div>
+
+      <div class="flex items-center justify-between mb-4 text-sm">
+        <div class="flex items-center">
+          <%= f.check_box :remember_me, class: "mr-2" %>
+          <%= f.label :remember_me, class: "text-gray-700" %>
+        </div>
+        <%= link_to "Forgot your password?", new_user_password_path, class: "text-gray-700 underline" %>
+      </div>
+
+      <%= f.submit "Login", class: "w-full py-2 px-4 bg-gray-800 hover:bg-gray-900 rounded text-gray-700 font-semibold" %>
+    <% end %>
+
+    <div class="mt-6 text-center text-sm">
+      <p>Not a member? <%= link_to "Sign Up", new_user_registration_path, class: "underline text-gray-700" %></p>
     </div>
-  </main>
+  </div>
 
-</body>
-</html>
+</div>
 
-<style>
-  .container {
-    padding: 4rem 0;
-    width: 80%;
-    margin: 0 auto;
-    display: block;
-    background: white; 
-    height: 100%;
-  }
-  
-  .my_form {
-    width: 500px;
-    margin: 0 auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 2);
+  <style>
+   main {
+    margin-left: 0;
+    margin-top: 0;
   }
 
-  .bg-red-100 {
-    background-color: #f8d7da;
-  }
-
-  .text-red-700 {
-    color: #721c24;
-  }
-
-  .focus\:ring-black:focus {
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
-  }
-
-  .focus\:border-black:focus {
-    border-color: #000;
-  }
-  .bg-black {
-    background-color: #000;
-  }
-
-</style>
+  </style>
