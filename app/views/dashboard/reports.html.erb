@@ -43,6 +43,16 @@
         Download CSV
       </a>
     </div>
+
+    <div class="flex justify-between items-center bg-gray-50 px-6 py-4 rounded-lg shadow-sm hover:shadow-md transition">
+      <span class="text-base font-medium text-gray-800">Assets CSV</span>
+      <a id="assets_link" href="#" data-base-href="<%= export_csv_assets_path %>" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:pointer-events-none">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/>
+        </svg>
+        Download CSV
+      </a>
+    </div>
   </div>
 </div>
 
@@ -57,7 +67,7 @@
       const valid = start && end && start <= end;
       const params = `?start_date=${start}&end_date=${end}`;
 
-      ["tickets_link", "reimbursement_link", "expenses_link"].forEach(id => {
+      ["tickets_link", "reimbursement_link", "expenses_link", "assets_link"].forEach(id => {
         const el = document.getElementById(id);
         if (valid) {
           // Get the base href from data-base-href attribute

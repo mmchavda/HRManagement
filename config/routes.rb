@@ -20,7 +20,11 @@ Rails.application.routes.draw do
 
   resources :assets, path: "inventory_assets" do
     resources :asset_assignments, only: [:create, :destroy, :index]
-  
+
+    collection do
+      get :export_csv  # Add a route for the export action
+    end
+    
     member do
       get :assign, to: 'asset_assignments#new'
       get :confirm_unassign, to: 'asset_assignments#confirm_unassign'

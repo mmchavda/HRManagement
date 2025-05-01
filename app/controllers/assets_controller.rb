@@ -65,6 +65,45 @@ class AssetsController < ApplicationController
     @notes = @asset.notes
   end
 
+  def export_csv
+    @assets = Asset.all
+		if params[:start_date].present? && params[:end_date].present?
+			start_date = Date.parse(params[:start_date])
+			end_date = Date.parse(params[:end_date])
+      @assets = @assets.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+		end
+		
+    csv_data = CSV.generate(headers: true) do |csv|
+      # Adding the new column headers
+      csv << ['ID', 'Status', 'Created At', 'Updated At', 'Unique ID', 'Name', 'Category', 'Brand', 'Model', 'Specifications', 'Serial Number', 'Purchase Date', 'Warranty Expiry', 'Condition', 'Location']
+    
+      # Iterate through each asset to populate the CSV data
+      @assets.each do |asset|
+        # Adding the values from each column
+        csv << [
+          asset.id,
+          asset.status,
+          asset.created_at,
+          asset.updated_at,
+          asset.unique_id,               # unique_id column
+          asset.name,                    # name column
+          asset.asset_category.name,     # Assuming asset_category is an association, you can call the category name (or other attributes) here
+          asset.brand,
+          asset.model,
+          asset.specifications,
+          asset.serial_number,
+          asset.purchase_date,
+          asset.warranty_expiry,
+          asset.condition,
+          asset.location
+        ]
+      end
+    end
+
+    send_data csv_data, filename: "assets_#{Date.today}.csv", type: 'text/csv', disposition: 'attachment'
+  end
+
+
   private
 
   def set_asset
