@@ -1,64 +1,58 @@
 <!-- Confirmation Modal -->
-  <div id="confirmationModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
-    <div class="bg-white p-4 rounded-md shadow-lg">
-      <h2 class="text-lg font-semibold"> Delete this expense?</h2>
-      <div class="mt-4 flex justify-between">
-        <button id="cancelDelete" class="bg-gray-300 px-4 py-2 rounded-md">Cancel</button>
-        <button id="confirmDelete" class="bg-red-500 text-white px-4 py-2 rounded-md">Confirm</button>
-      </div>
+<div id="confirmationModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+  <div class="bg-white p-4 rounded-md shadow-lg">
+    <h2 class="text-lg font-semibold"> Delete this expense?</h2>
+    <div class="mt-4 flex justify-between">
+      <button id="cancelDelete" class="bg-gray-300 px-4 py-2 rounded-md">Cancel</button>
+      <button id="confirmDelete" class="bg-red-500 text-white px-4 py-2 rounded-md">Confirm</button>
     </div>
   </div>
+</div>
 
 <div class="container mx-auto">
-  <!-- Button positioned above the table (50px from the bottom, right side) -->
-  
-  <!-- Title -->
-  <div class="text-xl text-gray-700 mb-4">Expense List</div>
-  
-    <!-- Top Bar: Filter + Search + New -->
-    <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-    
-      <!-- Filter Form -->
-      <div>
-        <%= form_with url: expenses_path, method: :get, local: true do %>
-          <div class="flex items-center space-x-2", style="margin-left: 20px;">
-          <button type="submit" class="flex items-center">
-            <%= select_tag :category, options_for_select([['All Categories', '']] + Expense.categories.keys.map { |category| [category.titleize, category] }, params[:category]), class: 'p-2 border border-gray-500 rounded-md text-sm text-gray-700 bg-white' %>
-            
-          </button>
-          </div>
-        <% end %>
-      </div>
-    
-      <!-- Search Form -->
-      <div class="flex-grow max-w-xl">
-        <%= form_with url: expenses_path, method: :get, local: true do %>
-          <div class="flex items-center space-x-2">
-            <div class="relative w-full">
-              <%= text_field_tag :search, params[:search], placeholder: "Search by user name or title", class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" %>
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 20 20" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                </svg>
-              </div>
-            </div>
-    
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm">
-              Search
-            </button>
-          </div>
-        <% end %>
-      </div>
-    
-      <!-- New Expense Button -->
-      <div>
-        <%= link_to new_expense_path, style:"margin-right: 20px;", class: 'flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-800 rounded-md shadow-md border border-gray-500' do %>
-          <%= image_tag '/plus.png', alt: 'New Expense Icon', size: '20x20', title: 'Create a new expense' %>
-          <span>New</span>
-        <% end %>
-      </div>
-    
+  <h1 class="text-2xl font-semibold text-gray-600 mb-6">Expense List</h1>
+  <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+    <!-- Filter Form -->
+    <div>
+      <%= form_with url: expenses_path, method: :get, local: true do %>
+        <div class="flex items-center space-x-2", style="margin-left: 20px;">
+        <button type="submit" class="flex items-center">
+          <%= select_tag :category, options_for_select([['All Categories', '']] + Expense.categories.keys.map { |category| [category.titleize, category] }, params[:category]), class: 'p-2 border border-gray-500 rounded-md text-sm text-gray-700 bg-white' %>
+          
+        </button>
+        </div>
+      <% end %>
     </div>
+  
+    <!-- Search Form -->
+    <div class="flex-grow max-w-xl">
+      <%= form_with url: expenses_path, method: :get, local: true do %>
+        <div class="flex items-center space-x-2">
+          <div class="relative w-full">
+            <%= text_field_tag :search, params[:search], placeholder: "Search by user name or title", class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" %>
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 20 20" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+              </svg>
+            </div>
+          </div>
+  
+          <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm">
+            Search
+          </button>
+        </div>
+      <% end %>
+    </div>
+  
+    <!-- New Expense Button -->
+    <div>
+      <%= link_to new_expense_path, style:"margin-right: 20px;", class: 'flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-800 rounded-md shadow-md border border-gray-500' do %>
+        <%= image_tag '/plus.png', alt: 'New Expense Icon', size: '20x20', title: 'Create a new expense' %>
+        <span>New</span>
+      <% end %>
+    </div>
+  
+  </div>
   
   <!-- Table with increased width -->
   <% if @expenses.present? %>
@@ -90,28 +84,21 @@
                   <td class="px-4 py-2 text-sm text-gray-900"><%= expense.date&.strftime('%B %d, %Y') %></td>
                   <td class="px-4 py-2 text-sm">
                     <div class="flex space-x-2 items-center">
-                      <!-- Show Link with Image -->
                       <%= link_to expense_path(expense) do %>
                         <%= image_tag '/show1.png', alt: 'Show Expense', size: '15x15' %>
                       <% end %>
-
-                      <!-- Edit Link with Image -->
                       <%= link_to edit_expense_path(expense) do %>
                         <%= image_tag '/edit1.png', alt: 'Edit Expense', size: '15x15' %>
                       <% end %>                
-
-                        <!-- Delete Button -->
-                    <button type="button"
-                            class="delete-expense-btn"
-                            data-expense-id="<%= expense.id %>"
-                            data-expense-message="Are you sure you want to delete this expense?">
-                      <%= image_tag '/delete1.png', alt: 'Delete expense', size: '15x15' %>
-                    </button>
-
-                    <!-- Hidden Delete Form -->
-                    <%= form_with(model: expense, method: :delete, local: true, id: "delete-form-#{expense.id}", class: 'hidden') do |form| %>
-                      <%= form.submit 'Delete', class: 'hidden' %>
-                    <% end %>
+                      <button type="button"
+                              class="delete-expense-btn"
+                              data-expense-id="<%= expense.id %>"
+                              data-expense-message="Are you sure you want to delete this expense?">
+                        <%= image_tag '/delete1.png', alt: 'Delete expense', size: '15x15' %>
+                      </button>
+                      <%= form_with(model: expense, method: :delete, local: true, id: "delete-form-#{expense.id}", class: 'hidden') do |form| %>
+                        <%= form.submit 'Delete', class: 'hidden' %>
+                      <% end %>
 
                     </div>
                   </td>
@@ -119,8 +106,7 @@
               <% end %>
               <% if @expenses.any? %>
                 <tr>
-                  <!-- Ensure the entire background is white for the row -->
-                  <td style="background-color: white; padding-top: 15px;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
+                  <td style="background-color: white; padding-top: 15px;" colspan="100%">
                     <div class="flex">
                       <%= paginate @expenses, class: 'flex items-center space-x-6 text-white' %>
                     </div>
@@ -137,7 +123,6 @@
   <% end %>  
 </div>
 
-<!-- Reusable Delete Modal -->
 <%= render 'shared/global_delete_modal' %>
 
 <script>
