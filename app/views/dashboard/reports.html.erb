@@ -1,6 +1,7 @@
 <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-2xl p-4 sm:p-10 mt-4">
   <h1 class="text-2xl font-extrabold text-gray-600 mb-12">Download Reports</h1>
 
+  <!-- Date Range Filter -->
   <div class="flex flex-col sm:flex-row gap-6 mb-10">
     <div class="w-full">
       <label for="start_date" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
@@ -13,17 +14,35 @@
   </div>
 
   <div class="space-y-6">
-    <% [["Tickets Report", "tickets_link"], ["Reimbursement Report", "reimbursement_link"], ["Expenses Report", "expenses_link"]].each do |label, id| %>
-      <div class="flex justify-between items-center bg-gray-50 px-6 py-4 rounded-lg shadow-sm hover:shadow-md transition">
-        <span class="text-base font-medium text-gray-800"><%= label %></span>
-        <a id="<%= id %>" href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:pointer-events-none">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/>
-          </svg>
-          Download CSV
-        </a>
-      </div>
-    <% end %>
+    <div class="flex justify-between items-center bg-gray-50 px-6 py-4 rounded-lg shadow-sm hover:shadow-md transition">
+      <span class="text-base font-medium text-gray-800">Tickets CSV</span>
+      <a id="tickets_link" href="#" data-base-href="<%= export_csv_tickets_path %>" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:pointer-events-none">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/>
+        </svg>
+        Download CSV
+      </a>
+    </div>
+
+    <div class="flex justify-between items-center bg-gray-50 px-6 py-4 rounded-lg shadow-sm hover:shadow-md transition">
+      <span class="text-base font-medium text-gray-800">Reimbursement Requests CSV</span>
+      <a id="reimbursement_link" href="#" data-base-href="<%= export_csv_reimbursement_requests_path %>" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:pointer-events-none">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/>
+        </svg>
+        Download CSV
+      </a>
+    </div>
+
+    <div class="flex justify-between items-center bg-gray-50 px-6 py-4 rounded-lg shadow-sm hover:shadow-md transition">
+      <span class="text-base font-medium text-gray-800">Expenses CSV</span>
+      <a id="expenses_link" href="#" data-base-href="<%= export_csv_expenses_path %>" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:pointer-events-none">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/>
+        </svg>
+        Download CSV
+      </a>
+    </div>
   </div>
 </div>
 
@@ -41,7 +60,9 @@
       ["tickets_link", "reimbursement_link", "expenses_link"].forEach(id => {
         const el = document.getElementById(id);
         if (valid) {
-          el.href = el.href.split('?')[0] + params;
+          // Get the base href from data-base-href attribute
+          const baseHref = el.getAttribute("data-base-href");
+          el.href = `${baseHref}${params}`;
           el.classList.remove("disabled:pointer-events-none", "disabled:opacity-50");
         } else {
           el.href = "#";
