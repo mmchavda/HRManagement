@@ -46,8 +46,8 @@
         <% end %>
       <% end %>
     </div>
+    
     <% if current_user.admin? || current_user.hr? %>
-
       <!-- New Asset -->
       <% if current_user.admin? %>
         <%= link_to new_asset_path, class: 'flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-md shadow hover:bg-gray-700 hover:text-white' do %>
