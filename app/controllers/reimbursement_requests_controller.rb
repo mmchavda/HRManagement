@@ -161,7 +161,7 @@ class ReimbursementRequestsController < ApplicationController
     end
   
     def reimbursement_request_params
-      params.require(:reimbursement_request).permit(:total_amount, :status, :expense_id, :manager_id)
+      params.require(:reimbursement_request).permit(:total_amount, :status, :expense_id, :manager_id, :rejection_reason)
     end
 end
   

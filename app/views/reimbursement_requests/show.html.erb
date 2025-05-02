@@ -22,7 +22,7 @@
      
         <div>
           <label class="block text-sm font-medium text-gray-500 uppercase tracking-wide">Reason</label>
-          <p class="mt-1 text-gray-800"><%= @reimbursement_request.expense.description %></p>
+          <p class="mt-1 text-gray-800"><%= @reimbursement_request.rejection_reason %></p>
         </div>
        
         <div>
@@ -38,7 +38,7 @@
         <div>
           <label class="block text-sm font-medium text-gray-500 uppercase tracking-wide">Approved Date</label>
           <p class="mt-1 text-gray-800">
-            <%#= @reimbursement_request.approved_at.present? ? @reimbursement_request.approved_at.strftime('%B %d, %Y') : 'N/A' %>
+            <%= @reimbursement_request.approved_at.present? ? @reimbursement_request.approved_at.strftime('%B %d, %Y') : 'N/A' %>
           </p>
         </div>
       </div>

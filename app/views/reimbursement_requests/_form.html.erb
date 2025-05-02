@@ -1,10 +1,11 @@
 <div class="container mx-auto px-6">
-  <!-- Heading for Edit Profile Form -->
+  <!-- Heading -->
   <div class="flex flex-wrap justify-between items-center px-6 py-2 shadow-lg mb-4 bg-white rounded-md">
     <h2 class="font-semibold text-gray-600 text-xl"><%= form_type == "edit" ? "Update Request" : "Create Request" %></h2>
     <%= link_to 'Back to Requests', reimbursement_requests_path, data: { turbo: false }, class: 'bg-gray-600 hover:bg-gray-700 text-white px-5 py-1 rounded-md text-sm font-medium shadow-sm transition duration-200' %>
   </div>
 
+  <!-- Form -->
   <div class="bg-white p-6 rounded-lg shadow-lg">
     <%= form_with model: request, data: { turbo: false }, class: "space-y-6" do |f| %>
 
@@ -18,19 +19,67 @@
         </div>
       <% end %>
 
+      <!-- Status -->
       <div class="mb-4">
         <%= f.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.select :status, ReimbursementRequest.statuses.keys.map { |status| [status.humanize, status.to_s] }, { prompt: "Select status" }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+        <%= f.select :status,
+              ReimbursementRequest.statuses.keys.map { |status| [status.humanize, status.to_s] },
+              { prompt: "Select status" },
+              required: true,
+              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700",
+              id: "status-select" %>
       </div>
 
+      <!-- Rejection Reason -->
+      <div id="rejection-reason-field" class="mb-4 hidden">
+        <%= f.label :rejection_reason, "Rejection Reason <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :rejection_reason, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+      </div>
+
+      <!-- Expense -->
       <div class="mb-4">
         <%= f.label :expense, "Expense <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.select :expense_id, current_user.expenses.left_outer_joins(:reimbursement_request).where(reimbursement_request: { id: nil }).map { |expense| [expense.title, expense.id] }, { prompt: "Select expense" }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+        <%= f.select :expense_id,
+              current_user.expenses.left_outer_joins(:reimbursement_request).where(reimbursement_request: { id: nil }).map { |expense| [expense.title, expense.id] },
+              { prompt: "Select expense" },
+              required: true,
+              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
       </div>
 
+      <!-- Submit -->
       <div class="mb-4">
         <%= f.submit form_type == "edit" ? "Update Reimbursement Request" : "Create Reimbursement Request", class: "w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
       </div>
+
     <% end %>
   </div>
 </div>
+
+<!-- JS for Rejection Reason Toggle -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const statusSelect = document.getElementById('status-select');
+    const rejectionField = document.getElementById('rejection-reason-field');
+
+    if (!statusSelect || !rejectionField) {
+      console.warn('Missing status select or rejection field');
+      return;
+    }
+
+    const toggleRejectionField = () => {
+      const value = statusSelect.value;
+      console.log("Status selected:", value); // Debugging
+      if (value === 'rejected') {
+        rejectionField.classList.remove('hidden');
+      } else {
+        rejectionField.classList.add('hidden');
+      }
+    };
+
+    // Initial load
+    toggleRejectionField();
+
+    // On change
+    statusSelect.addEventListener('change', toggleRejectionField);
+  });
+</script>
