@@ -36,15 +36,15 @@
             </div>
             <div>
               <label class="text-gray-500 text-sm uppercase tracking-wide">Brand</label>
-              <p class="text-gray-700 text-base mt-1"><%= @asset.brand.presence || "N/A" %></p>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.brand.presence %></p>
             </div>
             <div>
               <label class="text-gray-500 text-sm uppercase tracking-wide">Model</label>
-              <p class="text-gray-700 text-base mt-1"><%= @asset.model.presence || "N/A" %></p>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.model.presence %></p>
             </div>
             <div>
               <label class="text-gray-500 text-sm uppercase tracking-wide">Specifications</label>
-              <p class="text-gray-700 text-base mt-1 whitespace-pre-line"><%= @asset.specifications.presence || "N/A" %></p>
+              <p class="text-gray-700 text-base mt-1 whitespace-pre-line"><%= @asset.specifications.presence %></p>
             </div>
           </div>
         </div>
@@ -54,19 +54,19 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <label class="text-gray-500 text-sm uppercase tracking-wide">Serial Number</label>
-              <p class="text-gray-700 text-base mt-1"><%= @asset.serial_number.presence || "N/A" %></p>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.serial_number.presence %></p>
             </div>
             <div>
               <label class="text-gray-500 text-sm uppercase tracking-wide">Location</label>
-              <p class="text-gray-700 text-base mt-1"><%= @asset.location.presence || "N/A" %></p>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.location.presence %></p>
             </div>
             <div>
               <label class="text-gray-500 text-sm uppercase tracking-wide">Purchase Date</label>
-              <p class="text-gray-700 text-base mt-1"><%= @asset.purchase_date ? @asset.purchase_date.strftime('%B %d, %Y') : 'N/A' %></p>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.purchase_date ? @asset.purchase_date.strftime('%B %d, %Y') : '' %></p>
             </div>
             <div>
               <label class="text-gray-500 text-sm uppercase tracking-wide">Warranty Expiry</label>
-              <p class="text-gray-700 text-base mt-1"><%= @asset.warranty_expiry ? @asset.warranty_expiry.strftime('%B %d, %Y') : 'N/A' %></p>
+              <p class="text-gray-700 text-base mt-1"><%= @asset.warranty_expiry ? @asset.warranty_expiry.strftime('%B %d, %Y') : '' %></p>
             </div>
           </div>
         </div>
@@ -76,15 +76,15 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <label class="text-gray-500 text-sm uppercase tracking-wide">Asset Status</label>
-                <p class="text-gray-700 text-base mt-1"><%= @asset.status&.humanize || "N/A" %></p>
+                <p class="text-gray-700 text-base mt-1"><%= @asset.status&.humanize %></p>
               </div>
               <div>
                 <label class="text-gray-500 text-sm uppercase tracking-wide">Assigned To</label>
-                <p class="text-gray-700 text-base mt-1"><%= @asset.current_assignment.present? ? @asset.current_assignment.user.full_name : 'N/A' %></p>
+                <p class="text-gray-700 text-base mt-1"><%= @asset.current_assignment.present? ? @asset.current_assignment.user.full_name : '' %></p>
               </div>
               <div>
                 <label class="text-gray-500 text-sm uppercase tracking-wide">Condition</label>
-                <p class="text-gray-700 text-base mt-1"><%= @asset.condition.presence || "N/A" %></p>
+                <p class="text-gray-700 text-base mt-1"><%= @asset.condition.presence %></p>
               </div>
             </div>
           </div>
