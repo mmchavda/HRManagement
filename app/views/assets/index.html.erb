@@ -2,41 +2,60 @@
   <h1 class="text-2xl font-semibold text-gray-600 mb-6">Asset List</h1>
 
   <div class="flex flex-wrap md:flex-nowrap justify-between items-center gap-4 mb-6">
-    <!-- Status Filter -->
-    <div>
-      <%= form_with url: assets_path, method: :get, local: true do %>
-        <div class="flex items-center space-x-2">
-          <button type="submit" class="flex items-center">
-            <%= select_tag :status, options_for_select([['All Status', '']] + Asset.statuses.keys.map { |s| [s.titleize, s] }, params[:status]), class: 'p-2 border border-gray-500 rounded-md text-sm text-gray-700' %>
-				  </button>
-				</div>
-      <% end %>
-    </div>
+    <% if current_user.admin? || current_user.hr? %>
+
+      <!-- Status Filter -->
+      <div>
+        <%= form_with url: assets_path, method: :get, local: true do %>
+          <div class="flex items-center space-x-2">
+            <button type="submit" class="flex items-center">
+              <%= select_tag :status, options_for_select([['All Status', '']] + Asset.statuses.keys.map { |s| [s.titleize, s] }, params[:status]), class: 'p-2 border border-gray-500 rounded-md text-sm text-gray-700' %>
+            </button>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
 
     <!-- Search Box -->
     <div class="flex-grow max-w-xl">
       <%= form_with url: assets_path, method: :get, local: true do %>
-        <div class="flex items-center space-x-2">
-          <div class="relative w-full">
-            <%= text_field_tag :search, params[:search], placeholder: "Search by name, category, or status", class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-50" %>
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 20 20" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-              </svg>
+        <% if current_user.admin? || current_user.hr? %>
+          <div class="flex items-center space-x-2">
+            <div class="relative w-full">
+              <%= text_field_tag :search, params[:search], placeholder: "Search by name, category, or assign to", class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-50" %>
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 20 20" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                </svg>
+              </div>
             </div>
+            <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm">Search</button>
           </div>
-          <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm">Search</button>
-        </div>
+        <% else %>
+          <div class="flex items-center space-x-2">
+            <div class="relative w-full">
+              <%= text_field_tag :search, params[:search], placeholder: "Search by name, category", class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-50" %>
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 20 20" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                </svg>
+              </div>
+            </div>
+            <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm">Search</button>
+          </div>
+        <% end %>
       <% end %>
     </div>
+    <% if current_user.admin? || current_user.hr? %>
 
-    <!-- New Asset -->
-    <% if current_user.admin? %>
-      <%= link_to new_asset_path, class: 'flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-md shadow hover:bg-gray-700 hover:text-white' do %>
-        <%= image_tag '/plus.png', alt: 'New Asset Icon', size: '20x20' %>
-        <span>New</span>
+      <!-- New Asset -->
+      <% if current_user.admin? %>
+        <%= link_to new_asset_path, class: 'flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-md shadow hover:bg-gray-700 hover:text-white' do %>
+          <%= image_tag '/plus.png', alt: 'New Asset Icon', size: '20x20' %>
+          <span>New</span>
+        <% end %>
       <% end %>
-    <% end %>
+    <% end %>  
   </div>
 
   <!-- Asset Table -->
@@ -70,8 +89,7 @@
                   <%= link_to asset_path(asset) do %>
                     <%= image_tag '/show1.png', alt: 'Show', size: '16x16' %>
                   <% end %>
-
-                  <% if current_user.admin? %>
+                  <% if current_user.admin? || current_user.hr? %>
                     <%= link_to edit_asset_path(asset) do %>
                       <%= image_tag '/edit1.png', alt: 'Edit', size: '16x16' %>
                     <% end %>

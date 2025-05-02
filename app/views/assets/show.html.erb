@@ -3,11 +3,13 @@
     <div class="flex items-center justify-between  bg-gray-200 px-6 py-4 border-b">
       <h2 class="text-xl font-semibold text-gray-600">Asset Information</h2>
       <div class="  flex justify-end space-x-4">
-        <%= link_to asset_asset_assignments_path(@asset), class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200" do %>
-          <i class="fas fa-history text-gray-700" aria-hidden="true"></i>
-          <span>View Assignment History</span>
-          <span class="sr-only">(history icon)</span>
-        <% end %>
+        <% if current_user.admin? || current_user.hr? %>
+          <%= link_to asset_asset_assignments_path(@asset), class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200" do %>
+            <i class="fas fa-history text-gray-700" aria-hidden="true"></i>
+            <span>View Assignment History</span>
+            <span class="sr-only">(history icon)</span>
+          <% end %>
+        <% end %>  
         <%= link_to assets_path, data: { turbo: false },
               class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" do %>
           <i class="fas fa-arrow-left" aria-hidden="true"></i>
@@ -17,7 +19,6 @@
     </div>
     <div class="p-6 space-y-8">
       <div>
-          
         <div>
           <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Basic Information</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -88,71 +89,73 @@
             </div>
           </div>
         </div>
+        <% if current_user.admin? || current_user.hr? %>
 
-        <div>
-          <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Assign / Unassign Assets</h2>
+          <div>
+            <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Assign / Unassign Assets</h2>
 
-          <div data-controller="toggle" class="px-4 py-6">
-            <!-- Toggle Buttons -->
-            <div class="flex gap-4 mb-6">
+            <div data-controller="toggle" class="px-4 py-6">
+              <!-- Toggle Buttons -->
+              <div class="flex gap-4 mb-6">
+                <% if @asset.status == "available" || @asset.status == "in_maintenance" %>
+                  <button type="button" data-action="click->toggle#showAssign" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 text-sm font-medium">
+                    <i class="fas fa-user-plus mr-1"></i>Assign Asset
+                  </button>
+                <% elsif @asset.status == "assigned" %>
+                  <button type="button" data-action="click->toggle#showUnassign" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 text-sm font-medium">
+                    <i class="fas fa-user-minus mr-1"></i>Unassign Asset
+                  </button>
+                <% end %>
+              </div>
+
+              <%# Assign Form %>
               <% if @asset.status == "available" || @asset.status == "in_maintenance" %>
-                <button type="button" data-action="click->toggle#showAssign" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 text-sm font-medium">
-                  <i class="fas fa-user-plus mr-1"></i>Assign Asset
-                </button>
-              <% elsif @asset.status == "assigned" %>
-                <button type="button" data-action="click->toggle#showUnassign" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 text-sm font-medium">
-                  <i class="fas fa-user-minus mr-1"></i>Unassign Asset
-                </button>
+                <div data-toggle-target="assignSection" class="hidden">
+                  <div class="bg-white p-6 border max-w-xl mx-auto">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Assign Asset: <%= @asset.name %></h3>
+
+                    <%= form_with url: asset_asset_assignments_path(@asset), method: :post, local: true do |f| %>
+                      <div class="mb-4">
+                        <%= label_tag :user_id, "Select User", class: "block text-sm font-medium text-gray-700 mb-1" %>
+                        <%= select_tag :user_id, options_from_collection_for_select(@users, :id, :full_name), prompt: "Choose a user", class: "w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+                      </div>
+
+                      <div class="mb-4">
+                        <%= label_tag :comments, "Comments (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+                        <%= text_area_tag :comments, nil, rows: 3, class: "w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm" %>
+                      </div>
+
+                      <div class="flex justify-end">
+                        <%= submit_tag "Assign Asset", class: "bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-md text-sm font-medium shadow-sm" %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+
+              <%# Unassign Form %>
+              <% if @asset.status == "assigned" && @asset_assignment.present? %>
+                <div data-toggle-target="unassignSection" class="hidden">
+                  <div class="bg-white p-6 border max-w-md mx-auto mt-4">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Confirm Unassign</h3>
+                    <p class="text-gray-600 mb-4">Are you sure you want to unassign this asset?</p>
+
+                    <%= form_with(model: @asset_assignment, url: unassign_asset_path(@asset), method: :patch, local: true) do |form| %>
+                      <div class="mb-4">
+                        <%= form.label :status, "New Status", class: "block text-sm font-medium text-gray-700 mb-1" %>
+                        <%= form.select :status, options_for_select(Asset.statuses.keys.reject { |s| s == "assigned" }, @asset.status), {}, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500" %>
+                      </div>
+
+                      <div class="flex justify-end">
+                        <%= form.submit "Unassign Asset", class: "bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium" %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
               <% end %>
             </div>
-
-            <%# Assign Form %>
-            <% if @asset.status == "available" || @asset.status == "in_maintenance" %>
-              <div data-toggle-target="assignSection" class="hidden">
-                <div class="bg-white p-6 border max-w-xl mx-auto">
-                  <h3 class="text-xl font-semibold text-gray-800 mb-4">Assign Asset: <%= @asset.name %></h3>
-
-                  <%= form_with url: asset_asset_assignments_path(@asset), method: :post, local: true do |f| %>
-                    <div class="mb-4">
-                      <%= label_tag :user_id, "Select User", class: "block text-sm font-medium text-gray-700 mb-1" %>
-                      <%= select_tag :user_id, options_from_collection_for_select(@users, :id, :full_name), prompt: "Choose a user", class: "w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-                    </div>
-
-                    <div class="mb-4">
-                      <%= label_tag :comments, "Comments (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
-                      <%= text_area_tag :comments, nil, rows: 3, class: "w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm" %>
-                    </div>
-
-                    <div class="flex justify-end">
-                      <%= submit_tag "Assign Asset", class: "bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-md text-sm font-medium shadow-sm" %>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
-
-            <%# Unassign Form %>
-            <% if @asset.status == "assigned" && @asset_assignment.present? %>
-              <div data-toggle-target="unassignSection" class="hidden">
-                <div class="bg-white p-6 border max-w-md mx-auto mt-4">
-                  <h3 class="text-xl font-semibold text-gray-800 mb-4">Confirm Unassign</h3>
-                  <p class="text-gray-600 mb-4">Are you sure you want to unassign this asset?</p>
-
-                  <%= form_with(model: @asset_assignment, url: unassign_asset_path(@asset), method: :patch, local: true) do |form| %>
-                    <div class="mb-4">
-                      <%= form.label :status, "New Status", class: "block text-sm font-medium text-gray-700 mb-1" %>
-                      <%= form.select :status, options_for_select(Asset.statuses.keys.reject { |s| s == "assigned" }, @asset.status), {}, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500" %>
-                    </div>
-
-                    <div class="flex justify-end">
-                      <%= form.submit "Unassign Asset", class: "bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium" %>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
           </div>
-        </div>
+        <% end %>  
       </div>
     </div>
   </div>

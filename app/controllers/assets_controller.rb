@@ -5,7 +5,15 @@ class AssetsController < ApplicationController
   before_action :set_asset, only: [:show, :edit, :update, :destroy]
 
   def index
-    @assets = Asset.all.includes(:asset_category, :notes)
+    if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
+      @assets = Asset.all.includes(:asset_category, :notes)
+    else
+      @assets = Asset.joins(:asset_assignments)
+                     .where(asset_assignments: { user_id: current_user.id, active: true })
+                     .includes(:asset_category, :notes)
+                     .distinct
+    end
+
     if params[:status].present?
       @assets = @assets.where(status: params[:status])
     end
@@ -62,10 +70,16 @@ class AssetsController < ApplicationController
   end
 
   def show
-    @users = User.all
-    @notes = @asset.notes
-    # @asset_assignment = @asset.current_assignment
-    @asset_assignment = @asset.asset_assignments.find_by(active: true) || @asset.asset_assignments.build
+    if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
+      @notes = @asset.notes
+      @users = User.all
+      @asset_assignment = @asset.asset_assignments.find_by(active: true) || @asset.asset_assignments.build
+    else
+      unless @asset.asset_assignments.exists?(user_id: current_user.id, active: true)
+        redirect_to assets_path, alert: 'You are not authorized to view this asset.' and return
+      end
+      @notes = @asset.notes
+    end
   end
 
   def export_csv

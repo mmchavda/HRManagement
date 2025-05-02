@@ -48,6 +48,13 @@
             <span><i class="fas fa-angle-right float-right"></i></span>
           </li>
         <% end %>
+      <% else %>  
+      <%= nav_link(assets_path) do %>
+        <li class="w-full h-full py-3 px-2 border-b border-light-border text-gray-600">
+          <i class="fas fa-box-open float-left mx-2"></i> My Assets
+          <span><i class="fas fa-angle-right float-right"></i></span>
+        </li>
+      <% end %>
       <% end %>
     <% end %>
   </ul>
