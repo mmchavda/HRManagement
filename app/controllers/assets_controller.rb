@@ -62,7 +62,10 @@ class AssetsController < ApplicationController
   end
 
   def show
+    @users = User.all
     @notes = @asset.notes
+    # @asset_assignment = @asset.current_assignment
+    @asset_assignment = @asset.asset_assignments.find_by(active: true) || @asset.asset_assignments.build
   end
 
   def export_csv

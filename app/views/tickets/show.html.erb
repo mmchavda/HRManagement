@@ -1,74 +1,174 @@
-<div class="container mx-auto px-6 py-10">
-  <div class="max-w-6xl mx-auto">
-    <!-- Top Buttons -->
-    <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-      <%= link_to 'Back to Tickets', tickets_path, class: 'bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition' %>
-      <div class="flex flex-wrap gap-4">
-        <%= link_to 'Update Ticket', edit_ticket_path(@ticket), class: 'bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition' %>
-        <%= link_to 'View Audit History', audit_history_ticket_path(@ticket), class: 'bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition' %>
-        <%= link_to 'Add Note', new_note_ticket_path(@ticket), class: 'bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition' %>
-        <%= link_to 'View Notes', notes_ticket_path(@ticket), class: 'bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition' %>
+<div class="container mx-auto px-6">
+  <div class="bg-white shadow-xl rounded-1xl overflow-hidden">
+    <div class="flex items-center justify-between  bg-gray-200 px-6 py-4 border-b">
+      <h2 class="text-xl font-semibold text-gray-600">Ticket Details</h2>
+      <div class="  flex justify-end space-x-4">
+        <%= link_to edit_ticket_path(@ticket),
+            class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200" do %>
+          <i class="fas fa-user-edit" aria-hidden="true"></i>
+          <span>Update Ticket</span>
+        <% end %>
+
+        <%= link_to tickets_path, data: { turbo: false },
+            class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" do %>
+          <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          <span>Back to Tickets</span>
+        <% end %>
       </div>
     </div>
-
-    <!-- Ticket Details Card -->
-    <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
-      <div class="bg-gray-200 px-6 py-4 border-b">
-        <h2 class="text-2xl font-semibold text-gray-800">Ticket Details</h2>
-      </div>
-      <div class="p-6 space-y-8">
-
-        <!-- General Details -->
+    <div class="p-6 space-y-8">
+      <div>
         <div>
-          <h3 class="text-xl font-semibold text-gray-700 mb-4 border-b pb-2">General Details</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">General Details</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <p><span class="font-semibold text-gray-800">Title:</span> <%= @ticket.title %></p>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Title</label>
+              <p class="text-gray-700 text-base mt-1"><%= @ticket.title %></p>
             </div>
             <div>
-              <p><span class="font-semibold text-gray-800">Status:</span> <%= @ticket.status %></p>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Status</label>
+              <p class="text-gray-700 text-base mt-1"><%= @ticket.status %></p>
             </div>
             <div>
-              <p><span class="font-semibold text-gray-800">Priority:</span> <%= @ticket.priority %></p>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Priority</label>
+              <p class="text-gray-700 text-base mt-1"><%= @ticket.priority %></p>
             </div>
             <div>
-              <p><span class="font-semibold text-gray-800">Description:</span> <%= @ticket.description %></p>
+              <label class="text-gray-500 text-sm uppercase tracking-wide">Description</label>
+              <p class="text-gray-700 text-base mt-1"><%= @ticket.description %></p>
             </div>
           </div>
         </div>
 
-        <!-- User Assignment -->
         <div>
-          <h3 class="text-xl font-semibold text-gray-700 mb-4 border-b pb-2">User Assignment</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <p><span class="font-semibold text-gray-800">Assigned To:</span> 
-                <%= @ticket.assigned_user&.full_name %> 
-                (<%= @ticket.assigned_user&.email %>)
-              </p>
-            </div>
-          </div>
-
-          <% if (current_user.admin? || current_user.hr?) %>
-            <% @hr_or_admin_users = User.where(role: ['hr', 'admin']).where.not(id: @ticket.assigned_user_id) %>
-            <%= form_with(model: @ticket, url: assign_ticket_path(@ticket), method: :patch, local: true) do |form| %>
-              <div class="flex w-full">
-                <!-- Left side: Select dropdown -->
-                <div class="w-1/2 pr-4">
-                  <strong class="text-black text-lg font-semibold mr-2"> <!-- Added margin-right -->
-                    <%= form.select :assigned_user_id, options_from_collection_for_select(@hr_or_admin_users, :id, :email), include_blank: 'Select User', class: 'form-select text-sm w-full' %>
-                  </strong>
-                </div>
-        
-                <!-- Right side: Submit button -->
-                <div class="w-1/2 pl-4">
-                  <p class="text-black text-lg text-left">
-                    <%= form.submit 'Assign', class: 'px-4 py-2' %>
+          <h2 class="text-xl font-semibold text-gray-600 mb-4 mt-2 border-b pb-2">Assignment & Status</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <p class="font-semibold text-gray-500 mb-1">Assigned To</p>
+                  <p class="text-gray-700">
+                    <%= @ticket.assigned_user&.full_name %> (<%= @ticket.assigned_user&.email %>)
                   </p>
                 </div>
               </div>
-            <% end %>
-          <% end %>
+              <% if (current_user.admin? || current_user.hr?) %>
+                <% @hr_or_admin_users = User.where(role: ['hr', 'admin']).where.not(id: @ticket.assigned_user_id) %>
+                <%= form_with(model: @ticket, url: assign_ticket_path(@ticket), method: :patch, local: true) do |form| %>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end ">
+                    <div>
+                      <label class="block font-semibold text-gray-500 mb-2">Assign to</label>
+                      <%= form.select :assigned_user_id,
+                                      options_from_collection_for_select(@hr_or_admin_users, :id, :email),
+                                      { include_blank: 'Select User' },
+                                      class: 'block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-gray-500 focus:outline-none text-sm text-gray-700 bg-white' %>
+                    </div>
+                  
+                    <div>
+                      <%= form.submit 'Assign',
+                          class: 'inline-flex items-center justify-center bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium px-6 py-2 rounded-md shadow-sm transition duration-200' %>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-semibold text-gray-600 mb-6 border-b pb-2">Audit History</h2>
+          <section data-controller="audit-toggle" class="space-y-4">
+            <button data-action="click->audit-toggle#toggle"
+                    class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200">
+              <i class="fas fa-history text-gray-700" aria-hidden="true"></i>
+              <span>View Ticket History</span>
+            </button>
+
+            <div data-audit-toggle-target="section" class="hidden">
+              <ul class="space-y-6 mt-4 max-h-[75vh] overflow-y-auto pr-2">
+                <% @ticket.audits.each do |audit| %>
+                  <li class="border-b border-gray-300 pb-4 text-sm text-gray-700">
+                    <p class="mb-2">
+                      <span class="font-semibold text-indigo-600"><%= audit.action.capitalize %></span>
+                      by <span class="text-gray-800 font-medium"><%= audit.user&.email || 'System' %></span><br>
+                      <span class="text-xs text-gray-500"><%= audit.created_at.strftime("%B %d, %Y %l:%M %p") %></span>
+                    </p>
+                    <ul class="ml-4 list-disc list-inside text-sm text-gray-600 space-y-1">
+                      <% audit.audited_changes.each do |field, change| %>
+                        <% if change.is_a?(Array) && change.length == 2 %>
+                          <li>
+                            <%= field.capitalize %>:
+                            <% if field == "status" %>
+                              <span class="text-red-500"><%= Ticket.statuses.key(change[0]) %></span>
+                              →
+                              <span class="text-green-600"><%= Ticket.statuses.key(change[1]) %></span>
+                            <% else %>
+                              <span class="text-red-500"><%= change[0].presence || 'nil' %></span>
+                              →
+                              <span class="text-green-600"><%= change[1].presence || 'nil' %></span>
+                            <% end %>
+                          </li>
+                        <% end %>
+                      <% end %>
+                    </ul>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </section>
+        </div>
+        
+        <div>
+          <!-- Unified Heading -->
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Note</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div data-controller="audit-toggle" class="space-y-4">
+              <button data-action="click->audit-toggle#toggle"
+                      class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200">
+                <i class="fas fa-history text-gray-700" aria-hidden="true"></i>
+                <span>View Notes</span>
+              </button>
+
+              <div data-audit-toggle-target="section" class="hidden">
+                <ul class="space-y-4 mt-2 max-h-[65vh] overflow-y-auto pr-2">
+                  <% if @ticket.notes.present? %>
+                    <% @ticket.notes.each do |note| %>
+                      <li class="border-b border-gray-300 pb-4">
+                        <strong class="text-gray-700">Note by: <%= note&.user&.email %></strong>
+                        <p class="text-gray-600 text-sm mt-2"><%= note&.content %></p>
+                        <small class="text-gray-500 text-xs">Created at: <%= note&.created_at&.strftime('%B %d, %Y %I:%M %p') %></small>
+                      </li>
+                    <% end %>
+                  <% else %>
+                    <p class="text-gray-500 text-sm">No notes yet.</p>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+
+            <div data-controller="audit-toggle">
+              <button data-action="click->audit-toggle#toggle"
+                      class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200">
+                <i class="fas fa-plus-circle text-gray-700" aria-hidden="true"></i>
+                <span>Add Note</span>
+              </button>
+
+              <div data-audit-toggle-target="section" class="mt-4">
+                <%= form_with(model: [ @ticket, @note ], url: create_note_ticket_path(@ticket), method: :post, local: true) do |form| %>
+                  <div class="mb-4">
+                    <%= form.label :content, 'Add Note', class: "block text-gray-700 font-medium mb-2" %>
+                    <%= form.text_area :content, class: "w-full p-3 rounded-md border border-gray-300 shadow-sm", rows: 4 %>
+                  </div>
+
+                  <div>
+                    <%= form.submit 'Create Note',
+                      class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-gray-800 hover:bg-gray-900 transition duration-200" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

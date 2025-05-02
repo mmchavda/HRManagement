@@ -84,9 +84,9 @@ class TicketsController < ApplicationController
 	def assign_ticket
 		@ticket.assigned_user_id = params[:ticket][:assigned_user_id]
 		if @ticket.save
-			redirect_to tickets_path, notice: "Ticket successfully assigned."
+			redirect_to @ticket, notice: "Ticket successfully assigned."
 		else
-			redirect_to tickets_path, alert: "Error assigning ticket."
+			redirect_to @ticket, alert: "Error assigning ticket."
 		end
 	end 
 
@@ -139,11 +139,11 @@ class TicketsController < ApplicationController
     @note = @ticket.notes.new
   end
 
-	def create_note
+  def create_note
 		@note = @ticket.notes.new(note_params)
     @note.user = current_user 
     if @note.save
-      redirect_to ticket_path(@ticket), notice: 'Note was successfully added.'
+      redirect_to @ticket
     else
       render :show
     end
