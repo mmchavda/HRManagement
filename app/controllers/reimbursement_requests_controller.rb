@@ -45,6 +45,11 @@ class ReimbursementRequestsController < ApplicationController
     end
   
     def update
+      if params[:reimbursement_request][:status] == 'rejected' && params[:reimbursement_request][:rejection_reason].blank?
+        flash.now[:error] = "Rejection reason is required."
+        render :edit and return
+      end
+
       if params[:reimbursement_request][:status] == 'approved'
         @reimbursement_request.approved_at = Date.today
         @reimbursement_request.approved_by = current_user.id
@@ -53,7 +58,7 @@ class ReimbursementRequestsController < ApplicationController
       if @reimbursement_request.update(reimbursement_request_params)
         redirect_to @reimbursement_request, notice: 'Reimbursement request was successfully updated.'
       else
-        flash.now[:alert] = @reimbursement_request.errors.full_messages.to_sentence
+        flash.now[:error] = @reimbursement_request.errors.full_messages.to_sentence
         render :edit
       end
     end
