@@ -45,6 +45,11 @@ class ReimbursementRequestsController < ApplicationController
     end
   
     def update
+      if params[:reimbursement_request][:status] == 'approved'
+        @reimbursement_request.approved_at = Date.today
+        @reimbursement_request.approved_by = current_user.id
+      end  
+
       if @reimbursement_request.update(reimbursement_request_params)
         redirect_to @reimbursement_request, notice: 'Reimbursement request was successfully updated.'
       else
