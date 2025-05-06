@@ -81,27 +81,24 @@
                   <td class="px-4 py-2"><%= ticket.assigned_user&.full_name %></td>
                   <td class="px-4 py-2">
                     <div class="flex items-center space-x-2">
-                      <!-- Show -->
-                      <%= link_to ticket_path(ticket) do %>
-                        <%= image_tag '/show1.png', alt: 'Show ticket', size: '15x15' %>
+                      <%= link_to ticket_path(ticket), data: { turbo: false }, class: "inline-flex items-center justify-center border border-green-300 bg-white text-green-700 rounded-md p-2 hover:bg-green-300 hover:border-green-500 transition duration-200 mx-1" do %>
+                        <i class="fas fa-eye"></i>
                       <% end %>
 
-                      <!-- Edit -->
-                      <%= link_to edit_ticket_path(ticket) do %>
-                        <%= image_tag '/edit1.png', alt: 'Edit ticket', size: '15x15' %>
+                      <%= link_to edit_ticket_path(ticket), data: { turbo: false }, class: "inline-flex items-center justify-center border border-blue-300 bg-white text-blue-700 rounded-md p-2 hover:bg-blue-300 hover:border-blue-500 transition duration-200 mx-1" do %>
+                        <i class="fas fa-edit"></i>
                       <% end %>
 
-                        <button type="button"
-                              class="delete-ticket-btn"
-                              data-ticket-id="<%= ticket.id %>"
-                              data-ticket-message="Are you sure you want to delete this ticket?">
+                      <button type="button"
+                            class="inline-flex items-center justify-center border border-red-300 bg-white text-red-700 rounded-md p-2 hover:bg-red-300 hover:border-red-500 transition duration-200 mx-1 delete-ticket-btn"
+                            data-ticket-id="<%= ticket.id %>"
+                            data-ticket-message="Are you sure you want to delete this ticket?">
                         <%= image_tag '/delete1.png', alt: 'Delete ticket', size: '15x15' %>
-                        </button>
+                      </button>
 
-                        <!-- Hidden Delete Form -->
-                        <%= form_with(model: ticket, method: :delete, local: true, id: "delete-form-#{ticket.id}", class: 'hidden') do |form| %>
-                          <%= form.submit 'Delete', class: 'hidden' %>
-                        <% end %>
+                      <%= form_with(model: ticket, method: :delete, local: true, id: "delete-form-#{ticket.id}", class: 'hidden') do |form| %>
+                        <%= form.submit 'Delete', class: 'hidden' %>
+                      <% end %>
 
                       <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && ticket.status != "resolved" && (ticket.assigned_user == current_user) %>
                         <%= link_to resolve_ticket_path(ticket), method: :post do %>
@@ -115,9 +112,8 @@
 
               <% if @tickets.any? %>
                 <tr>
-                  <!-- Ensure the entire background is white for the row -->
-                  <td style="background-color: white; padding-top: 15px;" colspan="100%"> <!-- colSpan ensures the pagination spans the full width -->
-                    <div class="flex"> <!-- Center the pagination -->
+                  <td style="background-color: white; padding-top: 15px;" colspan="100%"> 
+                    <div class="flex bg-white px-4 py-2">
                       <%= paginate @tickets, class: 'flex items-center space-x-6 text-white' %>
                     </div>
                   </td>
@@ -129,7 +125,6 @@
       </div>
       <!-- /Card -->
     </div>
-    <!-- /Card Section Ends Here -->
 
   <% else %>
       <p class="text-gray-700 blank_value">No ticket found.</p>
@@ -140,7 +135,7 @@
   <%= render 'shared/global_delete_modal' %>
 </div>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('turbo:load', () => {
     const modal = document.getElementById('global-delete-modal');
     const confirmBtn = document.getElementById('confirm-delete-btn');
     const messageEl = document.getElementById('delete-modal-message');

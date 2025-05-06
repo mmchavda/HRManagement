@@ -6,41 +6,34 @@ export default class extends Controller {
     formId: String,
     message: String
   }
-  
+
   connect() {
-    console.log("ConfirmModalController connected!")
-    this.form = null
-    this._ensureEvents()
+    console.log("✅ confirm modal")
   }
-  
-  _ensureEvents() {
-    this.element.querySelectorAll('[data-action~="click->confirm-modal#show"]').forEach(button => {
-      button.addEventListener("click", this.show.bind(this))
-    })
-  }
-  
+
   show(event) {
-    event.preventDefault();
+    event.stopPropagation();
+    const trigger = event.currentTarget;
   
-    console.log("Delete button clicked");
+    const message = trigger.dataset.confirmModalMessageValue || "Are you sure?"
+    const formId = trigger.dataset.confirmModalFormIdValue
   
-    // Store form reference
-    this.form = document.getElementById(this.formIdValue);
-    console.log("Form reference:", this.form);
+    this.messageTarget.textContent = message
+    this.modalTarget.classList.remove("hidden")
   
-    this.messageTarget.textContent = this.messageValue || "Are you sure?";
-    this.modalTarget.classList.remove("hidden");
+    // Store formId for use in confirm()
+    this._formId = formId
   }
+  
+  confirm() {
+    const form = document.getElementById(this._formId)
+    if (form) form.submit()
+    this.modalTarget.classList.add("hidden")
+  }
+  
 
   cancel() {
     this.modalTarget.classList.add("hidden")
-    this.form = null
   }
 
-  confirm() {
-    if (this.form) {
-      this.form.requestSubmit()
-    }
-    this.cancel()
-  }
 }

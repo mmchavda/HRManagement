@@ -1,69 +1,77 @@
 <div class="container mx-auto px-6">
-  <div class="flex flex-wrap justify-between items-center px-8 py-2 shadow-lg mb-4 bg-white rounded-md">
-    <h2 class="font-semibold text-gray-600 text-xl">User Information</h2>
-    <%= link_to 'Back to users', users_path, data: { turbo: false }, class: 'bg-gray-600 hover:bg-gray-700 text-white px-5 py-1 rounded-md text-sm font-medium shadow-sm transition duration-200' %>
-  </div>
-  
-  <div class="bg-white shadow-xl rounded-2xl p-10 space-y-10 border border-gray-200">
-    <!-- Section: Contact Info -->
-    <div>
-      <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">User Contact</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <label class="text-gray-500 text-sm uppercase tracking-wide">Email</label>
-          <p class="text-gray-700 text-base mt-1"><%= @user.email %></p>
-        </div>
-        <div>
-          <label class="text-gray-500 text-sm uppercase tracking-wide">Phone Number</label>
-          <p class="text-gray-700 text-base mt-1"><%= @user.phone_number %></p>
-        </div>
-      </div>
+  <div class="bg-white shadow-xl rounded overflow-hidden">
+    <div class="flex items-center justify-between bg-gray-200 px-6 py-4 border-b">
+      <h2 class="text-xl font-semibold text-gray-600">User Information</h2>
+      <%= link_to users_path, data: { turbo: false },
+          class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" do %>
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        <span>Back to Users</span>
+      <% end %>
     </div>
 
-    <!-- Section: Personal Info -->
-    <div>
-      <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Personal Details</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <label class="text-gray-500 text-sm uppercase tracking-wide">First Name</label>
-          <p class="text-gray-700 text-base mt-1"><%= @user.first_name&.capitalize %></p>
-        </div>
-        <div>
-          <label class="text-gray-500 text-sm uppercase tracking-wide">Last Name</label>
-          <p class="text-gray-700 text-base mt-1"><%= @user.last_name&.capitalize %></p>
-        </div>
-        <div>
-          <label class="text-gray-500 text-sm uppercase tracking-wide">Username</label>
-          <p class="text-gray-700 text-base mt-1"><%= @user.username %></p>
-        </div>
-        <div>
-          <label class="text-gray-500 text-sm uppercase tracking-wide">Gender</label>
-          <p class="text-gray-700 text-base mt-1"><%= @user.gender&.capitalize %></p>
-        </div>
-        <div>
-          <label class="text-gray-500 text-sm uppercase tracking-wide">Blood Group</label>
-          <p class="text-gray-700 text-base mt-1"><%= @user.blood_group %></p>
-        </div>
-        <div>
-          <label class="text-gray-500 text-sm uppercase tracking-wide">Date of Birth</label>
-          <p class="text-gray-700 text-base mt-1"><%= @user.dob.to_date if @user.dob.present? %></p>
-        </div>
-      </div>
-    </div>
+    <div class="p-6 space-y-10">
 
-    <!-- Section: Role -->
-    <div>
-      <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Account Information</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <label class="text-gray-500 text-sm uppercase tracking-wide">Role</label>
-          <p class="text-gray-700 text-base mt-1"><%= @user.role.titleize %></p>
-        </div>
-        <div>
-          <label class="text-gray-500 text-sm uppercase tracking-wide">Bio</label>
-          <p class="text-gray-700 text-base mt-1 whitespace-pre-line"><%= @user.bio.presence %></p>
+      <!-- Contact Info -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">User Contact</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label class="text-gray-500 text-sm uppercase tracking-wide">Email</label>
+            <p class="text-gray-700 text-base mt-1"><%= @user.email %></p>
+          </div>
+          <div>
+            <label class="text-gray-500 text-sm uppercase tracking-wide">Phone Number</label>
+            <p class="text-gray-700 text-base mt-1"><%= @user.phone_number %></p>
+          </div>
         </div>
       </div>
+
+      <!-- Personal Info -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Personal Details</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label class="text-gray-500 text-sm uppercase tracking-wide">First Name</label>
+            <p class="text-gray-700 text-base mt-1"><%= @user.first_name&.capitalize %></p>
+          </div>
+          <div>
+            <label class="text-gray-500 text-sm uppercase tracking-wide">Last Name</label>
+            <p class="text-gray-700 text-base mt-1"><%= @user.last_name&.capitalize %></p>
+          </div>
+          <div>
+            <label class="text-gray-500 text-sm uppercase tracking-wide">Username</label>
+            <p class="text-gray-700 text-base mt-1"><%= @user.username %></p>
+          </div>
+          <div>
+            <label class="text-gray-500 text-sm uppercase tracking-wide">Gender</label>
+            <p class="text-gray-700 text-base mt-1"><%= @user.gender&.capitalize %></p>
+          </div>
+          <div>
+            <label class="text-gray-500 text-sm uppercase tracking-wide">Blood Group</label>
+            <p class="text-gray-700 text-base mt-1"><%= @user.blood_group %></p>
+          </div>
+          <div>
+            <label class="text-gray-500 text-sm uppercase tracking-wide">Date of Birth</label>
+            <p class="text-gray-700 text-base mt-1"><%= @user.dob.to_date if @user.dob.present? %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Role and Bio -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Account Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label class="text-gray-500 text-sm uppercase tracking-wide">Role</label>
+            <p class="text-gray-700 text-base mt-1"><%= @user.role.titleize %></p>
+          </div>
+          <div>
+            <label class="text-gray-500 text-sm uppercase tracking-wide">Bio</label>
+            <p class="text-gray-700 text-base mt-1 whitespace-pre-line"><%= @user.bio.presence %></p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
