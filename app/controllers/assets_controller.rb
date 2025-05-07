@@ -14,6 +14,8 @@ class AssetsController < ApplicationController
                      .distinct
     end
 
+    @assets = @assets.order(created_at: :desc)
+
     if params[:status].present?
       @assets = @assets.where(status: params[:status])
     end

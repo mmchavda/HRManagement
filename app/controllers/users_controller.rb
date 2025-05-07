@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   # Display all users (only for admins and hr)
   def index
     if current_user.admin? || current_user.hr?
-      @users = User.all
+      @users = User.all.order(created_at: :desc)
       if params[:search].present?
         term = "%#{params[:search]}%"
         @users = @users.where("first_name LIKE :term OR last_name LIKE :term OR email LIKE :term", term: term)

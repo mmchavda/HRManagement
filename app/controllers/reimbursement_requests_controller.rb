@@ -6,9 +6,9 @@ class ReimbursementRequestsController < ApplicationController
 
     def index
       if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
-        @reimbursement_requests = ReimbursementRequest.all
+        @reimbursement_requests = ReimbursementRequest.all.order(created_at: :desc)
       else 
-        @reimbursement_requests = current_user.reimbursement_requests
+        @reimbursement_requests = current_user.reimbursement_requests.order(created_at: :desc)
       end   
 
       if params[:search].present?

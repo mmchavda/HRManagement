@@ -15,5 +15,4 @@ class Asset < ApplicationRecord
   validates :asset_category_id, presence: true
   validates :status, presence: true
   validates :unique_id, uniqueness: true
-  
 end

@@ -4,9 +4,9 @@ class ExpensesController < ApplicationController
 
     def index
       if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
-        @expenses = Expense.all
+        @expenses = Expense.all.order(created_at: :desc)
       else 
-        @expenses = current_user.expenses
+        @expenses = current_user.expenses.order(created_at: :desc)
       end 
       
       if params[:search].present?
