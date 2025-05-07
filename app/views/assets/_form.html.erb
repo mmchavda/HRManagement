@@ -1,101 +1,106 @@
-<div class="container mx-auto px-6">
-  <!-- Heading for Asset Form -->
-  <div class="flex flex-wrap justify-between items-center px-6 py-2 shadow-lg mb-4 bg-white rounded-md">
-    <h2 class="font-semibold text-gray-600 text-xl"><%= form_type == "edit" ? "Update Asset" : "Create Asset" %></h2>
-    <%= link_to 'Back to Assets', assets_path, data: { turbo: false }, class: 'bg-gray-600 hover:bg-gray-700 text-white px-5 py-1 rounded-md text-sm font-medium shadow-sm transition duration-200' %>
-  </div>
-
-  <div class="bg-white p-6 rounded-lg shadow-lg">
-    <%= form_with(model: asset, local: true, class: "space-y-6") do |form| %>
-
-      <% if asset.errors.any? %>
-        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-          <ul class="list-disc pl-5">
-            <% asset.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-
-      <div class="mb-4">
-        <%= form.label :unique_id, "Unique ID <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
-        <%= form.text_field :unique_id, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+ <div class="container mx-auto px-6">
+  <div class="bg-white shadow-xl rounded-1xl overflow-hidden">
+    <div class="flex items-center justify-between  bg-gray-200 px-6 py-4 border-b">
+      <h2 class="font-semibold text-gray-600 text-xl"><%= form_type == "edit" ? "Update Asset" : "Create Asset" %></h2>
+      <div class="  flex justify-end space-x-4">
+        <%= link_to assets_path, data: { turbo: false },
+            class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" do %>
+          <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          <span>Back to Assets</span>
+        <% end %>
       </div>
-
-      <div class="mb-4">
-        <%= form.label :name, "Asset Name <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
-        <%= form.text_field :name, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
-      </div>
-
-      <div class="mb-4">
-        <%= form.label :asset_category_id, "Asset Category <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
-        <%= form.collection_select :asset_category_id, @asset_categories, :id, :name,
-            { prompt: "Select Category" },
-            { required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" }
-        %>
-      </div>
-
-      <div class="mb-4">
-        <%= form.label :brand, class: "block text-sm font-medium text-gray-700" %>
-        <%= form.text_field :brand, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
-      </div>
-
-      <div class="mb-4">
-        <%= form.label :model, class: "block text-sm font-medium text-gray-700" %>
-        <%= form.text_field :model, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
-      </div>
-
-      <div class="mb-4">
-        <%= form.label :specifications, class: "block text-sm font-medium text-gray-700" %>
-        <%= form.text_area :specifications, rows: 4, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <%= form.label :serial_number, class: "block text-sm font-medium text-gray-700" %>
-          <%= form.text_field :serial_number, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
-        </div>
-
-        <div>
-          <%= form.label :location, class: "block text-sm font-medium text-gray-700" %>
-          <%= form.text_field :location, placeholder: "Office, Store Room, etc.", class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <%= form.label :purchase_date, class: "block text-sm font-medium text-gray-700" %>
-          <%= form.date_field :purchase_date, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
-        </div>
-
-        <div>
-          <%= form.label :warranty_expiry, class: "block text-sm font-medium text-gray-700" %>
-          <%= form.date_field :warranty_expiry, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
-
+    </div>
+    <div class="p-6 space-y-8">
+      <%= form_with(model: asset, local: true, class: "space-y-6") do |form| %>
+        <% if asset.errors.any? %>
+          <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+            <ul class="list-disc pl-5">
+              <% asset.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
           </div>
-      </div>
+        <% end %>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <%= form.label :status, "Asset Status <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
-          <%= form.select :status, Asset.statuses.keys.map { |key| [key.humanize, key] },
-        {}, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+        <div class="mb-4">
+          <%= form.label :unique_id, "Unique ID <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :unique_id, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
         </div>
 
-        <div>
-          <%= form.label :condition, class: "block text-sm font-medium text-gray-700" %>
-          <%= form.select :condition, options_for_select(["New", "Good", "Damaged"], asset.condition),
-              { prompt: "Select Condition" },
-              class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+        <div class="mb-4">
+          <%= form.label :name, "Asset Name <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :name, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
         </div>
-      </div>
 
-      <div class="mt-6">
-        <%= form.submit form_type == "edit" ? "Update Asset" : "Create Asset",
-          class: "w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
-      </div>
+        <div class="mb-4">
+          <%= form.label :asset_category_id, "Asset Category <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.collection_select :asset_category_id, @asset_categories, :id, :name,
+              { prompt: "Select Category" },
+              { required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" }
+          %>
+        </div>
 
-    <% end %>
+        <div class="mb-4">
+          <%= form.label :brand, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :brand, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+        </div>
+
+        <div class="mb-4">
+          <%= form.label :model, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_field :model, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+        </div>
+
+        <div class="mb-4">
+          <%= form.label :specifications, class: "block text-sm font-medium text-gray-700" %>
+          <%= form.text_area :specifications, rows: 4, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <%= form.label :serial_number, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :serial_number, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+          </div>
+
+          <div>
+            <%= form.label :location, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :location, placeholder: "Office, Store Room, etc.", class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <%= form.label :purchase_date, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.date_field :purchase_date, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+          </div>
+
+          <div>
+            <%= form.label :warranty_expiry, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.date_field :warranty_expiry, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <%= form.label :status, "Asset Status <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :status, Asset.statuses.keys.map { |key| [key.humanize, key] },
+          {}, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+          </div>
+
+          <div>
+            <%= form.label :condition, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :condition, options_for_select(["New", "Good", "Damaged"], asset.condition),
+                { prompt: "Select Condition" },
+                class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700" %>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <%= form.submit form_type == "edit" ? "Update Asset" : "Create Asset",
+            class: "w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+        </div>
+
+      <% end %>
+    </div>
   </div>
 </div>
