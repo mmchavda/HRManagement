@@ -27,7 +27,7 @@
           <%= f.text_field :title, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
         </div>
 
-        <% if (ticket.assigned_user == current_user) && (form_type == "edit") %>
+        <% if (current_user.hr? || current_user.admin?)  && (form_type == "edit") %> 
           <div>
             <%= f.label :status, class: "block text-sm font-medium text-black" %>
             <%= f.select :status, Ticket.statuses.keys.sort.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
