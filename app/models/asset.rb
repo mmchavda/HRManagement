@@ -9,5 +9,11 @@ class Asset < ApplicationRecord
 #  enum :condition, [ :new, :good, :damaged ]
 
   audited except: [:purchase_date, :warranty_expiry]
+
+  validates :unique_id, presence: true
+  validates :name, presence: true
+  validates :asset_category_id, presence: true
+  validates :status, presence: true
+  validates :unique_id, uniqueness: true
   
 end
