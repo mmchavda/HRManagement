@@ -1,57 +1,61 @@
-<div class="container mx-auto px-6">
-  <!-- Heading -->
-  <div class="flex flex-wrap justify-between items-center px-6 py-2 shadow-lg mb-4 bg-white rounded-md">
-    <h2 class="font-semibold text-gray-600 text-xl"><%= form_type == "edit" ? "Update Request" : "Create Request" %></h2>
-    <%= link_to 'Back to Requests', reimbursement_requests_path, data: { turbo: false }, class: 'bg-gray-600 hover:bg-gray-700 text-white px-5 py-1 rounded-md text-sm font-medium shadow-sm transition duration-200' %>
-  </div>
+ <div class="container mx-auto px-6">
+  <div class="bg-white shadow-xl rounded-1xl overflow-hidden">
+    <div class="flex items-center justify-between  bg-gray-200 px-6 py-4 border-b">
+      <h2 class="font-semibold text-gray-600 text-xl"><%= form_type == "edit" ? "Update Request" : "Create Request" %></h2>
+      <div class="  flex justify-end space-x-4">
+        <%= link_to reimbursement_requests_path, data: { turbo: false },
+            class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" do %>
+          <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          <span>Back to Requests</span>
+        <% end %>
+      </div>
+    </div>
+    <div class="p-6 space-y-8">
+      <%= form_with model: request, data: { turbo: false }, class: "space-y-6" do |f| %>
+        <% if request.errors.any? %>
+          <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+            <ul class="list-disc pl-5">
+              <% request.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
-  <!-- Form -->
-  <div class="bg-white p-6 rounded-lg shadow-lg">
-    <%= form_with model: request, data: { turbo: false }, class: "space-y-6" do |f| %>
-
-      <% if request.errors.any? %>
-        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-          <ul class="list-disc pl-5">
-            <% request.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-          </ul>
+        <!-- Status -->
+        <div class="mb-4">
+          <%= f.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.select :status,
+                ReimbursementRequest.statuses.keys.map { |status| [status.humanize, status.to_s] },
+                { prompt: "Select status" },
+                required: true,
+                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700",
+                id: "status-select" %>
         </div>
+
+        <!-- Rejection Reason -->
+        <div id="rejection-reason-field" class="mb-4 hidden">
+          <%= f.label :rejection_reason, "Rejection Reason <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_field :rejection_reason, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+        </div>
+
+        <!-- Expense -->
+        <div class="mb-4">
+          <%= f.label :expense, "Expense <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.select :expense_id,
+                current_user.expenses.left_outer_joins(:reimbursement_request).where(reimbursement_request: { id: nil }).map { |expense| [expense.title, expense.id] },
+                { prompt: "Select expense" },
+                required: true,
+                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+        </div>
+
+        <!-- Submit -->
+        <div class="mb-4">
+          <%= f.submit form_type == "edit" ? "Update Reimbursement Request" : "Create Reimbursement Request", class: "w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+        </div>
+
       <% end %>
-
-      <!-- Status -->
-      <div class="mb-4">
-        <%= f.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.select :status,
-              ReimbursementRequest.statuses.keys.map { |status| [status.humanize, status.to_s] },
-              { prompt: "Select status" },
-              required: true,
-              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700",
-              id: "status-select" %>
-      </div>
-
-      <!-- Rejection Reason -->
-      <div id="rejection-reason-field" class="mb-4 hidden">
-        <%= f.label :rejection_reason, "Rejection Reason <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :rejection_reason, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
-      </div>
-
-      <!-- Expense -->
-      <div class="mb-4">
-        <%= f.label :expense, "Expense <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.select :expense_id,
-              current_user.expenses.left_outer_joins(:reimbursement_request).where(reimbursement_request: { id: nil }).map { |expense| [expense.title, expense.id] },
-              { prompt: "Select expense" },
-              required: true,
-              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
-      </div>
-
-      <!-- Submit -->
-      <div class="mb-4">
-        <%= f.submit form_type == "edit" ? "Update Reimbursement Request" : "Create Reimbursement Request", class: "w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
-      </div>
-
-    <% end %>
+    </div>
   </div>
 </div>
 
