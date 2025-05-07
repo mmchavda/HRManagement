@@ -43,7 +43,7 @@
           <% if current_user.admin? || current_user.hr? %>
             <!-- Dropdown for Admin or HR users -->
             <%= f.select :role,
-                User.roles.keys.map { |r| [r.titleize, r] },
+                User.roles.keys.sort.map { |r| [r.titleize, r] },
                 { selected: f.object.role },
                 class: 'mt-1 text-gray-700 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700'
             %>
