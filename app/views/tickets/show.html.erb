@@ -59,7 +59,7 @@
                       <label class="block font-semibold text-gray-500 mb-2">Assign to</label>
                       <%= form.select :assigned_user_id,
                                       options_from_collection_for_select(@hr_or_admin_users, :id, :email),
-                                      { include_blank: 'Select User' },
+                                      { include_blank: 'Select User' }, required: true,
                                       class: 'block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-gray-500 focus:outline-none text-sm text-gray-700 bg-white' %>
                     </div>
                   

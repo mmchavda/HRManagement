@@ -11,9 +11,11 @@ class Ticket < ApplicationRecord
   scope :open, -> { where(status: 'open') }
   scope :in_progress, -> { where(status: 'in_progress') }
   scope :resolved, -> { where(status: 'resolved ') }
+  scope :hold, -> { where(status: 'hold') }
+  scope :rejected, -> { where(status: 'rejected') }
 
   # Status and priority defaults can be managed via enum
-  enum :status, [ :open, :in_progress, :resolved ]
+  enum :status, [ :open, :in_progress, :resolved, :hold, :rejected ]
   enum :priority, [ :low, :medium, :high ]
 
   #has_many :notes, dependent: :destroy

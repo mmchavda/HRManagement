@@ -29,14 +29,20 @@
 
         <% if (current_user.hr? || current_user.admin?)  && (form_type == "edit") %> 
           <div>
-            <%= f.label :status, class: "block text-sm font-medium text-black" %>
-            <%= f.select :status, Ticket.statuses.keys.sort.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+            <%= f.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-black" %>
+            <%= f.select :status, Ticket.statuses.keys.sort.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700", id: "status-select" %>
           </div>
         <% end %>
 
+         <!-- Rejection Reason -->
+        <div id="rejection-reason-field" class="mb-4 hidden">
+          <%= f.label :rejection_reason, "Rejection Reason <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_field :rejection_reason, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+        </div>
+
         <div class="mb-4">
           <%= f.label :description, "Description", class: "block text-sm font-medium text-gray-700" %>
-          <%= f.text_area :description, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+          <%= f.text_area :description, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
         </div>
 
         <div class="mb-4">
@@ -51,3 +57,31 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const statusSelect = document.getElementById('status-select');
+    const rejectionField = document.getElementById('rejection-reason-field');
+
+    if (!statusSelect || !rejectionField) {
+      console.warn('Missing status select or rejection field');
+      return;
+    }
+
+    const toggleRejectionField = () => {
+      const value = statusSelect.value;
+      console.log("Status selected:", value); // Debugging
+      if (value === 'rejected') {
+        rejectionField.classList.remove('hidden');
+      } else {
+        rejectionField.classList.add('hidden');
+      }
+    };
+
+    // Initial load
+    toggleRejectionField();
+
+    // On change
+    statusSelect.addEventListener('change', toggleRejectionField);
+  });
+</script>
