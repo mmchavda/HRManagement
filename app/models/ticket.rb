@@ -22,7 +22,7 @@ class Ticket < ApplicationRecord
   has_many :notes, as: :notable, dependent: :destroy
 
 
-  after_create :assign_hr_user_and_open_status
+  before_create :assign_hr_user_and_open_status
 
   private
 
@@ -32,7 +32,8 @@ class Ticket < ApplicationRecord
     
     if hr_user
       # Assign the HR user to the ticket and set status to "open"
-      self.update(assigned_user_id: hr_user.id, status: "open")
+      self.assigned_user_id = hr_user.id
+      self.status = "open"
     else
       # Optionally handle the case where no HR user is found
       Rails.logger.error "No HR user found to assign the ticket to."

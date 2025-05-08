@@ -15,20 +15,32 @@
           <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
           <span class="text-red-600 ml-1">*</span>
         </div>
-        <%= f.email_field :email, autofocus: true, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-      </div>
+        <div class="relative">
+          <%= f.email_field :email, autofocus: true, required: true, class: "mt-1 block w-full px-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            <i class="fas fa-envelope absolute inset-y-0 pl-3 flex items-center text-gray-500"></i>
+          </div>
+        </div>
 
       <div class="mb-4">
         <div class="flex items-center">
           <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
           <span class="text-red-600 ml-1">*</span>
         </div>
-        <%= f.password_field :password, autocomplete: "new-password", required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+
+        <div class="relative">
+          <%= f.password_field :password, id: "password_field", autocomplete: "new-password", required: true,
+              class: "mt-1 block w-full pr-10 pl-10 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+
+          <button type="button" onclick="togglePassword('password_field', 'toggle_icon')" 
+            class="absolute inset-y-0 pl-3 flex items-center text-gray-500 focus:outline-none">
+            <i class="fas fa-eye" id="toggle_icon"></i>
+          </button>
+        </div>
       </div>
 
       <div class="mb-4">
         <div class="flex items-center">
-          <%= f.label :password_confirmation, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.label :confirm_password, class: "block text-sm font-medium text-gray-700" %>
           <span class="text-red-600 ml-1">*</span>
         </div>
         <%= f.password_field :password_confirmation, autocomplete: "new-password", required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
@@ -44,3 +56,19 @@
     </div>
   </div>
 </div>
+
+<script>
+  function togglePassword(fieldId) {
+    const input = document.getElementById(fieldId);
+    const icon = document.getElementById("toggle_icon");
+    if (input.type === "password") {
+      input.type = "text";
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    } else {
+      input.type = "password";
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    }
+  }
+</script>
