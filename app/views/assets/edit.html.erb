@@ -1,4 +1,5 @@
 <!-- app/views/assets/edit.html.erb -->
-
-<%= render 'form', asset: @asset, asset_categories: @asset_categories, form_type: "edit" %>
+<%= form_with(model: @asset, local: true, class: "space-y-6") do |form| %>
+  <%= render 'view_edit', asset: @asset, users: @users, asset_assignment: @asset_assignment, page_type: "edit", form: form %>
+<% end %>
 

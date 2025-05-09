@@ -1,0 +1,127 @@
+<div class="container mx-auto px-6">
+  <div class="bg-white shadow-xl rounded-1xl overflow-hidden">
+    <!-- Header -->
+    <div class="flex items-center justify-between bg-gray-200 px-6 py-4 border-b">
+      <h2 class="text-xl font-semibold text-gray-600">
+        <%= page_type == "edit" ? "Edit Reimbursement Request" : "Reimbursement Request" %>
+      </h2>
+      <div class="flex justify-end space-x-4">
+        <% if page_type == "edit" %>
+          <div>
+            <%= form.submit "Save Changes", class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" %>
+          </div>
+        <% end %>
+        <%= link_to reimbursement_requests_path, data: { turbo: false },
+            class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" do %>
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+            <span>Back to Requests</span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="p-6 space-y-10">
+      <!-- Request Details -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Request Details</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Title -->
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Title</label>
+            <% if page_type == "edit" %>
+              <%= form.text_field :title, value: @reimbursement_request.expense.title, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= @reimbursement_request.expense.title %></p>
+            <% end %>
+          </div>
+
+          <!-- Amount -->
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Amount</label>
+            <% if page_type == "edit" %>
+              <%= form.number_field :total_amount, step: "0.01", class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= number_to_currency(@reimbursement_request.total_amount) %></p>
+            <% end %>
+          </div>
+
+          <!-- Reason -->
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Reason</label>
+            <% if page_type == "edit" %>
+              <%= form.text_area :rejection_reason, rows: 3, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= @reimbursement_request.rejection_reason.presence || "-" %></p>
+            <% end %>
+          </div>
+
+          <!-- Status -->
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Status</label>
+            <% if page_type == "edit" %>
+              <%= form.select :status, ReimbursementRequest.statuses.keys.map { |s| [s.humanize, s] },
+                    {}, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= @reimbursement_request.status&.humanize %></p>
+            <% end %>
+          </div>
+          
+          <% if page_type == "view" %>
+            <!-- Date Submitted -->
+            <div>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Date Submitted</label>
+              <p class="text-gray-600 text-base mt-1"><%= @reimbursement_request.created_at.strftime('%B %d, %Y') %></p>
+            </div>
+
+            <!-- Approved Date -->
+            <div>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Approved Date</label>
+              <p class="text-gray-600 text-base mt-1">
+                <%= @reimbursement_request.approved_at.present? ? @reimbursement_request.approved_at.strftime('%B %d, %Y') : "-" %>
+              </p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Audit History (for view only) -->
+      <% if page_type == "view" %>
+        <div data-controller="audit-toggle">
+          <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Audit History</h2>
+          <button data-action="click->audit-toggle#toggle" class="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
+            <span class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200">View Audit History</span>
+          </button>
+
+          <div data-audit-toggle-target="section" class="hidden mt-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+              <div>
+                <h4 class="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">
+                  Audit History for <%= @reimbursement_request.expense.title %>
+                </h4>
+                <div class="space-y-6 max-h-[65vh] overflow-y-auto pr-2">
+                  <% @reimbursement_request.audits.each do |audit| %>
+                    <div class="border-b border-gray-300 pb-4">
+                      <p class="text-sm text-gray-600 mb-1">
+                        <strong><%= audit.action.capitalize %></strong> by <%= audit.user&.email || "System" %> on
+                        <%= audit.created_at.strftime('%B %d, %Y at %I:%M %p') %>
+                      </p>
+                      <ul class="ml-4 list-disc text-gray-700 text-sm">
+                        <% audit.audited_changes.each do |field, change| %>
+                          <% if change.is_a?(Array) && change.length == 2 %>
+                            <li>
+                              <strong><%= field.humanize %>:</strong>
+                              <%= field == "status" ? "#{ReimbursementRequest.statuses.key(change[0])} → #{ReimbursementRequest.statuses.key(change[1])}" : "#{change[0]} → #{change[1]}" %>
+                            </li>
+                          <% end %>
+                        <% end %>
+                      </ul>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

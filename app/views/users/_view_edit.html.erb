@@ -1,0 +1,124 @@
+<div class="container mx-auto px-6">
+  <div class="bg-white shadow-xl rounded-1xl overflow-hidden">
+    <div class="flex items-center justify-between bg-gray-200 px-6 py-4 border-b">
+      <h2 class="text-xl font-semibold text-gray-600"><%= page_type == "edit" ? "Update User" : "User Information" %></h2>
+      <div class="flex justify-end space-x-4">
+        <% if page_type == "edit" %>
+					<div>
+						<%= form.submit "Update User", class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" %>
+					</div>
+        <% end %>
+          <%= link_to users_path, data: { turbo: false },
+					class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" do %>
+					<i class="fas fa-arrow-left" aria-hidden="true"></i>
+					<span>Back to Users</span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="p-6 space-y-10">
+      <!-- Contact Info -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">User Contact</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Email</label>
+            <% if page_type == "edit" %>
+              <%= form.email_field :email, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= @user.email %></p>
+            <% end %>
+          </div>
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Phone Number</label>
+            <% if page_type == "edit" %>
+              <%= form.telephone_field :phone_number, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= @user.phone_number %></p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal Info -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Personal Details</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">First Name</label>
+            <% if page_type == "edit" %>
+              <%= form.text_field :first_name, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= @user.first_name&.capitalize %></p>
+            <% end %>
+          </div>
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Last Name</label>
+            <% if page_type == "edit" %>
+              <%= form.text_field :last_name, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= @user.last_name&.capitalize %></p>
+            <% end %>
+          </div>
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Username</label>
+            <% if page_type == "edit" %>
+              <%= form.text_field :username, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= @user.username %></p>
+            <% end %>
+          </div>
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Gender</label>
+            <% if page_type == "edit" %>
+              <%= form.select :gender, ['Male', 'Female', 'Other'], { include_blank: true },
+                  class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= @user.gender&.capitalize %></p>
+            <% end %>
+          </div>
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Blood Group</label>
+            <% if page_type == "edit" %>
+              <%= form.text_field :blood_group, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= @user.blood_group %></p>
+            <% end %>
+          </div>
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Date of Birth</label>
+            <% if page_type == "edit" %>
+              <%= form.date_field :dob, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= @user.dob&.strftime("%B %d, %Y") %></p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Role and Bio -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Account Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Role</label>
+            <% if page_type == "edit" %>
+              <%= form.select :role, User.roles.keys.map(&:titleize), {},
+                  class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1"><%= @user.role.titleize %></p>
+            <% end %>
+          </div>
+          <div>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Bio</label>
+            <% if page_type == "edit" %>
+              <%= form.text_area :bio, rows: 3, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% else %>
+              <p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= @user.bio.presence || "-" %></p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
