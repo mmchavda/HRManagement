@@ -1,4 +1,3 @@
-<%= turbo_frame_tag "ticket_form_modal" do %>
-  <%= render "form", ticket: @ticket, form_type: "edit" %>
+<%= form_with model: @ticket, data: { turbo: false }, class: "space-y-6" do |form| %>
+  <%= render "view_edit", ticket: @ticket, form: form, page_type: "edit" %>
 <% end %>
-
