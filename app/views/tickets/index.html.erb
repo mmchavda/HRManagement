@@ -73,7 +73,11 @@
                     <td class="px-4 py-2"><%= i + 1 %></td>
                     <td class="px-4 py-2"><%= ticket.user&.full_name %></td>
                     <td class="px-4 py-2"><%= ticket.title %></td>
-                    <td class="px-4 py-2"><%= ticket.status %></td>
+                    <% if ticket.status == "in_progress" %>
+                      <td class="px-4 py-2"><%= "in-progress" %></td>
+                    <% else %>
+                      <td class="px-4 py-2"><%= ticket.status %></span></td>
+                    <% end %>  
                     <td class="px-4 py-2"><%= ticket.priority %></td>
                     <td class="px-4 py-2"><%= ticket.assigned_user&.full_name %></td>
                     <td class="px-4 py-2">

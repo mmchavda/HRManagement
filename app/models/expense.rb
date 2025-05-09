@@ -12,8 +12,7 @@ class Expense < ApplicationRecord
   validates :proof, presence: true
 
   # Expense categories could be stored as a string, or an enum for predefined categories
-  enum :category, [:travel, :meals, :office_supplies, :certifications, :training, :other]
-
+  enum :category, [:travel, :meals, :office_supplies, :certifications, :training, :internet, :fuel, :misc] # Example categories: Office Supplies, Certifications, Training, Other
   private 
 
   def correct_proof_format

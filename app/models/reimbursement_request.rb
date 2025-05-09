@@ -7,7 +7,8 @@ class ReimbursementRequest < ApplicationRecord
   validates :status, presence: true
 
   # Status for reimbursement requests can be pending, approved, or rejected
-  enum :status, [:pending, :approved, :rejected]
+  enum :status, [:pending, :approved, :rejected, :paid] # Example statuses: Pending, Approved, Rejected, Paid
+
   scope :pending, -> { where(status: 'pending') }
   scope :approved, -> { where(status: 'approved') }
   scope :rejected, -> { where(status: 'rejected') }
