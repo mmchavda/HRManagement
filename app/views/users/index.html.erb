@@ -42,11 +42,7 @@
   </div>
   
   <%= turbo_frame_tag "users_list" do %>
-    <% if @users.present? %>
-      <%= render partial: "users_list", locals: { users: @users } %>
-    <% else %>
-      <p class="text-gray-700 blank_value">No user found.</p>
-    <% end %>
+    <%= render partial: "users_list", locals: { users: @users } %>
     <%= render 'shared/confirmation_modal' %>
   <% end %>
 </div>
