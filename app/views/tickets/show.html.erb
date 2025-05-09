@@ -96,12 +96,25 @@
                       <% audit.audited_changes.each do |field, change| %>
                         <% if change.is_a?(Array) && change.length == 2 %>
                           <li>
+                            
+                            <% if field == "assigned_user_id" %>
+                              <%= "Assigned User" %>:
+
+                              <span class="text-red-500"><%= User.find_by(id: change[0])&.email || 'nil' %></span>
+                              →
+                              <span class="text-green-600"><%= User.find_by(id: change[1])&.email || 'nil' %></span>
+                            <% elsif field == "priority" %>
+                              <%= field.capitalize %>:
+                              <span class="text-red-500"><%= Ticket.priorities.key(change[0]) %></span>
+                              →
+                              <span class="text-green-600"><%= Ticket.priorities.key(change[1]) %></span> 
+                            <% elsif field == "status" %>
                             <%= field.capitalize %>:
-                            <% if field == "status" %>
                               <span class="text-red-500"><%= Ticket.statuses.key(change[0]) %></span>
                               →
                               <span class="text-green-600"><%= Ticket.statuses.key(change[1]) %></span>
                             <% else %>
+                            <%= field.capitalize %>:
                               <span class="text-red-500"><%= change[0].presence || 'nil' %></span>
                               →
                               <span class="text-green-600"><%= change[1].presence || 'nil' %></span>
