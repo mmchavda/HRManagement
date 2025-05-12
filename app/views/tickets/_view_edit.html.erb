@@ -1,10 +1,10 @@
 <div class="container mx-auto px-6">
   <div class="bg-white shadow-xl rounded-1xl overflow-hidden">
-    <div class="flex items-center justify-between  bg-gray-200 px-6 py-4 border-b">
+    <div class="flex items-center justify-between bg-gray-200 px-6 py-4 border-b">
       <h2 class="text-xl font-semibold text-gray-600">Ticket Details</h2>
       <div class="flex justify-end space-x-4">
         <div>
-          <% if page_type == "edit" %>
+          <% if page_type == "edit" || page_type == "new"%>
             <%= button_tag type: 'submit',
                 class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-3 rounded-md font-semibold shadow-sm transition duration-200" do %>
               <i class="fas fa-user-edit" aria-hidden="true"></i>
@@ -24,44 +24,64 @@
         <div>
           <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">General Details</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <% if page_type == "edit" || page_type == "new" %>
+              <% if ticket.errors.any? %>
+                <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+                  <ul class="list-disc pl-5">
+                    <% ticket.errors.full_messages.each do |msg| %>
+                      <li><%= msg %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
+            <% end %>
             <div>
-              <label class="text-gray-600 font-semibold uppercase tracking-wide">Title</label>
-              <% if page_type == "edit" %>
+              <% if page_type == "edit" || page_type == "new" %>
+                <%= form.label :title, "Title <span class='text-red-600'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
                 <%= form.text_field :title, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-600" %>
               <% else %>
+                <label class="text-gray-600 font-semibold uppercase tracking-wide">Title</label>
                 <p class="text-gray-600 text-base mt-1"><%= @ticket.title %></p>
               <% end %>
             </div>
+
             <div>
-              <label class="text-gray-600 font-semibold uppercase tracking-wide">Status</label>
-              <% if (current_user.hr? || current_user.admin?) && (page_type == "edit") %> 
+              <% if (current_user.hr? || current_user.admin?) && (page_type == "edit" || page_type == "new") %> 
+                <%= form.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
                 <%= form.select :status, Ticket.statuses.keys.sort.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-600", id: "status-select" %>
               <% else %>
+                <label class="text-gray-600 font-semibold uppercase tracking-wide">Status</label>
                 <p class="text-gray-600 text-base mt-1"><%= @ticket.status %></p>
               <% end %>
             </div>
             
-            <% if page_type == "edit" %>
+            <% if page_type == "edit" || page_type == "new" %>
               <div id="rejection-reason-field" class=" hidden">
-                <label class="text-gray-600 font-semibold uppercase tracking-wide">Rejection Reason</label>
+                <%= form.label :rejection_reason, "Rejection Reason <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
                 <%= form.text_field :rejection_reason, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700" %>
               </div>
             <% end %>
 
             <div>
-              <label class="text-gray-600 font-semibold uppercase tracking-wide">Priority</label>
-              <% if page_type == "edit" %>
+              <% if page_type == "edit" || page_type == "new" %>
+                <%= form.label :priority, "Priority <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
                 <%= form.select :priority, Ticket.priorities.keys.sort.map { |priority| [priority.capitalize, priority] }, { prompt: 'Select Priority' }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-600" %>
               <% else %>
+                <label class="text-gray-600 font-semibold uppercase tracking-wide">Priority</label>
                 <p class="text-gray-600 text-base mt-1"><%= @ticket.priority %></p>
               <% end %>
             </div>
-            <div>
+
+            <div data-controller="read-more" >
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Description</label>
-              <% if page_type == "edit" %>
+              <% if page_type == "edit" || page_type == "new" %>
                 <%= form.text_area :description, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-600" %>
               <% else %>
-                <p class="text-gray-600 text-base mt-1"><%= @ticket.description %></p>
+              <br/>
+              <div class="text-gray-600 text-base mt-1 inline">
+                <span data-read-more-target="content"><%= @ticket.description %></span>
+                <button type="button" data-action="click->read-more#toggle" data-read-more-target="toggle" class="text-sm text-blue-600 hover:underline ml-1 focus:outline-none hidden"> Read more </button>
+              </div>
               <% end %>
             </div>
           </div>
@@ -106,7 +126,7 @@
             <h2 class="text-xl font-semibold text-gray-600 mb-6 border-b pb-2">Audit History</h2>
             <section data-controller="audit-toggle" class="space-y-4">
               <button data-action="click->audit-toggle#toggle"
-                      class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-md font-semibold font-medium shadow-sm transition duration-200">
+                      class="inline-flex focus:outline-none items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-md focus:border-gray-500 font-semibold font-medium shadow-sm transition duration-200">
                 <i class="fas fa-history text-gray-600" aria-hidden="true"></i>
                 <span>View Ticket History</span>
               </button>
@@ -117,7 +137,7 @@
                     <li class="border-b border-gray-300 pb-4 font-semibold text-gray-600">
                       <p class="mb-2">
                         <span class="font-semibold text-indigo-600"><%= audit.action.capitalize %></span>
-                        by <span class="text-gray-800 font-medium"><%= audit.user&.email || 'System' %></span><br>
+                        by <span class="text-gray-600 font-medium"><%= audit.user&.email || 'System' %></span><br>
                         <span class="text-xs text-gray-500"><%= audit.created_at.strftime("%B %d, %Y %l:%M %p") %></span>
                       </p>
                       <ul class="ml-4 list-disc list-inside font-semibold text-gray-600 space-y-1">
@@ -143,9 +163,28 @@
                                 <span class="text-green-600"><%= Ticket.statuses.key(change[1]) %></span>
                               <% else %>
                               <%= field.capitalize %>:
-                                <span class="text-red-500"><%= change[0].presence || 'nil' %></span>
+                                <span data-controller="read-more" class="inline">
+                                  <span class="text-red-500" data-read-more-target="content"><%= change[0].presence || 'nil' %></span>
+                                  <button type="button"
+                                          data-action="click->read-more#toggle"
+                                          data-read-more-target="toggle"
+                                          class="ml-1 text-sm text-blue-600 hover:underline focus:outline-none focus:ring-0 hidden">
+                                    Read more
+                                  </button>
+                                </span>
+
                                 →
-                                <span class="text-green-600"><%= change[1].presence || 'nil' %></span>
+
+                                <!-- New Value with its own Read More -->
+                                <span data-controller="read-more" class="inline">
+                                  <span class="text-green-600" data-read-more-target="content"><%= change[1].presence || 'nil' %></span>
+                                  <button type="button"
+                                          data-action="click->read-more#toggle"
+                                          data-read-more-target="toggle"
+                                          class="ml-1 text-sm text-blue-600 hover:underline focus:outline-none focus:ring-0 hidden">
+                                    Read more
+                                  </button>
+                                </span>
                               <% end %>
                             </li>
                           <% end %>
@@ -159,13 +198,11 @@
           </div>
           
           <div>
-            <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Note</h2>
-
+            <h2 class="text-xl font-semibold text-gray-600 mb-6 border-b pb-2">Note</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              
               <div data-controller="audit-toggle" class="space-y-4">
                 <button data-action="click->audit-toggle#toggle"
-                        class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-md font-semibold font-medium shadow-sm transition duration-200">
+                        class="inline-flex focus:outline-none items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-md focus:border-gray-500 font-semibold font-medium shadow-sm transition duration-200">
                   <i class="fas fa-history text-gray-600" aria-hidden="true"></i>
                   <span>View Notes</span>
                 </button>
@@ -173,11 +210,29 @@
                 <div data-audit-toggle-target="section" class="hidden">
                   <ul class="space-y-4 mt-2 max-h-[65vh] overflow-y-auto pr-2">
                     <% if @ticket.notes.present? %>
-                      <% @ticket.notes.each do |note| %>
-                        <li class="border-b border-gray-300 pb-4">
+                      <% @ticket.notes.order(created_at: :desc).each do |note| %>
+                        <li class="border-b border-gray-300 pb-4" data-controller="read-more">
                           <strong class="text-gray-600">Note by: <%= note&.user&.email %></strong>
-                          <p class="text-gray-600 font-semibold mt-2"><%= note&.content %></p>
-                          <small class="text-gray-500 text-xs">Created at: <%= note&.created_at&.strftime('%B %d, %Y %I:%M %p') %></small>
+                          <div data-controller="read-more" class="inline">
+                            <span class="text-gray-600" data-read-more-target="content"><%= note.content %></span>
+                            <button type="button"
+                                    data-read-more-target="toggle"
+                                    data-action="click->read-more#toggle"
+                                    class="ml-1 text-sm text-blue-600 hover:underline focus:outline-none focus:ring-0 hidden">
+                              Read more
+                            </button>
+                          </div>
+
+                          <div class="text-gray-600 mt-2 break-words">
+                            <span data-read-more-target="content"><%= note&.content %></span>
+                            <button type="button"
+                                    data-action="click->read-more#toggle"
+                                    data-read-more-target="toggle"
+                                    class="text-sm text-blue-600 focus:outline-none hover:underline ml-1 align-baseline hidden">
+                              Read more
+                            </button>
+                          </div>
+                          <small class="text-gray-600 text-xs">Created at: <%= note&.created_at&.strftime('%B %d, %Y %I:%M %p') %></small>
                         </li>
                       <% end %>
                     <% else %>
@@ -189,7 +244,7 @@
 
               <div data-controller="audit-toggle">
                 <button data-action="click->audit-toggle#toggle"
-                        class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-md font-semibold font-medium shadow-sm transition duration-200">
+                        class="inline-flex items-center gap-2 focus:outline-none bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-md font-semibold font-medium shadow-sm transition duration-200">
                   <i class="fas fa-plus-circle text-gray-600" aria-hidden="true"></i>
                   <span>Add Note</span>
                 </button>
@@ -198,12 +253,12 @@
                   <%= form_with(model: [ @ticket, @note ], url: create_note_ticket_path(@ticket), method: :post, local: true) do |form| %>
                     <div class="mb-4">
                       <%= form.label :content, 'Add Note', class: "block text-gray-600 font-medium mb-2" %>
-                      <%= form.text_area :content, class: "w-full p-3 rounded-md border border-gray-300 shadow-sm", rows: 4 %>
+                      <%= form.text_area :content, class: "w-full p-3 text-gray-600 rounded-md border border-gray-300 shadow-sm", rows: 4 %>
                     </div>
 
                     <div>
                       <%= form.submit 'Create Note',
-                        class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg font-semibold font-medium text-white bg-gray-800 hover:bg-gray-900 transition duration-200" %>
+                        class: "w-full py-2 px-4 border border-transparent rounded-md shadow-lg font-semibold font-medium text-white bg-gray-600 hover:bg-gray-700 transition duration-200" %>
                     </div>
                   <% end %>
                 </div>

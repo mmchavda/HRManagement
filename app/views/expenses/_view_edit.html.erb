@@ -6,13 +6,17 @@
       <h2 class="text-xl font-semibold text-gray-600">Expense Information</h2>
         <div class="flex justify-end space-x-4">
           <div>
-            <% if page_type == "edit" %>
-              <%= form.submit "Update Expense" , class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-lg font-semibold font-medium border border-gray-300 shadow-sm transition duration-150" %>
+            <% if page_type == "edit" || page_type == "new" %>
+              <%= button_tag type: 'submit',
+                  class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-3 rounded-md font-semibold shadow-sm transition duration-200" do %>
+                <i class="fas fa-user-edit" aria-hidden="true"></i>
+                <span><%= page_type == "edit" ? "Update Expense" : "Create Expense" %></span>
+              <% end %>
             <% end %>
           </div>
           <div>
             <%= link_to expenses_path, data: { turbo: false },
-                class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-lg font-semibold font-medium border border-gray-300 shadow-sm transition duration-150" do %>
+                class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-3 rounded-md font-semibold shadow-sm transition duration-200" do %>
                 <i class="fas fa-arrow-left" aria-hidden="true"></i>
                 <span>Back to Expenses</span>
             <% end %>
@@ -21,41 +25,66 @@
     </div>
 
     <div class="p-6 space-y-10">
-
+      <% if expense.errors.any? %>
+        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+          <ul class="list-disc pl-5">
+            <% expense.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
       <!-- Basic Info -->
       <div>
         <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Basic Information</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
-            <label class="text-gray-600 font-semibold uppercase tracking-wide">Title</label>
-            <% if page_type == "edit" %>
-              <%= form.email_field :expense, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% if page_type == "edit" || page_type == "new"%>
+              <%= form.label :title, "Title <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
+              <%= form.text_field :title, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
             <% else %>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Title</label>
               <p class="text-gray-600 text-base mt-1"><%= @expense.title %></p>
             <% end %>
           </div>
+
           <div>
-            <label class="text-gray-600 font-semibold uppercase tracking-wide">Amount</label>
-            <% if page_type == "edit" %>
+            <% if page_type == "edit" || page_type == "new" %>
+              <%= form.label :amount, "Amount <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
               <%= form.number_field :amount, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700" %>
             <% else %>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Amount</label>
               <p class="text-gray-600 text-base mt-1"><%= number_to_currency(@expense.amount) %></p>
             <% end %>
           </div>
+
           <div>
-            <label class="text-gray-600 font-semibold uppercase tracking-wide">Category</label>
-            <% if page_type == "edit" %>
+            <% if page_type == "edit" || page_type == "new" %>
+              <%= form.label :category, "Category <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
               <%= form.select :category, Expense.categories.keys.sort.map { |category| [category.humanize, category] }, { prompt: "Select Category" }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700" %>
             <% else %>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Category</label>
               <p class="text-gray-600 text-base mt-1"><%= @expense.category&.humanize %></p>
             <% end %>
           </div>
+          
           <div>
-            <label class="text-gray-600 font-semibold uppercase tracking-wide">Date</label>
-            <% if page_type == "edit" %>
-              <%= form.date_field :date, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700"%>
+            <% if page_type == "edit" || page_type == "new" %>
+              <%= form.label :date, "Date <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
+              <%= form.date_field :date, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700"%>
             <% else %>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Date</label>
               <p class="text-gray-600 text-base mt-1"><%= @expense.date&.strftime('%B %d, %Y') %></p>
+            <% end %>
+          </div>
+
+          <div>
+            <% if page_type == "edit" || page_type == "new" %>
+              <%= form.label :description, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
+              <%= form.text_area :description, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700"%>
+            <% else %>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Description</label>
+              <p class="text-gray-600 text-base mt-1"><%= @expense.description %></p>
             <% end %>
           </div>
         </div>
@@ -83,43 +112,42 @@
       <% end %>
 
       <!-- Attachment -->
-      <% if @expense.proof.attached? %>
+      <div>
+        <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Attachment</h2>
         <div>
-          <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Attachment</h2>
-          <div>
-            <label class="text-gray-600 font-semibold uppercase tracking-wide">Proof</label>
-            <% if page_type == "edit" %>
-              <% if form.object.proof.attached? %>
-                <div class="font-semibold text-gray-600 mb-2 mt-1">
-                  Attached file:
-                  <%= link_to form.object.proof.filename.to_s, url_for(form.object.proof), target: "_blank", class: "text-indigo-600 underline" %>
-                </div>
-              <% end %>
-
-              <div class="flex rounded-md shadow-sm overflow-hidden">
-                <%= form.file_field :proof, id: 'file-upload', class: 'hidden' %>
-
-                <label for="file-upload" class="inline-flex items-center bg-gray-600 text-white px-4 py-2 text-sm font-medium hover:bg-gray-700 cursor-pointer">
-                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0l-4 4m4-4l4 4" />
-                  </svg>
-                  Choose 
-                </label>
-
-                  <span id="file-name" class="flex items-center px-3 text-sm text-gray-600 border border-l-0 border-gray-300 bg-white w-full truncate">
-                    No file chosen
-                  </span>
-                </div>
+          <% if page_type == "edit" || page_type == "new" %>
+            <%= form.label :proof, "Proof <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide mb-2" %>
+            <% if form.object.proof.attached? %>
+              <div class="font-semibold text-gray-600 mb-2 mt-1">
+                Attached file:
+                <%= link_to form.object.proof.filename.to_s, url_for(form.object.proof), target: "_blank", class: "text-indigo-600 underline" %>
               </div>
-            <% else %>
-              <p class="text-blue-600 mt-1">
-                <%= link_to @expense.proof.filename.to_s, url_for(@expense.proof), target: "_blank", class: "underline" %>
-              </p>
             <% end %>
-          </div>
-        </div>
-      <% end %>
 
+            <div class="flex rounded-md shadow-sm overflow-hidden">
+              <%= form.file_field :proof, required: true, id: 'file-upload', class: 'hidden' %>
+              <label for="file-upload" class="inline-flex items-center bg-gray-600 text-white px-4 py-2 text-sm font-medium hover:bg-gray-700 cursor-pointer">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0l-4 4m4-4l4 4" />
+                </svg>
+                Choose 
+              </label>
+
+                <span id="file-name" class="flex items-center px-3 text-sm text-gray-600 border border-l-0 border-gray-300 bg-white w-full truncate">
+                  No file chosen
+                </span>
+              </div>
+            </div>
+          <% else %>
+            <% if @expense.proof.attached? %>
+            <label class="text-gray-600 font-semibold uppercase tracking-wide">Proof</label>
+            <p class="text-blue-600 mt-1">
+              <%= link_to @expense.proof.filename.to_s, url_for(@expense.proof), target: "_blank", class: "underline" %>
+            </p>
+              <% end %>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

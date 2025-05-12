@@ -3,76 +3,88 @@
     <!-- Header -->
     <div class="flex items-center justify-between bg-gray-200 px-6 py-4 border-b">
       <h2 class="text-xl font-semibold text-gray-600">
-        <%= page_type == "edit" ? "Edit Reimbursement Request" : "Reimbursement Request" %>
+        <%= page_type == "edit" ? "Update Reimbursement Request" : page_type == "new" ?  "Create Reimbursement Request" : "Reimbursement Request Information" %>
       </h2>
       <div class="flex justify-end space-x-4">
-        <% if page_type == "edit" %>
-          <div>
-            <%= form.submit "Save Changes", class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" %>
-          </div>
-        <% end %>
-        <%= link_to reimbursement_requests_path, data: { turbo: false },
-            class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 shadow-sm transition duration-150" do %>
-            <i class="fas fa-arrow-left" aria-hidden="true"></i>
-            <span>Back to Requests</span>
-        <% end %>
+        <div>
+          <% if page_type == "edit" || page_type == "new" %>
+            <%= button_tag type: 'submit',
+                class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-3 rounded-md font-semibold shadow-sm transition duration-200" do %>
+              <i class="fas fa-user-edit" aria-hidden="true"></i>
+              <span><%= page_type == "edit" ? "Update Request" : "Create Request" %></span>
+            <% end %>
+          <% end %>
+        </div>
+        <div>
+          <%= link_to reimbursement_requests_path, data: { turbo: false },
+              class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-3 rounded-md font-semibold shadow-sm transition duration-200" do %>
+              <i class="fas fa-arrow-left" aria-hidden="true"></i>
+              <span>Back to Requests</span>
+          <% end %>
+        </div>
       </div>
     </div>
 
     <div class="p-6 space-y-10">
-      <!-- Request Details -->
       <div>
         <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Request Details</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Title -->
-          <div>
-            <label class="text-gray-600 font-semibold uppercase tracking-wide">Title</label>
-            <% if page_type == "edit" %>
-              <%= form.text_field :title, value: @reimbursement_request.expense.title, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
-            <% else %>
+          <% if page_type == "view" %>
+            <div>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Title</label>
               <p class="text-gray-600 text-base mt-1"><%= @reimbursement_request.expense.title %></p>
-            <% end %>
-          </div>
+            </div>
 
-          <!-- Amount -->
-          <div>
-            <label class="text-gray-600 font-semibold uppercase tracking-wide">Amount</label>
-            <% if page_type == "edit" %>
-              <%= form.number_field :total_amount, step: "0.01", class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
-            <% else %>
-              <p class="text-gray-600 text-base mt-1"><%= number_to_currency(@reimbursement_request.total_amount) %></p>
-            <% end %>
-          </div>
+            <div>
+              <% if page_type == "edit" %>
+                <%= form.number_field :total_amount, step: "0.01", class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+              <% else %>
+                <label class="text-gray-600 font-semibold uppercase tracking-wide">Amount</label>
+                <p class="text-gray-600 text-base mt-1"><%= number_to_currency(@reimbursement_request.total_amount) %></p>
+              <% end %>
+            </div>
+          <% end %>
 
-          <!-- Reason -->
           <div>
-            <label class="text-gray-600 font-semibold uppercase tracking-wide">Reason</label>
-            <% if page_type == "edit" %>
-              <%= form.text_area :rejection_reason, rows: 3, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+            <% if page_type == "edit" || page_type == "new" %>
+              <%= form.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
+              <%= form.select :status,
+                ReimbursementRequest.statuses.keys.sort.map { |status| [status.humanize, status.to_s] },
+                { prompt: "Select status" },
+                required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700", id: "status-select" %>
             <% else %>
-              <p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= @reimbursement_request.rejection_reason.presence || "-" %></p>
-            <% end %>
-          </div>
-
-          <!-- Status -->
-          <div>
-            <label class="text-gray-600 font-semibold uppercase tracking-wide">Status</label>
-            <% if page_type == "edit" %>
-              <%= form.select :status, ReimbursementRequest.statuses.keys.map { |s| [s.humanize, s] },
-                    {}, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
-            <% else %>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Status</label>
               <p class="text-gray-600 text-base mt-1"><%= @reimbursement_request.status&.humanize %></p>
             <% end %>
           </div>
-          
+
+          <div id="rejection-reason-field" class="hidden">
+            <% if page_type == "edit" || page_type == "new" %>
+              <%= form.label :rejection_reason, "Rejection Reason <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
+              <%= form.text_field :rejection_reason, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-600" %>
+            <% else %>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Reason</label>
+              <p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= @reimbursement_request.rejection_reason.presence || "-" %></p>
+            <% end %>
+          </div> 
+
+          <% if page_type == "edit" || page_type == "new" %>
+            <div>
+              <%= form.label :expense, "Expense <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
+              <%= form.select :expense_id,
+                current_user.expenses.left_outer_joins(:reimbursement_request).where(reimbursement_request: { id: nil }).order(:title).map { |expense| [expense.title, expense.id] },
+                { prompt: "Select expense" },
+                required: true,
+                class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+            </div>
+          <% end %>
+
           <% if page_type == "view" %>
-            <!-- Date Submitted -->
             <div>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Date Submitted</label>
               <p class="text-gray-600 text-base mt-1"><%= @reimbursement_request.created_at.strftime('%B %d, %Y') %></p>
             </div>
 
-            <!-- Approved Date -->
             <div>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Approved Date</label>
               <p class="text-gray-600 text-base mt-1">
@@ -83,18 +95,17 @@
         </div>
       </div>
 
-      <!-- Audit History (for view only) -->
       <% if page_type == "view" %>
         <div data-controller="audit-toggle">
           <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Audit History</h2>
           <button data-action="click->audit-toggle#toggle" class="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-            <span class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium shadow-sm transition duration-200">View Audit History</span>
+            <span class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-md font-semibold shadow-sm transition duration-200">View Audit History</span>
           </button>
 
           <div data-audit-toggle-target="section" class="hidden mt-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
               <div>
-                <h4 class="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">
+                <h4 class="text-lg font-semibold text-gray-600 mb-4 border-b pb-2">
                   Audit History for <%= @reimbursement_request.expense.title %>
                 </h4>
                 <div class="space-y-6 max-h-[65vh] overflow-y-auto pr-2">
@@ -125,3 +136,32 @@
     </div>
   </div>
 </div>
+
+<!-- JS for Rejection Reason Toggle -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const statusSelect = document.getElementById('status-select');
+    const rejectionField = document.getElementById('rejection-reason-field');
+
+    if (!statusSelect || !rejectionField) {
+      console.warn('Missing status select or rejection field');
+      return;
+    }
+
+    const toggleRejectionField = () => {
+      const value = statusSelect.value;
+      console.log("Status selected:", value); // Debugging
+      if (value === 'rejected') {
+        rejectionField.classList.remove('hidden');
+      } else {
+        rejectionField.classList.add('hidden');
+      }
+    };
+
+    // Initial load
+    toggleRejectionField();
+
+    // On change
+    statusSelect.addEventListener('change', toggleRejectionField);
+  });
+</script>

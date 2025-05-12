@@ -1,4 +1,3 @@
-<%= turbo_frame_tag "expense_form_modal" do %>
-  <%= render "form", expense: @expense, form_type: "new" %>
+<%= form_with model: @expense, data: { turbo: false }, class: "space-y-6" do |form| %>
+  <%= render "view_edit", expense: @expense, form: form, page_type: "new" %>
 <% end %>
-
