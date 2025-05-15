@@ -3,13 +3,17 @@
   <div class="flex flex-wrap md:flex-nowrap justify-between items-center gap-4 mb-6">
     <!-- Filter Form -->
     <div>
-      <%= form_with url: reimbursement_requests_path, method: :get, local: true do %>
-          <div class="flex items-center space-x-2", style="margin-left: 20px;">
-          <button type="submit" class="flex items-center">
-            <%= select_tag :status, options_for_select([['All Status', '']] + ReimbursementRequest.statuses.keys.map { |s| [s.titleize, s] }, params[:status]), class: 'p-2 border border-gray-500 rounded-md text-sm text-gray-700' %>
-          </button>
-          </div>
-        <% end %>
+      <%= form_with url: reimbursement_requests_path, method: :get, html: { id: 'filter_reimbursements-form' }, local: true do %>
+        <div class="flex items-center space-x-2" style="margin-left: 20px;">
+          <%= select_tag :status,
+            options_for_select(
+              [['All Status', '']] + ReimbursementRequest.statuses.keys.map { |s| [s.titleize, s] },
+              params[:status]
+            ),
+            class: 'p-2 border border-gray-500 rounded-md text-sm text-gray-700',
+            onchange: "document.getElementById('filter_reimbursements-form').requestSubmit();" %>
+        </div>
+      <% end %>
     </div>
     
     <!-- Search Form -->
@@ -157,16 +161,6 @@
         }
       }
     });
-
-  cancelDeleteBtn.addEventListener('click', function() {
-    modal.classList.add('hidden');
-  });
-
-  confirmDeleteBtn.addEventListener('click', function() {
-    if (formToSubmit) {
-      formToSubmit.submit(); 
-    }
-  });
 });
 
  const container = document.querySelector('.my_table');
