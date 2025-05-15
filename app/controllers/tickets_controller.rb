@@ -25,8 +25,16 @@ class TicketsController < ApplicationController
 		end
 
 		if params[:status].present?
-      @tickets = @tickets.where(status: params[:status]).page(params[:page]).per(10)
+      @tickets = @tickets.where(status: params[:status])
     end
+
+		if params[:from_date].present?
+			@tickets = @tickets.where("created_at >= ?", params[:from_date].to_date.beginning_of_day)
+		end
+
+		if params[:to_date].present?
+			@tickets = @tickets.where("created_at <= ?", params[:to_date].to_date.end_of_day)
+		end
     
 	  @tickets = @tickets.page(params[:page]).per(10)
 	end

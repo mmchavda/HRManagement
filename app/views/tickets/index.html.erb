@@ -12,15 +12,18 @@
   <h1 class="text-2xl font-semibold text-gray-600 mb-6">Ticket List</h1>
   <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
     <div>
-      <%= form_with url: tickets_path, method: :get, local: true do %>
-        <div class="flex items-center space-x-2", style="margin-left: 20px;">
-        <button type="submit" class="flex items-center">
-          <%= select_tag :status, options_for_select([['All Status', '']] + Ticket.statuses.keys.map { |status| [status.titleize, status] }, params[:status]), class: 'p-2 border border-gray-500 rounded-md text-sm text-gray-700' %>
-        </button>
+      <%= form_with url: tickets_path, method: :get, html: { id: 'ticket-filter-form' } do %>
+        <div class="flex items-center space-x-2" style="margin-left: 20px;">
+          <%= select_tag :status,
+            options_for_select(
+              [['All Status', '']] + Ticket.statuses.keys.map { |status| [status.titleize, status] },
+              params[:status]
+            ),
+            class: 'p-1 border border-gray-500 rounded-md text-sm text-gray-700',
+            onchange: "document.getElementById('ticket-filter-form').requestSubmit();" %>
         </div>
       <% end %>
     </div>
-
     <!-- Search Form -->
     <div class="flex-grow max-w-xl">
       <%= form_with url: tickets_path, method: :get, local: true, html: { data: { controller: "live-search" } } do %>
@@ -39,8 +42,24 @@
       <% end %>
     </div>
 
+    <div>
+      <%= form_with url: tickets_path, method: :get, local: true do %>
+        <div class="flex items-center space-x-2" style="margin-left: 20px;">
+          <%= label_tag :from_date, "From", class: "text-sm text-gray-700 p-2" %>
+          <%= date_field_tag :from_date, params[:from_date], class: "border border-gray-500 rounded-md p-1 text-sm" %>
+
+          <%= label_tag :to_date, "To", class: "text-sm text-gray-700 p-2" %>
+          <%= date_field_tag :to_date, params[:to_date], class: "border border-gray-500 rounded-md p-1 text-sm" %>
+
+          <button class="flex items-center px-3 py-2 border rounded" title="Filter by Date">
+            <i class="fas fa-calendar-alt mr-2"></i> 
+          </button>
+        </div>
+      <% end %>
+    </div>
+
     <div class="border border-gray-500 rounded-md hover:bg-gray-500 hover:text-white", style="margin-right: 20px;">
-      <%= link_to new_ticket_path, class: 'text-gray-700 font-medium px-4 py-2 rounded-md shadow-md flex items-center gap-2' do %>
+      <%= link_to new_ticket_path, class: 'text-gray-700 font-medium px-2 py-1 rounded-md shadow-md flex items-center gap-2' do %>
         <%= image_tag '/plus.png', alt: 'New Ticket Icon', size: '20x20', title: 'Create a new ticket' %>
         <span>New</span>
       <% end %>
