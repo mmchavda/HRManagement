@@ -65,43 +65,5 @@
   </div>
 </turbo-frame>
 
-<%= render 'shared/global_delete_modal' %>
 
-<script>
-  document.addEventListener('turbo:load', () => {
-    const modal = document.getElementById('global-delete-modal');
-    const confirmBtn = document.getElementById('confirm-delete-btn');
-    const messageEl = document.getElementById('delete-modal-message');
-    let currentUserId = null;
-
-    // Open modal on delete button click
-    document.querySelectorAll('.delete-user-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        currentUserId = btn.getAttribute('data-user-id');
-        const msg = btn.getAttribute('data-user-message');
-        messageEl.textContent = msg || 'Are you sure?';
-
-        modal.classList.remove('hidden');
-      });
-    });
-
-    // Close modal when cancel or close button clicked
-    document.querySelectorAll('[data-modal-hide="global-delete-modal"]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        modal.classList.add('hidden');
-      });
-    });
-
-    // Confirm deletion
-    confirmBtn.addEventListener('click', () => {
-      if (currentUserId) {
-        const form = document.getElementById(`delete-form-${currentUserId}`);
-        if (form) {
-          const submitBtn = form.querySelector('input[type="submit"]');
-          if (submitBtn) submitBtn.click();
-        }
-      }
-    });
-  });
-</script>
 

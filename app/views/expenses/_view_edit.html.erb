@@ -151,3 +151,16 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  document.addEventListener('turbo:load', () => {
+    const input = document.getElementById("file-upload");
+    const fileNameDisplay = document.getElementById("file-name");
+
+    input.addEventListener("change", function () {
+      const fileName = this.files.length ? this.files[0].name : "No file chosen";
+      fileNameDisplay.textContent = fileName;
+    });
+  });
+</script>
