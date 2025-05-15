@@ -162,45 +162,4 @@
       }
     });
 });
-
- const container = document.querySelector('.my_table');
- new_button =  document.querySelector('.new-button');
- ticket_filer =  document.querySelector('.ticket_filer');
-
- const rejectModal = document.getElementById('rejectModal');
-  function toggleDropdownNew(index) {
-    const dropdown = document.getElementById(`dropdown-${index}`);
-    
-    dropdown.classList.toggle('hidden');
-  }
-
-  function handleStatusChange(event, requestId) {
-    console.log("Dropdown change detected for request ID:", requestId);
-    const selectedStatus = event.target.value;
-
-    if (selectedStatus === 'rejected') {
-      openRejectModal(requestId);  
-      event.preventDefault();  
-    } else {
-      
-      const form = document.getElementById('status-form-${requestId}');
-      form.submit();
-    }
-  }
-
-  function openRejectModal(requestId) {
-    document.getElementById('rejectModal').classList.remove('hidden');
-    document.getElementById('rejectRequestId').value = requestId;
-    const form = document.getElementById('rejectForm');
-    form.action = `/reimbursement_requests/${requestId}/reject_request`;
-  }
-
-  function closeRejectModal() {
-    document.getElementById('rejectModal').classList.add('hidden');
-    
-  }
-
-  document.getElementById('rejectForm').addEventListener('submit', function() {
-    
-  });
 </script>
