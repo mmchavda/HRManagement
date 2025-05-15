@@ -89,7 +89,7 @@
                         <%= link_to edit_ticket_path(ticket), data: { turbo: false }, class: "inline-flex items-center justify-center border border-blue-300 bg-white text-blue-700 rounded-md p-2 hover:bg-blue-300 hover:border-blue-500 transition duration-200 mx-1" do %>
                           <i class="fas fa-edit"></i>
                         <% end %>
-                        <% if ticket.status != "in_progress" %>
+                        <% if (ticket.status == "invalid") %>
                           <button type="button"
                                 class="inline-flex items-center justify-center border border-red-300 bg-white text-red-700 rounded-md p-2 hover:bg-red-300 hover:border-red-500 transition duration-200 mx-1 delete-ticket-btn"
                                 data-ticket-id="<%= ticket.id %>"
@@ -103,7 +103,7 @@
                             <%= form.submit 'Delete', class: 'hidden' %>
                           <% end %>
 
-                        <% if (current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?) && ticket.status != "resolved" && (ticket.assigned_user == current_user) %>
+                        <% if (current_user.admin? || current_user.hr?  ) && ticket.status != "resolved" && (ticket.assigned_user == current_user) %>
                           <%= link_to resolve_ticket_path(ticket), method: :post do %>
                             <%= image_tag '/resolved.png', alt: 'Resolve ticket', size: '15x15' %>
                           <% end %>

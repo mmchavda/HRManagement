@@ -5,7 +5,7 @@ class AssetsController < ApplicationController
   before_action :set_asset, only: [:show, :edit, :update, :destroy]
 
   def index
-    if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
+    if current_user.admin? || current_user.hr?  
       @assets = Asset.all.includes(:asset_category, :notes)
     else
       @assets = Asset.joins(:asset_assignments)
@@ -72,7 +72,7 @@ class AssetsController < ApplicationController
   end
 
   def show
-    if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
+    if current_user.admin? || current_user.hr?  
       @notes = @asset.notes
       @users = User.all
       @asset_assignment = @asset.asset_assignments.find_by(active: true) || @asset.asset_assignments.build

@@ -1,7 +1,7 @@
 class DashboardController < ApplicationController
 
   def index
-    if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
+    if current_user.admin? || current_user.hr?  
       @total_expenses = Expense.sum(:amount)
       @recent_expenses = Expense.order(created_at: :desc).limit(5)
       @recent_reimbursements = ReimbursementRequest.order(created_at: :desc).limit(5)

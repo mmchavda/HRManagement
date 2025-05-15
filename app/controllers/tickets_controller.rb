@@ -5,7 +5,7 @@ class TicketsController < ApplicationController
 
 	# Display all tickets
 	def index
-		if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?	
+		if current_user.admin? || current_user.hr?  	
 	    @tickets = Ticket.all.order(created_at: :desc)
 		else
 			@tickets = current_user.created_tickets.order(created_at: :desc)

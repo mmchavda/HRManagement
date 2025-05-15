@@ -46,12 +46,37 @@
             </div>
 
             <div>
-              <% if (current_user.hr? || current_user.admin?) && (page_type == "edit" || page_type == "new") %> 
-                <%= form.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-                <%= form.select :status, Ticket.statuses.keys.sort.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-600", id: "status-select" %>
-              <% else %>
-                <label class="text-gray-600 font-semibold uppercase tracking-wide">Status</label>
-                <p class="text-gray-600 text-base mt-1"><%= @ticket.status %></p>
+              
+              <% if (page_type == "edit") %> 
+                <% if (current_user.hr? || current_user.admin?) %>
+                  <div>
+                    <%= form.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-black" %>
+                    <%= form.select :status, Ticket.statuses.keys.sort.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700", id: "status-select" %>
+                  </div>
+                <% else %>
+                  <% status_options = [] %>
+                  <% if ticket.status == "resolved" %>
+                    <% status_options = [["Closed", "closed"], ["Reopen", "reopen"], ["Resolved", "resolved"]] %>
+                  <% elsif ticket.status == "open" %>
+                    <% status_options = [["Accidental", "accidental"], ["Open", "open"]] %>
+                  <% end %>
+                  <% if status_options.any? %>
+                    <div>
+                      <%= form.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-black" %>
+                      <%= form.select :status, status_options, 
+                          { prompt: "Select Status" }, 
+                          { required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700"} %>
+                    </div>
+                  <% end %>
+                <% end %>
+              <% else %>  
+                <% if (current_user.hr? || current_user.admin?) %> 
+                  <%= form.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
+                  <%= form.select :status, Ticket.statuses.keys.sort.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-600", id: "status-select" %>
+                <% else %>
+                  <label class="text-gray-600 font-semibold uppercase tracking-wide">Status</label>
+                  <p class="text-gray-600 text-base mt-1"><%= @ticket.status %></p>
+                <% end %>
               <% end %>
             </div>
             

@@ -14,10 +14,14 @@ class Ticket < ApplicationRecord
   scope :hold, -> { where(status: 'hold') }
   scope :rejected, -> { where(status: 'rejected') }
   scope :closed, -> { where(status: 'closed') }
+  scope :reopened, -> { where(status: 'reopened') }
+  scope :accidental, -> { where(status: 'accidental') }
 
   # Status and priority defaults can be managed via enum
-  enum :status, [ :open, :in_progress, :resolved, :hold, :rejected, :closed ]
+  enum :status, [ :open, :in_progress, :resolved, :hold, :rejected, :closed, :reopened, :accidental ]
   enum :priority, [ :low, :medium, :high ]
+  # Category can be managed via enum or a separate model
+  enum :category, [ :hr, :it ]
 
   #has_many :notes, dependent: :destroy
   has_many :notes, as: :notable, dependent: :destroy

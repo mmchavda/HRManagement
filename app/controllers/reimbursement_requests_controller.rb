@@ -5,7 +5,7 @@ class ReimbursementRequestsController < ApplicationController
   	require 'csv'
 
     def index
-      if current_user.admin? || current_user.hr? || current_user.manager? || current_user.lead?
+      if current_user.admin? || current_user.hr?  
         @reimbursement_requests = ReimbursementRequest.all.order(created_at: :desc)
       else 
         @reimbursement_requests = current_user.reimbursement_requests.order(created_at: :desc)

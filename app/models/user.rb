@@ -18,7 +18,7 @@ class User < ApplicationRecord
   }, if: :password_present?
 
   # Roles: Admins, Agents, and Users can be defined here
-	enum :role, [:employee, :hr, :admin, :manager, :lead]
+	enum :role, [:employee, :hr, :admin]
   has_one_attached :avatar
 
   after_create :set_default_role
