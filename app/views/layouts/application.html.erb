@@ -27,7 +27,6 @@
   </head>
 
   <body style="background: #f7fafc; min-height: 100vh; font-family: 'Roboto', sans-serif;">
-    
     <% if user_signed_in? %>
       <div class="flex flex-1">
         <%= render 'layouts/sidebar' %>
@@ -35,17 +34,17 @@
           <div class="w-full flex justify-center mt-4">
             <div class="w-full max-w-md text-center">
               <% if flash[:alert] %>
-                <div class="flash-message bg-gray-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded mb-4 shadow-md">
+                <div class="flash-message bg-gray-100 border border-yellow-400 text-yellow-800 text-xs px-2 py-1 rounded-sm mb-1 shadow-sm">
                   <%= flash[:alert] %>
                 </div>
               <% end %>
               <% if flash[:error] %>
-                <div class="flash-message bg-gray-100 border border-red-400 text-red-800 px-4 py-3 rounded mb-4 shadow-md">
+                <div class="flash-message bg-gray-100 border border-red-400 text-red-800 text-xs px-2 py-1 rounded-sm mb-1 shadow-sm">
                   <%= flash[:error] %>
                 </div>
               <% end %>
               <% if flash[:notice] %>
-                <div class="flash-message bg-gray-100 border border-green-400 text-green-800 px-4 py-3 rounded mb-4 shadow-md">
+                <div class="flash-message bg-green-50 border border-green-300 text-green-800 text-xs px-2 py-1 rounded-sm mb-1 shadow-sm">
                   <%= flash[:notice] %>
                 </div>
               <% end %>
@@ -87,11 +86,12 @@
     }
 
     // Flash message auto-hide
+   
+
     setTimeout(() => {
       document.querySelectorAll(".flash-message").forEach(el => {
-        el.style.transition = "opacity 0.5s ease-out";
-        el.style.opacity = 0;
-        setTimeout(() => el.remove(), 500); // Remove after fade-out
+        el.classList.add("opacity-0", "pointer-events-none");
+        setTimeout(() => el.classList.add("invisible"), 500);
       });
     }, 5000);
   });
