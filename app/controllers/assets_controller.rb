@@ -94,7 +94,7 @@ class AssetsController < ApplicationController
 		
     csv_data = CSV.generate(headers: true) do |csv|
       # Adding the new column headers
-      csv << ['ID', 'Status', 'Created At', 'Updated At', 'Unique ID', 'Name', 'Category', 'Brand', 'Model', 'Specifications', 'Serial Number', 'Purchase Date', 'Warranty Expiry', 'Condition', 'Location']
+      csv << ['ID', 'Status', 'Created At', 'Updated At', 'Unique ID', 'Name', 'Category', 'Brand', 'Model', 'Specifications', 'Serial Number', 'Purchase Date', 'Warranty Expiry', 'Condition', 'Location', 'Assigned User', 'Assigned At']
     
       # Iterate through each asset to populate the CSV data
       @assets.each do |asset|
@@ -114,7 +114,10 @@ class AssetsController < ApplicationController
           asset.purchase_date,
           asset.warranty_expiry,
           asset.condition,
-          asset.location
+          asset.location,
+          asset.asset_assignments.find_by(active: true)&.user&.full_name,
+          asset.asset_assignments.find_by(active: true)&.assigned_at
+
         ]
       end
     end
