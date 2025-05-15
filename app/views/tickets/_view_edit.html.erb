@@ -69,7 +69,7 @@
                     </div>
                   <% end %>
                 <% end %>
-              <% else %>  
+              <% elsif page_type == "new" %>  
                 <% if (current_user.hr? || current_user.admin?) %> 
                   <%= form.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
                   <%= form.select :status, Ticket.statuses.keys.sort.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-600", id: "status-select" %>
@@ -77,6 +77,9 @@
                   <label class="text-gray-600 font-semibold uppercase tracking-wide">Status</label>
                   <p class="text-gray-600 text-base mt-1"><%= @ticket.status %></p>
                 <% end %>
+              <% else %>  
+                <label class="text-gray-600 font-semibold uppercase tracking-wide">Status</label>
+                <p class="text-gray-600 text-base mt-1"><%= @ticket.status %></p>
               <% end %>
             </div>
             
