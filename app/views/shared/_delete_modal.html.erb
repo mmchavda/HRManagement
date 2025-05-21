@@ -1,0 +1,20 @@
+<!-- Shared Delete Modal -->
+<div data-delete-modal-target="modal" class="hidden fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/30">
+  <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
+    <h2 class="text-lg font-semibold mb-4">Confirm Deletion</h2>
+    <p data-delete-modal-target="message" class="mb-4 text-gray-700">Are you sure you want to delete this <%= model.class.name.downcase %>?</p>
+    <div class="flex justify-end space-x-2">
+      <button type="button" data-action="click->delete-modal#close" class="px-4 py-2 text-gray-700 border rounded hover:bg-gray-100">Cancel</button>
+      <button type="button" data-delete-modal-target="confirm" data-action="click->delete-modal#confirm" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
+    </div>
+  </div>
+</div>
+<button type="button" class="inline-flex items-center justify-center border border-red-300 bg-white text-red-700 rounded-md p-2 hover:bg-red-300 hover:border-red-500 transition duration-200 mx-1"
+  data-action="click->delete-modal#open"
+  data-model-id="<%= model.id %>">
+  <%= image_tag '/delete1.png', alt: "Delete #{model.class.name.downcase}", size: '15x15' %>
+</button>
+
+<%= form_with(model: model, method: :delete, local: true, id: "delete-form-#{model.id}", class: "hidden") do |form| %>
+  <%= form.submit 'Delete', class: 'hidden' %>
+<% end %>

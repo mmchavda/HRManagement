@@ -3,54 +3,54 @@
   <div class="mx-auto bg-grey-400", style="position: fixed; top: 0; width: 100%; z-index: 1000;">
     <!--Screen-->
     <header class="bg-nav">
-        <div class="flex justify-between">
-            <div class="p-1 mx-3 inline-flex items-center">
-              <%= image_tag '/logo-primary.png', alt: 'HR Management Logo', size: "100x100" %>
-            </div>
-            <div class="p-1 flex flex-row items-center">
-              <div class="flex items-center ml-auto relative">
-                <% if user_signed_in? %>
-                  <div class="relative">
-                    <button 
-                      class="flex items-center space-x-2 text-white hover:text-gray-300 focus:outline-none" 
-                      id="dropdown-btn"
-                      type="button"
-                      data-turbo="false">
-                      <%= image_tag('profile-user.png', alt: 'User', class: 'inline-block rounded-full bg-gray-300', size: "25x25") rescue content_tag(:div, "👤", class: "rounded-full bg-gray-300 flex items-center justify-center text-white") %>
-                      <span class="text-white p-2 no-underline hidden md:block lg:block">
-                        <%= current_user.email.split('@').first.capitalize %>
-                      </span>
-                    </button>
-
-                    <!-- Profile Dropdown -->
-                    <div id="ProfileDropDown" class="hidden absolute right-0 mt-2 w-48 rounded shadow-md bg-white z-50">
-                      <ul class="list-reset">
-                        <% if current_user.is_active %>
-                          <li>
-                            <span class="block px-4 py-2 text-sm text-gray-500 font-medium border-b border-gray-200">
-                              <%= current_user.email %>
-                            </span>
-                          </li>
-                          <li>
-                            <%= link_to 'Profile', "/users/#{current_user.id}", class: "no-underline px-4 py-2 block text-black hover:bg-gray-100" %>
-                          </li>
-                          <li>
-                            <%= link_to 'Change Password', "/users/edit", class: "no-underline px-4 py-2 block text-black hover:bg-gray-100" %>
-                          </li>
-                          <li><hr class="border-t mx-2 border-gray-200"></li>
-                        <% end %>
-                        <li>
-                          <%= form_with url: destroy_user_session_path, method: :delete, class: 'block' do |form| %>
-                            <%= form.submit 'Logout', class: "block w-full text-left px-4 py-2 text-black hover:bg-gray-100", data: { disable_with: 'Logging out...' } %>
-                          <% end %>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            </div>
+      <div class="flex justify-between">
+        <div class="p-1 mx-3 inline-flex items-center">
+          <%= image_tag '/logo-primary.png', alt: 'HR Management Logo', size: "100x100" %>
         </div>
+        <div class="p-1 flex flex-row items-center">
+          <div class="flex items-center ml-auto relative">
+            <% if user_signed_in? %>
+              <div class="relative" data-controller="dropdown">
+                <button 
+                  class="flex items-center space-x-2 text-white hover:text-gray-300 focus:outline-none" 
+                  data-action="click->dropdown#toggle"
+                  type="button"
+                  data-turbo="false">
+                  <%= image_tag('profile-user.png', alt: 'User', class: 'inline-block rounded-full bg-gray-300', size: "25x25") rescue content_tag(:div, "👤", class: "rounded-full bg-gray-300 flex items-center justify-center text-white") %>
+                  <span class="text-white p-2 no-underline hidden md:block lg:block">
+                    <%= current_user.email.split('@').first.capitalize %>
+                  </span>
+                </button>
+
+                <!-- Profile Dropdown -->
+                <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-48 rounded shadow-md bg-white z-50">
+                  <ul class="list-reset">
+                    <% if current_user.is_active %>
+                      <li>
+                        <span class="block px-4 py-2 text-sm text-gray-500 font-medium border-b border-gray-200">
+                          <%= current_user.email %>
+                        </span>
+                      </li>
+                      <li>
+                        <%= link_to 'Profile', "/users/#{current_user.id}", class: "no-underline px-4 py-2 block text-black hover:bg-gray-100" %>
+                      </li>
+                      <li>
+                        <%= link_to 'Change Password', "/users/edit", class: "no-underline px-4 py-2 block text-black hover:bg-gray-100" %>
+                      </li>
+                      <li><hr class="border-t mx-2 border-gray-200"></li>
+                    <% end %>
+                    <li>
+                      <%= form_with url: destroy_user_session_path, method: :delete, class: 'block' do |form| %>
+                        <%= form.submit 'Logout', class: "block w-full text-left px-4 py-2 text-black hover:bg-gray-100", data: { disable_with: 'Logging out...' } %>
+                      <% end %>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </header>
   </div>
 </body>

@@ -68,26 +68,7 @@
 
 <script>
   document.addEventListener("turbo:load", () => {
-    // Dropdown logic
-    const button = document.getElementById("dropdown-btn");
-    const dropdown = document.getElementById("ProfileDropDown");
-
-    if (button && dropdown) {
-      button.addEventListener("click", (event) => {
-        event.stopPropagation();
-        dropdown.classList.toggle("hidden");
-      });
-
-      document.addEventListener("click", (event) => {
-        if (!dropdown.contains(event.target) && !button.contains(event.target)) {
-          dropdown.classList.add("hidden");
-        }
-      });
-    }
-
     // Flash message auto-hide
-   
-
     setTimeout(() => {
       document.querySelectorAll(".flash-message").forEach(el => {
         el.classList.add("opacity-0", "pointer-events-none");
@@ -96,4 +77,3 @@
     }, 5000);
   });
 </script>
-
