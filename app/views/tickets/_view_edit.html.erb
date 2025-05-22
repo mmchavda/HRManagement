@@ -25,15 +25,7 @@
           <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">General Details</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <% if page_type == "edit" || page_type == "new" %>
-              <% if ticket.errors.any? %>
-                <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-                  <ul class="list-disc pl-5">
-                    <% ticket.errors.full_messages.each do |msg| %>
-                      <li><%= msg %></li>
-                    <% end %>
-                  </ul>
-                </div>
-              <% end %>
+              <%= render 'shared/form_errors', object: @ticket %>
             <% end %>
             <div>
               <% if page_type == "edit" || page_type == "new" %>
@@ -83,7 +75,7 @@
                 <% if (current_user.hr? || current_user.admin?) %>
                   <div>
                     <%= form.label :status, "Status <span class='text-red-500'>*</span>".html_safe, class: "block text-sm font-medium text-black" %>
-                    <%= form.select :status, Ticket.statuses.keys.sort.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700", id: "status-select" %>
+                    <%= form.select :status, Ticket.statuses.keys.sort.map { |status| [status.humanize, status] }, { prompt: "Select Status" }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700", id: "status-select" %>
                   </div>
                 <% else %>
                   <% status_options = [] %>

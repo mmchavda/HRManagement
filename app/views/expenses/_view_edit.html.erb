@@ -25,15 +25,7 @@
     </div>
 
     <div class="p-6 space-y-10">
-      <% if expense.errors.any? %>
-        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-          <ul class="list-disc pl-5">
-            <% expense.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= render 'shared/form_errors', object: @expense %>
       <!-- Basic Info -->
       <div>
         <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Basic Information</h2>
@@ -41,7 +33,7 @@
           <div>
             <% if page_type == "edit" || page_type == "new"%>
               <%= form.label :title, "Title <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-              <%= form.text_field :title, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700" %>
+              <%= form.text_field :title, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700" %>
             <% else %>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Title</label>
               <p class="text-gray-600 text-base mt-1"><%= @expense.title %></p>
@@ -71,7 +63,13 @@
           <div>
             <% if page_type == "edit" || page_type == "new" %>
               <%= form.label :date, "Date <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-              <%= form.date_field :date, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700"%>
+              <div class="relative">
+                <%= form.text_field :date, required: true, class: "flatpickr mt-1 block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700", placeholder: "Select a date" %>
+
+                <div class="absolute inset-y-0 left-0 pl-3 text-gray-700 flex items-center pointer-events-none">
+                  <i class="fas fa-calendar-alt mr-2"></i>
+                </div>
+              </div>
             <% else %>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Date</label>
               <p class="text-gray-600 text-base mt-1"><%= @expense.date&.strftime('%B %d, %Y') %></p>
@@ -81,7 +79,7 @@
           <div>
             <% if page_type == "edit" || page_type == "new" %>
               <%= form.label :description, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-              <%= form.text_area :description, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-700"%>
+              <%= form.text_area :description, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700"%>
             <% else %>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Description</label>
               <p class="text-gray-600 text-base mt-1"><%= @expense.description %></p>
@@ -116,16 +114,21 @@
         <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Attachment</h2>
         <div>
           <% if page_type == "edit" || page_type == "new" %>
-            <%= form.label :proof, "Proof <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide mb-2" %>
-            <% if form.object.proof.attached? %>
+            <%= form.label :proofs, "Proof <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide mb-2" %>
+            <% if @expense.errors[:proofs].any? %>
+            <% elsif form.object.persisted? && form.object.proofs.attached? %>
               <div class="font-semibold text-gray-600 mb-2 mt-1">
-                Attached file:
-                <%= link_to form.object.proof.filename.to_s, url_for(form.object.proof), target: "_blank", class: "text-indigo-600 underline" %>
+                Attached files:
+                <ul class="list-disc ml-5">
+                  <% form.object.proofs.each do |file| %>
+                    <li><%= link_to file.filename.to_s, url_for(file), target: "_blank", class: "text-indigo-600 underline" %></li>
+                  <% end %>
+                </ul>
               </div>
             <% end %>
 
             <div class="flex rounded-md shadow-sm overflow-hidden">
-              <%= form.file_field :proof, required: true, id: 'file-upload', class: 'hidden' %>
+              <%= form.file_field :proofs, required: page_type == "new" ? true : false, id: 'file-upload', multiple: true, class: 'hidden' %>
               <label for="file-upload" class="inline-flex items-center bg-gray-600 text-white px-4 py-2 text-sm font-medium hover:bg-gray-700 cursor-pointer">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0l-4 4m4-4l4 4" />
@@ -139,12 +142,16 @@
               </div>
             </div>
           <% else %>
-            <% if @expense.proof.attached? %>
-            <label class="text-gray-600 font-semibold uppercase tracking-wide">Proof</label>
-            <p class="text-blue-600 mt-1">
-              <%= link_to @expense.proof.filename.to_s, url_for(@expense.proof), target: "_blank", class: "underline" %>
-            </p>
-              <% end %>
+            <% if @expense.proofs.attached? %>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Proofs</label>
+              <ul class="text-blue-600 mt-1 list-disc pl-5">
+                <% @expense.proofs.each do |file| %>
+                  <li>
+                    <%= link_to file.filename.to_s, url_for(file), target: "_blank", class: "underline" %>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
           <% end %>
         </div>
       </div>

@@ -23,16 +23,7 @@
     </div>
 
     <div class="p-6 space-y-10">
-      <!-- Contact Info -->
-      <% if user.errors.any? %>
-        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-          <ul class="list-disc pl-5">
-            <% user.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= render 'shared/form_errors', object: @user %>
       <div>
         <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">User Contact</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -112,7 +103,12 @@
           <div>
             <label class="text-gray-600 font-semibold uppercase tracking-wide">Date of Birth</label>
             <% if page_type == "edit" || page_type == "new" %>
-              <%= form.date_field :dob, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+              <div class="relative">
+                <%= form.date_field :dob, class: "flatpickr w-full text-gray-600 pl-8 py-2 border rounded-md" %>
+                <div class="absolute inset-y-0 left-0 pl-3 text-gray-700 flex items-center pointer-events-none">
+                  <i class="fas fa-calendar-alt mr-2"></i>
+                </div>
+              </div>
             <% else %>
               <p class="text-gray-600 text-base mt-1"><%= @user.dob&.strftime("%B %d, %Y") %></p>
             <% end %>
@@ -158,7 +154,7 @@
             <% if page_type == "edit" || page_type == "new" %>
               <%= form.text_area :bio, rows: 3, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
             <% else %>
-              <p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= @user.bio.presence || "-" %></p>
+              <p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= @user.bio.presence %></p>
             <% end %>
           </div>
         </div>

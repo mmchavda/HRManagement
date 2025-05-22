@@ -32,15 +32,7 @@
 		  </div>
     </div>
     <div class="p-6 space-y-8">
-       <% if asset.errors.any? %>
-        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-          <ul class="list-disc pl-5">
-            <% asset.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+       <%= render 'shared/form_errors', object: @asset %>
       <div>
         <div>
           <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Basic Information</h2>
@@ -88,7 +80,7 @@
 							<% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_field :model, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1"><%= asset.model.presence || '-' %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.model.presence || '' %></p>
 							<% end %>
             </div>
             <div>
@@ -96,7 +88,7 @@
               <% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_area :specifications, rows: 3, class: "w-full text-gray-600 px-4 py-2 border rounded-md whitespace-pre-line" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= asset.specifications.presence || '-' %></p>
+								<p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= asset.specifications.presence || '' %></p>
 							<% end %>
             </div>
           </div>
@@ -110,7 +102,7 @@
               <% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_field :serial_number, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1"><%= asset.serial_number.presence || '-' %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.serial_number.presence || '' %></p>
 							<% end %>
             </div>
             <div>
@@ -118,23 +110,33 @@
               <% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_field :location, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1"><%= asset.location.presence || '-' %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.location.presence || '' %></p>
 							<% end %>
             </div>
             <div>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Purchase Date</label>
               <% if page_type == "edit" || page_type == "new"%>
-								<%= form.date_field :purchase_date, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+								<div class="relative">
+                  <%= form.date_field :purchase_date, class: "flatpickr w-full text-gray-600 pl-8 py-2 border rounded-md" %>
+                  <div class="absolute inset-y-0 left-0 pl-3 text-gray-700 flex items-center pointer-events-none">
+                    <i class="fas fa-calendar-alt mr-2"></i>
+                  </div>
+                </div>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1"><%= asset.purchase_date ? asset.purchase_date.strftime('%B %d, %Y') : '-' %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.purchase_date ? asset.purchase_date.strftime('%B %d, %Y') : '' %></p>
 							<% end %>
             </div>
             <div>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Warranty Expiry</label>
 							<% if page_type == "edit" || page_type == "new"%>
-								<%= form.date_field :warranty_expiry, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+               <div class="relative">
+                  <%= form.date_field :warranty_expiry, class: "flatpickr w-full text-gray-600 pl-8 py-2 border rounded-md" %>
+                  <div class="absolute inset-y-0 left-0 pl-3 text-gray-700 flex items-center pointer-events-none">
+                    <i class="fas fa-calendar-alt mr-2"></i>
+                  </div>
+                </div>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1"><%= asset.warranty_expiry ? asset.warranty_expiry.strftime('%B %d, %Y') : '-' %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.warranty_expiry ? asset.warranty_expiry.strftime('%B %d, %Y') : '' %></p>
 							<% end %>
             </div>
           </div>

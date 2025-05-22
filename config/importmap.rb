@@ -9,3 +9,4 @@ pin "flowbite", to: "https://unpkg.com/flowbite@2.2.1/dist/flowbite.js"
 
 # Custom local JS (if needed)
 pin "main", to: "main.js"
+pin "flatpickr", to: "https://ga.jspm.io/npm:flatpickr@4.6.13/dist/esm/index.js"

@@ -3,6 +3,8 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "flowbite"
 import "jquery"
+import flatpickr from "flatpickr"
+flatpickr(".flatpickr", { dateFormat: "Y-m-d" })
 
 window.$ = window.jQuery = window.$ || window.jQuery
 
