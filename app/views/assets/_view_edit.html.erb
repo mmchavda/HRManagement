@@ -146,11 +146,15 @@
           <h2 class="text-xl font-semibold text-gray-600 mb-4 mt-8 border-b pb-2">Assignment & Status</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-								<% if page_type == "edit" || page_type == "new"%>
+								<% if page_type == "edit"%>
                   <%= form.label :status, "Asset Status <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-								  <%= form.select :status, Asset.statuses.keys.map { |key| [key.humanize, key] },
+								  <% if asset.status == "assigned" %>
+                    <p class="text-gray-600 text-base mt-1"><%= asset.status&.humanize %></p>
+                  <% else %>
+                    <%= form.select :status, Asset.statuses.keys.reject { |key| key == "assigned" }.map { |key| [key.humanize, key] },
 										{}, class: "mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm sm:text-sm focus:ring-gray-500 focus:border-gray-500 text-gray-600" %>
-								<% else %>
+								  <% end %>
+                    <% elsif page_type == "view" %>
                   <label class="text-gray-600 font-semibold uppercase tracking-wide">Asset Status</label>
                   <p class="text-gray-600 text-base mt-1"><%= asset.status&.humanize %></p>
 								<% end %>
