@@ -73,8 +73,19 @@ class ExpensesController < ApplicationController
   
       send_data csv_data, filename: "expenses_#{Date.today}.csv", type: 'text/csv', disposition: 'attachment'
     end
-  
-  
+    
+    def remove_proof
+      @expense = Expense.find(params[:id])
+      proof = @expense.proofs.find { |p| p.blob.id == params[:proof_id].to_i }
+
+      if proof
+        proof.purge_later
+        redirect_to edit_expense_path(@expense), notice: "File removed successfully."
+      else
+        redirect_to edit_expense_path(@expense), alert: "File not found."
+      end
+    end
+
     private
   
     def set_expense

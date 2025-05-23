@@ -63,6 +63,10 @@ Rails.application.routes.draw do
     collection do
       get :export_csv  # Add a route for the export action
     end 
+
+    member do
+      delete :remove_proof
+    end
   end
 
   get 'reimbursement_requests/:id/approve_request', to: 'reimbursement_requests#approve_request', as: 'approve_reimbursement_request'
