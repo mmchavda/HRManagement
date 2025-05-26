@@ -2,7 +2,7 @@
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
       <p><span class="font-semibold text-gray-800">Assigned To:</span> 
-        <%= @ticket.assigned_user&.full_name %> 
+        <%= @ticket.assigned_user&.full_name&.camelcase %> 
         (<%= @ticket.assigned_user&.email %>)
       </p>
     </div>

@@ -183,9 +183,9 @@
         <tbody>
           <% @recent_assets.each do |asset| %>
           <tr class="border-b">
-            <td class="py-2"><%= asset.name %></td>
-            <td class="py-2"><%= asset.asset_category&.name %></td>
-            <td class="py-2"><%= asset.status.capitalize %></td>
+            <td class="py-2"><%= asset.name&.camelcase %></td>
+            <td class="py-2"><%= asset.asset_category&.name&.camelcase %></td>
+            <td class="py-2"><%= asset.status.capitalize&.camelcase %></td>
             <td class="py-2"><%= asset.created_at.strftime('%B %d, %Y') %></td>
             <td class="py-2">
               <%= link_to 'View', asset_path(asset), class: 'text-blue-500 hover:underline' %>

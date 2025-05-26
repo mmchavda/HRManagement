@@ -36,7 +36,7 @@
               <%= form.text_field :title, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700" %>
             <% else %>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Title</label>
-              <p class="text-gray-600 text-base mt-1"><%= @expense.title %></p>
+              <p class="text-gray-600 text-base mt-1"><%= @expense.title&.camelcase %></p>
             <% end %>
           </div>
 
@@ -82,7 +82,7 @@
               <%= form.text_area :description, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700"%>
             <% else %>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Description</label>
-              <p class="text-gray-600 text-base mt-1"><%= @expense.description %></p>
+              <p class="text-gray-600 text-base mt-1"><%= @expense.description&.camelcase %></p>
             <% end %>
           </div>
         </div>
