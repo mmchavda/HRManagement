@@ -12,6 +12,17 @@
             <% end %>
           <% end %>
         </div>
+
+        <% if (page_type == "view") && (user == current_user)  %>
+          <div>
+            <%= link_to edit_user_path(user), data: { turbo: false },
+                class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-3 rounded-md font-semibold shadow-sm transition duration-200" do %>
+                <i class="fas fa-user-edit" aria-hidden="true"></i>
+                <span>Update Profile</span>
+            <% end %>
+          </div>   
+        <% end %>             
+
         <div>
           <%= link_to users_path, data: { turbo: false },
               class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-3 rounded-md font-semibold shadow-sm transition duration-200" do %>
