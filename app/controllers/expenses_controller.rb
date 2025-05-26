@@ -75,14 +75,24 @@ class ExpensesController < ApplicationController
     end
     
     def remove_proof
-      @expense = Expense.find(params[:id])
-      proof = @expense.proofs.find { |p| p.blob.id == params[:proof_id].to_i }
+      expense = Expense.find(params[:id])
+      file = ActiveStorage::Blob.find(params[:proof_id]) rescue nil
 
-      if proof
-        proof.purge_later
-        redirect_to edit_expense_path(@expense), notice: "File removed successfully."
+      if file.nil?
+        head :not_found and return
+      end
+
+      attachment = expense.proofs.attachments.find_by(blob_id: file.id)
+
+      if attachment
+        attachment.purge
+        respond_to do |format|
+          format.turbo_stream
+          format.html { redirect_to expense_path(expense), notice: "File removed." }
+          format.json { render json: { success: true } }
+        end
       else
-        redirect_to edit_expense_path(@expense), alert: "File not found."
+        head :not_found
       end
     end
 
