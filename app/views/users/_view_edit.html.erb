@@ -104,7 +104,7 @@
             <label class="text-gray-600 font-semibold uppercase tracking-wide">Date of Birth</label>
             <% if page_type == "edit" || page_type == "new" %>
               <div class="relative">
-                <%= form.date_field :dob, class: "flatpickr w-full text-gray-600 pl-8 py-2 border rounded-md" %>
+                <%= form.date_field :dob, data: { controller: "flatpickr" }, class: "w-full text-gray-600 pl-8 py-2 border rounded-md" %>
                 <div class="absolute inset-y-0 left-0 pl-3 text-gray-700 flex items-center pointer-events-none">
                   <i class="fas fa-calendar-alt mr-2"></i>
                 </div>

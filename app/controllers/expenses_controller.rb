@@ -73,8 +73,29 @@ class ExpensesController < ApplicationController
   
       send_data csv_data, filename: "expenses_#{Date.today}.csv", type: 'text/csv', disposition: 'attachment'
     end
-  
-  
+    
+    def remove_proof
+      expense = Expense.find(params[:id])
+      file = ActiveStorage::Blob.find(params[:proof_id]) rescue nil
+
+      if file.nil?
+        head :not_found and return
+      end
+
+      attachment = expense.proofs.attachments.find_by(blob_id: file.id)
+
+      if attachment
+        attachment.purge
+        respond_to do |format|
+          format.turbo_stream
+          format.html { redirect_to expense_path(expense), notice: "File removed." }
+          format.json { render json: { success: true } }
+        end
+      else
+        head :not_found
+      end
+    end
+
     private
   
     def set_expense
