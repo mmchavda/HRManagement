@@ -52,7 +52,7 @@
 								<%= form.text_field :name, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
 							<% else %>
                 <label class="text-gray-600 font-semibold uppercase tracking-wide">Asset Name</label>
-								<p class="text-gray-600 text-base mt-1"><%= asset.name %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.name&.camelcase %></p>
 							<% end %>
             </div>
             <div>
@@ -64,7 +64,7 @@
 								%>
 							<% else %>
                 <label class="text-gray-600 font-semibold uppercase tracking-wide">Asset Category</label>
-								<p class="text-gray-600 text-base mt-1"><%= asset.asset_category.name %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.asset_category.name&.camelcase %></p>
 							<% end %>
             </div>
             <div>
@@ -72,7 +72,7 @@
 							<% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_field :branch, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1"><%= asset.brand.presence %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.brand.presence&.camelcase %></p>
 							<% end %>
             </div>
             <div>
@@ -80,7 +80,7 @@
 							<% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_field :model, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1"><%= asset.model.presence || '' %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.model.presence&.camelcase || '' %></p>
 							<% end %>
             </div>
             <div>
@@ -88,14 +88,14 @@
               <% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_area :specifications, rows: 3, class: "w-full text-gray-600 px-4 py-2 border rounded-md whitespace-pre-line" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= asset.specifications.presence || '' %></p>
+								<p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= asset.specifications.presence&.camelcase || '' %></p>
 							<% end %>
             </div>
           </div>
         </div>
 
         <div>
-          <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Technical Details</h2>
+          <h2 class="text-xl font-semibold text-gray-600 mt-4 mb-4 border-b pb-2">Technical Details</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Serial Number</label>
@@ -110,7 +110,7 @@
               <% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_field :location, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1"><%= asset.location.presence || '' %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.location.presence&.camelcase || '' %></p>
 							<% end %>
             </div>
             <div>
@@ -163,7 +163,7 @@
                 <div>
                   <% if asset.current_assignment.present? %>
                     <label class="text-gray-600 font-semibold uppercase tracking-wide">Assigned To</label>
-                    <p class="text-gray-600 text-base mt-1"><%= asset.current_assignment.present? ? asset.current_assignment.user.full_name : '' %></p>
+                    <p class="text-gray-600 text-base mt-1"><%= asset.current_assignment.present? ? asset.current_assignment.user.full_name&.camelcase : '' %></p>
                   <% end %>
                 </div>
               <% end %>
@@ -172,7 +172,7 @@
 								<% if page_type == "edit" || page_type == "new" %>
 									<%= form.select :condition, options_for_select(["New", "Good", "Damaged"], asset.condition), { prompt: "Select Condition" }, class: "mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm sm:text-sm focus:ring-gray-500 focus:border-gray-500 text-gray-600" %>
 								<% else %>
-                  <p class="text-gray-600 text-base mt-1"><%= asset.condition.presence %></p>
+                  <p class="text-gray-600 text-base mt-1"><%= asset.condition.presence&.camelcase %></p>
 								<% end %>
               </div>
             </div>
@@ -199,7 +199,7 @@
               <% if asset.status == "available" || asset.status == "in_maintenance" %>
                 <div data-toggle-target="assignSection" class="hidden">
                   <div class="bg-white p-6 border max-w-xl mx-auto">
-                    <h3 class="text-xl font-semibold text-gray-600 mb-4">Assign Asset: <%= asset.name %></h3>
+                    <h3 class="text-xl font-semibold text-gray-600 mb-4">Assign Asset: <%= asset.name&.camelcase %></h3>
 
                     <%= form_with url: asset_asset_assignments_path(asset), method: :post, local: true do |f| %>
                       <div class="mb-4">

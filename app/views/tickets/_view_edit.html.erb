@@ -33,7 +33,7 @@
                 <%= form.text_field :title, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-600" %>
               <% else %>
                 <label class="text-gray-600 font-semibold uppercase tracking-wide">Title</label>
-                <p class="text-gray-600 text-base mt-1"><%= @ticket.title %></p>
+                <p class="text-gray-600 text-base mt-1"><%= @ticket.title&.camelcase %></p>
               <% end %>
             </div>
 
@@ -44,7 +44,7 @@
               <% else %>
               <br/>
               <div class="text-gray-600 text-base mt-1 inline">
-                <span data-read-more-target="content"><%= @ticket.description %></span>
+                <span data-read-more-target="content"><%= @ticket.description&.camelcase %></span>
                 <button type="button" data-action="click->read-more#toggle" data-read-more-target="toggle" class="text-sm text-blue-600 hover:underline ml-1 focus:outline-none hidden"> Read more </button>
               </div>
               <% end %>
@@ -56,7 +56,7 @@
                 <%= form.select :priority, Ticket.priorities.keys.sort.map { |priority| [priority.capitalize, priority] }, { prompt: 'Select Priority' }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-600" %>
               <% else %>
                 <label class="text-gray-600 font-semibold uppercase tracking-wide">Priority</label>
-                <p class="text-gray-600 text-base mt-1"><%= @ticket.priority %></p>
+                <p class="text-gray-600 text-base mt-1"><%= @ticket.priority&.camelcase %></p>
               <% end %>
             </div>
 
@@ -66,7 +66,7 @@
                 <%= form.select :category, Ticket.categories.keys.sort.map { |category| [category.capitalize, category] }, { prompt: 'Select Category' }, required: true, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-600" %>
               <% else %>
                 <label class="text-gray-600 font-semibold uppercase tracking-wide">Category</label>
-                <p class="text-gray-600 text-base mt-1"><%= @ticket.category %></p>
+                <p class="text-gray-600 text-base mt-1"><%= @ticket.category&.camelcase %></p>
               <% end %>
             </div>
 
@@ -231,7 +231,7 @@
               <div data-controller="audit-toggle" class="space-y-4">
                 <button data-action="click->audit-toggle#toggle"
                         class="inline-flex focus:outline-none items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-md focus:border-gray-500 font-semibold font-medium shadow-sm transition duration-200">
-                  <i class="fas fa-history text-gray-600" aria-hidden="true"></i>
+                       <i class="fa fa-sticky-note" aria-hidden="true"></i>
                   <span>View Notes</span>
                 </button>
 
@@ -242,7 +242,7 @@
                         <li class="border-b border-gray-300 pb-4" data-controller="read-more">
                           <strong class="text-gray-600">Note by: <%= note&.user&.email %></strong>
                           <div data-controller="read-more" class="inline">
-                            <span class="text-gray-600" data-read-more-target="content"><%= note.content %></span>
+                            <span class="text-gray-600" data-read-more-target="content"><%= note.content.capitalize %></span>
                             <button type="button"
                                     data-read-more-target="toggle"
                                     data-action="click->read-more#toggle"
@@ -252,7 +252,7 @@
                           </div>
 
                           <div class="text-gray-600 mt-2 break-words">
-                            <span data-read-more-target="content"><%= note&.content %></span>
+                            <span data-read-more-target="content"><%= note&.content.capitalize %></span>
                             <button type="button"
                                     data-action="click->read-more#toggle"
                                     data-read-more-target="toggle"

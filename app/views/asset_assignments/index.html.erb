@@ -45,9 +45,9 @@
             <% @assignments.each_with_index do |assignment, i| %>
               <tr class="<%= cycle('bg-white', 'bg-gray-50') %> border-b">
                 <td class="px-4 py-2"><%= i + 1 %></td>
-                <td class="px-4 py-2"><%= assignment.user.full_name %></td>
-                <td class="px-4 py-2"><%= assignment.assigned_at&.strftime("%d-%b-%Y %H:%M") || "—" %></td>
-                <td class="px-4 py-2"><%= assignment.returned_at&.strftime("%d-%b-%Y %H:%M") || "—" %></td>
+                <td class="px-4 py-2"><%= assignment.user.full_name&.camelcase %></td>
+                <td class="px-4 py-2"><%= assignment.assigned_at&.strftime("%d-%b-%Y %H:%M") || " " %></td>
+                <td class="px-4 py-2"><%= assignment.returned_at&.strftime("%d-%b-%Y %H:%M") || " " %></td>
                 <td class="px-4 py-2">
                   <% if assignment.active? %>
                     <span class="text-green-600 font-medium">Active</span>
@@ -55,7 +55,7 @@
                     <span class="text-gray-500">Inactive</span>
                   <% end %>
                 </td>
-                <td class="px-4 py-2"><%= assignment.comments.presence || "—" %></td>
+                <td class="px-4 py-2"><%= assignment.comments.presence&.camelcase || " " %></td>
               </tr>
             <% end %>
           </tbody>

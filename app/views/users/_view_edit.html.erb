@@ -91,7 +91,7 @@
           <% if page_type == "view" %>
             <div>
                 <label class="text-gray-600 font-semibold uppercase tracking-wide">Username</label>
-                <p class="text-gray-600 text-base mt-1"><%= @user.username %></p>
+                <p class="text-gray-600 text-base mt-1"><%= @user.username&.camelcase %></p>
             </div>
           <% end %>
           <div>
@@ -165,7 +165,7 @@
             <% if page_type == "edit" || page_type == "new" %>
               <%= form.text_area :bio, rows: 3, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
             <% else %>
-              <p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= @user.bio.presence %></p>
+              <p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= @user.bio.presence&.camelcase %></p>
             <% end %>
           </div>
         </div>

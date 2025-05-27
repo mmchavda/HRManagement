@@ -74,10 +74,10 @@
               <% @expenses.each_with_index do |expense, i| %>
                 <tr class="<%= cycle('bg-white', 'bg-gray-100') %>">
                   <td class="px-4 py-2"><%= i + 1 %></td>
-                  <td class="px-4 py-2"><%= expense.user&.full_name %></td>
-                  <td class="px-4 py-2"><%= expense.title %></td>
+                  <td class="px-4 py-2"><%= expense.user&.full_name&.camelcase %></td>
+                  <td class="px-4 py-2"><%= expense.title&.camelcase %></td>
                   <td class="px-4 py-2"><%= number_to_currency(expense.amount) %></td>
-                  <td class="px-4 py-2"><%= expense.category %></td>
+                  <td class="px-4 py-2"><%= expense.category&.camelcase %></td>
                   <td class="px-4 py-2"><%= expense.date&.strftime('%B %d, %Y') %></td>
                   <td class="px-4 py-2">
                     <div class="flex">

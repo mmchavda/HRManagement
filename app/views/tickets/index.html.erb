@@ -10,62 +10,68 @@
 </div>
 <div class="container mx-auto">
   <h1 class="text-2xl font-semibold text-gray-600 mb-6">Ticket List</h1>
-  <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-    <div>
-      <%= form_with url: tickets_path, method: :get, html: { id: 'ticket-filter-form' } do %>
-        <div class="flex items-center space-x-2" style="margin-left: 20px;">
-          <%= select_tag :status,
-            options_for_select(
-              [['All Status', '']] + Ticket.statuses.keys.map { |status| [status.titleize, status] },
-              params[:status]
-            ),
-            class: 'p-1 border border-gray-500 rounded-md text-sm text-gray-700',
-            onchange: "document.getElementById('ticket-filter-form').requestSubmit();" %>
+  <div class="flex flex-wrap items-center justify-between gap-y-4 gap-x-6 mb-6">
+
+  <!-- Filter Dropdown -->
+  <div class="flex items-center" style="margin-left: 20px;">
+    <%= form_with url: tickets_path, method: :get, html: { id: 'ticket-filter-form' } do %>
+      <%= select_tag :status,
+          options_for_select([['All Status', '']] + Ticket.statuses.keys.map { |status| [status.titleize, status] }, params[:status]),
+          class: 'p-2 border border-gray-300 rounded-md text-sm text-gray-700',
+          onchange: "document.getElementById('ticket-filter-form').requestSubmit();" %>
+    <% end %>
+  </div>
+
+  <!-- Search Input -->
+  <div class="flex-grow max-w-3xl">
+    <%= form_with url: tickets_path, method: :get, local: true, html: { data: { controller: "live-search" } } do %>
+      <div class="relative w-full" >
+        <%= text_field_tag :search, params[:search],
+            placeholder: "Search by user name, status, priority, or title",
+            class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500",
+            data: { action: "input->live-search#submit" } %>
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 20 20" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+          </svg>
         </div>
-      <% end %>
-    </div>
-    <!-- Search Form -->
-    <div class="flex-grow max-w-xl">
-      <%= form_with url: tickets_path, method: :get, local: true, html: { data: { controller: "live-search" } } do %>
+      </div>
+    <% end %>
+  </div>
 
-        <div class="flex items-center space-x-2">
-          <div class="relative w-full">
+  <!-- New Ticket Button -->
+  <div>
+    <%= link_to new_ticket_path, class: 'flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-400 rounded-md hover:bg-gray-500 hover:text-white shadow-sm', style: "margin-right: 20px;" do %>
+      <%= image_tag '/plus.png', alt: 'New Ticket Icon', size: '20x20', title: 'Create a new ticket' %>
+      <span>New</span>
+    <% end %>
+  </div>
 
-            <%= text_field_tag :search, params[:search], placeholder: "Search by user name, status, priority, or title", style: "width: 500px; height: 30px;", class: "w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600" , data: { action: "input->live-search#submit" } %>
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 20 20" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-              </svg>
+</div>
+
+  <div class="mb-4">
+      <%= form_with url: tickets_path, method: :get, local: true do %>
+        <div class="flex justify-center">
+          <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-2">
+              <%= label_tag :from_date, "From", class: "font-semibold text-gray-600" %>
+              <%= date_field_tag :from_date, params[:from_date], data: { controller: "flatpickr" }, class: "border border-gray-500 rounded-md p-1 text-sm text-gray-700" %>
             </div>
+
+            <div class="flex items-center space-x-2">
+              <%= label_tag :to_date, "To", class: "font-semibold text-gray-600" %>
+              <%= date_field_tag :to_date, params[:to_date], data: { controller: "flatpickr" }, class: "border border-gray-500 rounded-md p-1 text-sm text-gray-700" %>
+            </div>
+
+            <button type="submit" class="border border-gray-500 rounded-md hover:bg-gray-500 text-gray-700 font-medium px-3 py-1 shadow-md flex items-center gap-2" title="Filter by Date">
+              <i class="fas fa-calendar-alt"></i> Filter
+            </button>
           </div>
         </div>
       <% end %>
     </div>
 
-    <div>
-      <%= form_with url: tickets_path, method: :get, local: true do %>
-        <div class="flex items-center space-x-2" style="margin-left: 20px;">
-          <%= label_tag :from_date, "From", class: "text-sm text-gray-700 p-2" %>
-          <%= date_field_tag :from_date, params[:from_date], data: { controller: "flatpickr" }, class: "border border-gray-500 rounded-md p-1 text-sm" %>
-
-          <%= label_tag :to_date, "To", class: "text-sm text-gray-700 p-2" %>
-          <%= date_field_tag :to_date, params[:to_date], data: { controller: "flatpickr" }, class: "border border-gray-500 rounded-md p-1 text-sm" %>
-
-          <button class="flex items-center px-3 py-2 border rounded" title="Filter by Date">
-            <i class="fas fa-calendar-alt mr-2"></i> 
-          </button>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="border border-gray-500 rounded-md hover:bg-gray-500 hover:text-white", style="margin-right: 20px;">
-      <%= link_to new_ticket_path, class: 'text-gray-700 font-medium px-2 py-1 rounded-md shadow-md flex items-center gap-2' do %>
-        <%= image_tag '/plus.png', alt: 'New Ticket Icon', size: '20x20', title: 'Create a new ticket' %>
-        <span>New</span>
-      <% end %>
-    </div>
-
-  </div>
+  <div>
     <!-- Card Section Starts Here -->
     <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
       <!-- Card -->
@@ -89,15 +95,15 @@
                 <% @tickets.each_with_index do |ticket, i| %>
                   <tr class="<%= cycle('bg-white', 'bg-gray-100') %>">
                     <td class="px-4 py-2"><%= i + 1 %></td>
-                    <td class="px-4 py-2"><%= ticket.user&.full_name %></td>
-                    <td class="px-4 py-2"><%= ticket.title %></td>
+                    <td class="px-4 py-2"><%= ticket.user&.full_name&.camelcase %></td>
+                    <td class="px-4 py-2"><%= ticket.title&.camelcase %></td>
                     <% if ticket.status == "in_progress" %>
                       <td class="px-4 py-2"><%= "in-progress" %></td>
                     <% else %>
-                      <td class="px-4 py-2"><%= ticket.status %></span></td>
+                      <td class="px-4 py-2"><%= ticket.status&.camelcase %></span></td>
                     <% end %>  
-                    <td class="px-4 py-2"><%= ticket.priority %></td>
-                    <td class="px-4 py-2"><%= ticket.assigned_user&.full_name %></td>
+                    <td class="px-4 py-2"><%= ticket.priority&.camelcase %></td>
+                    <td class="px-4 py-2"><%= ticket.assigned_user&.full_name&.camelcase %></td>
                     <td class="px-4 py-2">
                       <div class="flex items-center space-x-2">
                         <%= link_to ticket_path(ticket), data: { turbo: false }, class: "inline-flex items-center justify-center border border-green-300 bg-white text-green-700 rounded-md p-2 hover:bg-green-300 hover:border-green-500 transition duration-200 mx-1" do %>
@@ -143,7 +149,5 @@
       </div>
       <!-- /Card -->
     </div>
-
-  
   </div>
 </div>
