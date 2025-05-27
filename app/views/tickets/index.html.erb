@@ -50,26 +50,31 @@
 </div>
 
   <div class="mb-4">
-      <%= form_with url: tickets_path, method: :get, local: true do %>
-        <div class="flex justify-center">
-          <div class="flex items-center space-x-6">
-            <div class="flex items-center space-x-2">
-              <%= label_tag :from_date, "From", class: "font-semibold text-gray-600" %>
-              <%= date_field_tag :from_date, params[:from_date], data: { controller: "flatpickr" }, class: "border border-gray-500 rounded-md p-1 text-sm text-gray-700" %>
-            </div>
-
-            <div class="flex items-center space-x-2">
-              <%= label_tag :to_date, "To", class: "font-semibold text-gray-600" %>
-              <%= date_field_tag :to_date, params[:to_date], data: { controller: "flatpickr" }, class: "border border-gray-500 rounded-md p-1 text-sm text-gray-700" %>
-            </div>
-
-            <button type="submit" class="border border-gray-500 rounded-md hover:bg-gray-500 text-gray-700 font-medium px-3 py-1 shadow-md flex items-center gap-2" title="Filter by Date">
-              <i class="fas fa-calendar-alt"></i> Filter
-            </button>
+    <%= form_with url: tickets_path, method: :get, local: true do %>
+      <div class="flex justify-center">
+        <div class="flex items-center space-x-6">
+          <div class="flex items-center space-x-2">
+            <%= label_tag :from_date, "From", class: "font-semibold text-gray-600" %>
+            <%= date_field_tag :from_date, params[:from_date], data: { controller: "flatpickr" }, class: "border border-gray-500 rounded-md p-1 text-sm text-gray-700" %>
           </div>
+
+          <div class="flex items-center space-x-2">
+            <%= label_tag :to_date, "To", class: "font-semibold text-gray-600" %>
+            <%= date_field_tag :to_date, params[:to_date], data: { controller: "flatpickr" }, class: "border border-gray-500 rounded-md p-1 text-sm text-gray-700" %>
+          </div>
+
+          <button type="submit" class="border border-gray-500 rounded-md hover:bg-gray-500 text-gray-700 font-medium px-3 py-1 shadow-md flex items-center gap-2" title="Filter by Date">
+            <i class="fas fa-calendar-alt"></i> Filter
+          </button>
+
+          <!-- Reset Button -->
+          <%= link_to tickets_path, class: "border border-gray-500 rounded-md hover:bg-gray-100 text-gray-700 font-medium px-3 py-1 shadow-md flex items-center gap-2", title: "Reset Filters" do %>
+            <i class="fas fa-redo-alt"></i> Reset
+          <% end %>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
+  </div>
 
   <div>
     <!-- Card Section Starts Here -->

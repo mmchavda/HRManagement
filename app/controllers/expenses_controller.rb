@@ -40,10 +40,20 @@ class ExpensesController < ApplicationController
   
     def edit
     end
-  
+
     def update
-      if @expense.update(expense_params)
-        redirect_to @expense, notice: 'Expense was successfully updated.'
+      # Only attach new files, don’t replace old ones
+      new_files = expense_params[:proofs]
+
+       if @expense.update(expense_params.except(:proofs))
+        # Only attach if new files are actually provided
+        if new_files.is_a?(Array)
+          new_files.each do |file|
+            @expense.proofs.attach(file)
+          end
+        end
+
+        redirect_to edit_expense_path(@expense), notice: "Expense was successfully updated."
       else
         render :edit
       end
