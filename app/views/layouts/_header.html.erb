@@ -25,28 +25,28 @@
 
                 <!-- Profile Dropdown -->
 
-                <div data-dropdown-target="menu" class="hidden absolute right-0 mt-1 min-w-[16rem] w-auto max-w-[24rem] rounded shadow-md bg-gray-500 z-50 whitespace-nowrap">
+                <div data-dropdown-target="menu" class="hidden absolute right-0 mt-1 min-w-[16rem] w-auto max-w-[24rem] rounded shadow-md bg-nav z-50 whitespace-nowrap">
                   <ul class="list-reset">
                     <% if current_user.is_active %>
                       <li>
-                        <%= link_to "/users/#{current_user.id}", class: "no-underline px-4 py-2 block text-black hover:bg-gray-600 text-gray-800" do %>
-                          <i class="fas fa-user mr-2 text-gray-800"></i>
+                        <%= link_to "/users/#{current_user.id}", class: "no-underline px-4 py-2 block text-black hover:bg-gray-900 text-white" do %>
+                          <i class="fas fa-user mr-2 text-white"></i>
                           Profile
                         <% end %>
                       </li>
-                        <li><hr class="border-t mx-2 border-gray-200 text-gray-800"></li>
+                        <li><hr class="border-t mx-2 border-gray-200 text-white"></li>
                       <li>
-                        <%= link_to "/users/edit", class: "no-underline px-4 py-2 block text-black hover:bg-gray-600 text-gray-800" do %>
-                          <i class="fas fa-key mr-2 text-gray-800"></i>
+                        <%= link_to "/users/edit", class: "no-underline px-4 py-2 block text-black hover:bg-gray-900 text-white" do %>
+                          <i class="fas fa-key mr-2 text-white"></i>
                           Change Password
                         <% end %>
                       </li>
-                      <li><hr class="border-t mx-2 border-gray-200 text-gray-800"></li>
+                      <li><hr class="border-t mx-2 border-gray-200 text-white"></li>
                     <% end %>
                     <li>
                       <%= form_with url: destroy_user_session_path, method: :delete, class: 'block' do |form| %>
-                        <button type="submit" class="block w-full text-left px-4 py-2 text-black hover:bg-gray-600 text-gray-800" data-disable-with="Logging out...">
-                          <i class="fas fa-sign-out-alt mr-2 text-gray-800"></i>
+                        <button type="submit" class="block w-full text-left px-4 py-2 text-black hover:bg-gray-900 text-white" data-disable-with="Logging out...">
+                          <i class="fas fa-sign-out-alt mr-2 text-white"></i>
                           Logout
                         </button>
                       <% end %>
