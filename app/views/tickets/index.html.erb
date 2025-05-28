@@ -88,10 +88,11 @@
               <tr>
                 <th class="px-4 py-2 text-left w-[5%]">S.N.</th>
                 <th class="px-4 py-2 text-left w-[15%]">User</th>
-                <th class="px-4 py-2 text-left w-[25%]">Title</th>
+                <th class="px-4 py-2 text-left w-[15%]">Title</th>
                 <th class="px-4 py-2 text-left w-[10%]">Status</th>
                 <th class="px-4 py-2 text-left w-[10%]">Priority</th>
                 <th class="px-4 py-2 text-left w-[15%]">Assigned To</th>
+                <th class="px-4 py-2 text-left w-[15%]">Created At</th>
                 <th class="px-4 py-2 text-left w-[20%]">Actions</th>
               </tr>
             </thead>
@@ -109,6 +110,7 @@
                     <% end %>  
                     <td class="px-4 py-2"><%= ticket.priority&.camelcase %></td>
                     <td class="px-4 py-2"><%= ticket.assigned_user&.full_name&.camelcase %></td>
+                    <td class="px-4 py-2"><%= ticket.created_at&.strftime('%B %d, %Y') %></td>
                     <td class="px-4 py-2">
                       <div class="flex items-center space-x-2">
                         <%= link_to ticket_path(ticket), data: { turbo: false }, class: "inline-flex items-center justify-center border border-green-300 bg-white text-green-700 rounded-md p-2 hover:bg-green-300 hover:border-green-500 transition duration-200 mx-1" do %>
