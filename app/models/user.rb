@@ -23,6 +23,16 @@ class User < ApplicationRecord
 
   after_create :set_default_role
 
+  # Only allow sign-in if the user is active
+  def active_for_authentication?
+    super && is_active?
+  end
+
+  # Provide a custom message for inactive users
+  def inactive_message
+    is_active? ? super : :account_inactive
+  end
+
   def set_default_role
     self.update_columns(role: :employee) if self.role.nil?
   end
