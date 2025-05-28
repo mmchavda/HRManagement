@@ -53,11 +53,19 @@ class TicketsController < ApplicationController
 	def create
 	  @ticket = Ticket.new(ticket_params)
 	  @ticket.user = current_user
-	  if @ticket.save
-		redirect_to @ticket, notice: "Ticket successfully created."
-	  else
-		render :new, alert: @ticket.errors.full_messages
-	  end
+
+		begin
+			if @ticket.save
+				redirect_to @ticket, notice: "Ticket successfully created."
+			else
+				flash.now[:alert] = @ticket.errors.full_messages.join(", ")
+				render :new
+			end
+		rescue => e
+			flash.now[:alert] = "Error creating ticket: #{e.message}"
+      render :new
+		end
+	
 	end
   
 	def edit
