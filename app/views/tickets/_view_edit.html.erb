@@ -83,6 +83,8 @@
                     <% status_options = [["Closed", "closed"], ["Reopen", "reopen"], ["Resolved", "resolved"]] %>
                   <% elsif ticket.status == "open" %>
                     <% status_options = [["Accidental", "accidental"], ["Open", "open"]] %>
+                  <% elsif ticket.status == "accidental" %>
+                    <% status_options = [["Open", "open"], ["Accidental", "accidental"]] %>
                   <% end %>
                   <% if status_options.any? %>
                     <div>
