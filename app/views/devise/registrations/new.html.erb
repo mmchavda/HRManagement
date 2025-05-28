@@ -17,7 +17,7 @@
           <span class="text-red-600 ml-1">*</span>
         </div>
         <div class="relative">
-          <%= f.text_field :first_name, autofocus: true, required: true, class: "mt-1 block w-full px-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          <%= f.text_field :first_name, autofocus: true, required: true, class: "mt-1 block w-full px-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm", placeholder: "Enter first name" %>
           <i class="fas fa-user absolute inset-y-0 pl-3 flex items-center text-gray-500"></i>
         </div>
       </div>
@@ -29,7 +29,7 @@
           <span class="text-red-600 ml-1">*</span>
         </div>
         <div class="relative">
-          <%= f.text_field :last_name, required: true, class: "mt-1 block w-full px-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          <%= f.text_field :last_name, required: true, class: "mt-1 block w-full px-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm", placeholder: "Enter last name" %>
           <i class="fas fa-user absolute inset-y-0 pl-3 flex items-center text-gray-500"></i>
         </div>
       </div>
@@ -40,8 +40,26 @@
           <span class="text-red-600 ml-1">*</span>
         </div>
         <div class="relative">
-          <%= f.email_field :email, required: true, class: "mt-1 block w-full px-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          <%= f.email_field :email, required: true, class: "mt-1 block w-full px-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm", placeholder: "Enter email" %>
           <i class="fas fa-envelope absolute inset-y-0 pl-3 flex items-center text-gray-500"></i>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <div class="flex items-center">
+          <%= f.label :phone_number, class: "block text-sm font-medium text-gray-700" %>
+          <span class="text-red-600 ml-1">*</span>
+        </div>
+        <div class="relative">
+            <%= f.text_field :phone_number,
+              required: true,
+              class: "mt-1 block w-full px-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+              inputmode: "numeric",
+              placeholder: "Enter phone number",
+              maxlength: "10",
+              oninput: "this.value = this.value.replace(/[^0-9]/g, '')"
+            %>
+          <i class="fas fa-phone absolute inset-y-0 pl-3 flex items-center text-gray-500"></i>
         </div>
       </div>
 
@@ -60,6 +78,7 @@
           <%= f.password_field :password,
                 id: "password_field",
                 autocomplete: "new-password",
+                placeholder: "Enter passwrord",
                 required: true,
                 class: "block w-full pl-10 pr-10 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
 
@@ -89,6 +108,8 @@
           <%= f.password_field :password_confirmation,
                 id: "password_confirmation_field",
                 autocomplete: "new-password",
+                placeholder: "Enter confirm passwrord",
+
                 required: true,
                 class: "block w-full pl-10 pr-10 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
 
