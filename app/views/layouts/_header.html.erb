@@ -34,14 +34,12 @@
                           Profile
                         <% end %>
                       </li>
-                        <li><hr class="border-t mx-2 border-gray-200 text-white"></li>
                       <li>
                         <%= link_to "/users/edit", class: "no-underline px-4 py-2 block text-black hover:bg-gray-900 text-white" do %>
                           <i class="fas fa-key mr-2 text-white"></i>
                           Change Password
                         <% end %>
                       </li>
-                      <li><hr class="border-t mx-2 border-gray-200 text-white"></li>
                     <% end %>
                     <li>
                       <%= form_with url: destroy_user_session_path, method: :delete, class: 'block' do |form| %>

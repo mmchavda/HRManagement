@@ -76,7 +76,7 @@
                   <td class="px-4 py-2"><%= i + 1 %></td>
                   <td class="px-4 py-2"><%= expense.user&.full_name&.camelcase %></td>
                   <td class="px-4 py-2"><%= expense.title&.camelcase %></td>
-                  <td class="px-4 py-2"><%= number_to_currency(expense.amount) %></td>
+                  <td class="px-4 py-2"><%= number_to_currency(expense.amount, unit: "₹", delimiter: ",", precision: 2) %></td>
                   <td class="px-4 py-2"><%= expense.category&.camelcase %></td>
                   <td class="px-4 py-2"><%= expense.date&.strftime('%B %d, %Y') %></td>
                   <td class="px-4 py-2">
