@@ -169,7 +169,7 @@
                       <p class="mb-2">
                         <span class="font-semibold text-indigo-600"><%= audit.action.capitalize %></span>
                         by <span class="text-gray-600 font-medium"><%= audit.user&.email || 'System' %></span><br>
-                        <span class="text-xs text-gray-500"><%= audit.created_at.strftime("%B %d, %Y %l:%M %p") %></span>
+                        <span class="text-xs text-gray-500"><%= audit.created_at.strftime('%B %d, %Y') %></span>
                       </p>
                       <ul class="ml-4 list-disc list-inside font-semibold text-gray-600 space-y-1">
                         <% audit.audited_changes.each do |field, change| %>
@@ -263,7 +263,7 @@
                               Read more
                             </button>
                           </div>
-                          <small class="text-gray-600 text-xs">Created at: <%= note&.created_at&.strftime('%B %d, %Y %I:%M %p') %></small>
+                          <small class="text-gray-600 text-xs">Created at: <%= note&.created_at&.strftime('%B %d, %Y') %></small>
                         </li>
                       <% end %>
                     <% else %>

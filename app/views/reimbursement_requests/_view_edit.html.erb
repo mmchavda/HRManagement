@@ -115,7 +115,7 @@
                     <div class="border-b border-gray-300 pb-4">
                       <p class="text-sm text-gray-600 mb-1">
                         <strong><%= audit.action.capitalize %></strong> by <%= audit.user&.email || "System" %> on
-                        <%= audit.created_at.strftime('%B %d, %Y at %I:%M %p') %>
+                        <%= audit.created_at.strftime('%B %d, %Y') %>
                       </p>
                       <ul class="ml-4 list-disc text-gray-700 text-sm">
                         <% audit.audited_changes.each do |field, change| %>
