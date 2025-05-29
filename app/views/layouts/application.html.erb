@@ -54,7 +54,11 @@
       </div>
     <% else %>  
       <div class="flex flex-1">
+        <% if user_signed_in? %>
         <main class="flex-1 p-3 overflow-hidden">
+        <% else %>
+          <main class="flex-1 p-0 overflow-hidden">
+        <% end %>
           <%= yield %>
         </main>
       </div>
