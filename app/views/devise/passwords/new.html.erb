@@ -9,14 +9,16 @@
           </div>
         <% end %>
 
+
         <div class="mb-4">
           <div class="flex items-center">
             <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
             <span class="text-red-600 ml-1">*</span>
           </div>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, placeholder: "Enter email",
-
-            class: "mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          <div class="relative">
+            <%= f.email_field :email, required: true, class: "mt-1 block w-full px-3 py-2 pl-10 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm", placeholder: "Enter email" %>
+            <i class="fas fa-envelope absolute inset-y-0 pl-3 flex items-center text-gray-500"></i>
+          </div>
         </div>
 
         <div>
