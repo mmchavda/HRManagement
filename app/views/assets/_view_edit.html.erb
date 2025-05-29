@@ -40,7 +40,7 @@
             <div>
 							<% if page_type == "edit" || page_type == "new" %>
                 <%= form.label :unique_id, "Unique ID <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-								<%= form.text_field :unique_id, required: true, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+								<%= form.text_field :unique_id, required: true, class: "w-full text-gray-600 px-4 py-2 border border-gray-400 rounded-md" %>
 							<% else %>
                 <label class="text-gray-600 font-semibold uppercase tracking-wide">Unique ID</label>
 								<p class="text-gray-600 text-base mt-1"><%= asset.unique_id %></p>
@@ -49,7 +49,7 @@
             <div>
               <% if page_type == "edit" || page_type == "new"%>
                 <%= form.label :name, "Asset Name <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-								<%= form.text_field :name, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+								<%= form.text_field :name, class: "w-full text-gray-600 px-4 py-2 border border-gray-400 rounded-md" %>
 							<% else %>
                 <label class="text-gray-600 font-semibold uppercase tracking-wide">Asset Name</label>
 								<p class="text-gray-600 text-base mt-1"><%= asset.name&.camelcase %></p>
@@ -70,7 +70,7 @@
             <div>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Brand</label>
 							<% if page_type == "edit" || page_type == "new"%>
-								<%= form.text_field :branch, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+								<%= form.text_field :branch, class: "w-full text-gray-600 px-4 py-2 border border-gray-400 rounded-md" %>
 							<% else %>
 								<p class="text-gray-600 text-base mt-1"><%= asset.brand.presence&.camelcase %></p>
 							<% end %>
@@ -78,7 +78,7 @@
             <div>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Model</label>
 							<% if page_type == "edit" || page_type == "new"%>
-								<%= form.text_field :model, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+								<%= form.text_field :model, class: "w-full text-gray-600 px-4 py-2 border border-gray-400 rounded-md" %>
 							<% else %>
 								<p class="text-gray-600 text-base mt-1"><%= asset.model.presence&.camelcase || '' %></p>
 							<% end %>
@@ -86,7 +86,7 @@
             <div>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Specifications</label>
               <% if page_type == "edit" || page_type == "new"%>
-								<%= form.text_area :specifications, rows: 3, class: "w-full text-gray-600 px-4 py-2 border rounded-md whitespace-pre-line" %>
+								<%= form.text_area :specifications, rows: 3, class: "w-full text-gray-600 px-4 py-2 border border-gray-400 rounded-md whitespace-pre-line" %>
 							<% else %>
 								<p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= asset.specifications.presence&.camelcase || '' %></p>
 							<% end %>
@@ -100,7 +100,7 @@
             <div>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Serial Number</label>
               <% if page_type == "edit" || page_type == "new"%>
-								<%= form.text_field :serial_number, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+								<%= form.text_field :serial_number, class: "w-full text-gray-600 px-4 py-2 border border-gray-400 rounded-md" %>
 							<% else %>
 								<p class="text-gray-600 text-base mt-1"><%= asset.serial_number.presence || '' %></p>
 							<% end %>
@@ -108,7 +108,7 @@
             <div>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Location</label>
               <% if page_type == "edit" || page_type == "new"%>
-								<%= form.text_field :location, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+								<%= form.text_field :location, class: "w-full text-gray-600 px-4 py-2 border border-gray-400 rounded-md" %>
 							<% else %>
 								<p class="text-gray-600 text-base mt-1"><%= asset.location.presence&.camelcase || '' %></p>
 							<% end %>
@@ -117,7 +117,7 @@
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Purchase Date</label>
               <% if page_type == "edit" || page_type == "new"%>
 								<div class="relative">
-                  <%= form.date_field :purchase_date, data: { controller: "flatpickr" }, class: "w-full text-gray-600 pl-8 py-2 border rounded-md" %>
+                  <%= form.date_field :purchase_date, data: { controller: "flatpickr" }, class: "w-full text-gray-600 pl-8 py-2 border border-gray-400 rounded-md" %>
                   <div class="absolute inset-y-0 left-0 pl-3 text-gray-700 flex items-center pointer-events-none">
                     <i class="fas fa-calendar-alt mr-2"></i>
                   </div>
@@ -130,7 +130,7 @@
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Warranty Expiry</label>
 							<% if page_type == "edit" || page_type == "new"%>
                <div class="relative">
-                  <%= form.date_field :warranty_expiry, data: { controller: "flatpickr" }, class: "w-full text-gray-600 pl-8 py-2 border rounded-md" %>
+                  <%= form.date_field :warranty_expiry, data: { controller: "flatpickr" }, class: "w-full text-gray-600 pl-8 py-2 border border-gray-400 rounded-md" %>
                   <div class="absolute inset-y-0 left-0 pl-3 text-gray-700 flex items-center pointer-events-none">
                     <i class="fas fa-calendar-alt mr-2"></i>
                   </div>
@@ -157,7 +157,11 @@
                     <% elsif page_type == "view" %>
                   <label class="text-gray-600 font-semibold uppercase tracking-wide">Asset Status</label>
                   <p class="text-gray-600 text-base mt-1"><%= asset.status&.humanize %></p>
-								<% end %>
+                <% elsif page_type == "new" %>
+                  <%= form.label :status, "Asset Status <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
+                  <%= form.select :status, Asset.statuses.keys.reject { |key| key == "assigned" }.map { |key| [key.humanize, key] },
+										{}, class: "mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm sm:text-sm focus:ring-gray-500 focus:border-gray-500 text-gray-600" %>
+                <% end %>
               </div>
               <% if page_type == "view"%>
                 <div>
