@@ -10,6 +10,19 @@ class UsersController < ApplicationController
         @users = @users.where("first_name LIKE :term OR last_name LIKE :term OR email LIKE :term", term: term)
       end
 
+      # ✅ Sorting logic
+      sortable_columns = {
+        "first_name" => "users.first_name",
+        "last_name" => "users.last_name",
+        "gender" => "users.gender",
+        "role" => "users.role",
+        "is_active" => "users.is_active"
+      }
+      if params[:sort].present? && sortable_columns.key?(params[:sort])
+        direction = params[:direction].in?(%w[asc desc]) ? params[:direction] : "asc"
+        @users = @users.reorder("#{sortable_columns[params[:sort]]} #{direction}")
+      end
+
       @users = @users.page(params[:page]).per(10)
 
       if params[:role].present?

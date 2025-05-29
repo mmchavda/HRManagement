@@ -20,6 +20,23 @@ class ReimbursementRequestsController < ApplicationController
         @reimbursement_requests = @reimbursement_requests.where(status: params[:status])
       end
 
+      # ✅ Sorting logic
+      sortable_columns = {
+        "user" => "users.first_name",
+        "title" => "expenses.title",
+        "status" => "reimbursement_requests.status"
+      }
+      if params[:sort].present? && sortable_columns.key?(params[:sort])
+        direction = params[:direction].in?(%w[asc desc]) ? params[:direction] : "asc"
+        if params[:sort] == "user"
+          @reimbursement_requests = @reimbursement_requests.left_joins(expense: :user).reorder("#{sortable_columns['user']} #{direction}")
+        elsif params[:sort] == "title"
+          @reimbursement_requests = @reimbursement_requests.left_joins(:expense).reorder("#{sortable_columns['title']} #{direction}")
+        else
+          @reimbursement_requests = @reimbursement_requests.reorder("#{sortable_columns[params[:sort]]} #{direction}")
+        end
+      end
+
       @reimbursement_requests = @reimbursement_requests&.page(params[:page]).per(10)
     end
   

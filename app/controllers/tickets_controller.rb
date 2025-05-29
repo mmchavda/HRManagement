@@ -5,12 +5,12 @@ class TicketsController < ApplicationController
 
 	# Display all tickets
 	def index
-		if current_user.admin? || current_user.hr?  	
-	    @tickets = Ticket.all.order(created_at: :desc)
+		if current_user.admin? || current_user.hr?
+			@tickets = Ticket.all.order(created_at: :desc)
 		else
 			@tickets = current_user.created_tickets.order(created_at: :desc)
 		end	
-		
+
 		if params[:search].present?
 			term = "%#{params[:search]}%"
 			@tickets = @tickets.left_joins(:user).where("tickets.title LIKE :term OR tickets.description LIKE :term OR users.first_name LIKE :term OR users.last_name LIKE :term", term: term)
@@ -25,8 +25,8 @@ class TicketsController < ApplicationController
 		end
 
 		if params[:status].present?
-      @tickets = @tickets.where(status: params[:status])
-    end
+			@tickets = @tickets.where(status: params[:status])
+		end
 
 		if params[:from_date].present?
 			@tickets = @tickets.where("created_at >= ?", params[:from_date].to_date.beginning_of_day)
@@ -35,8 +35,26 @@ class TicketsController < ApplicationController
 		if params[:to_date].present?
 			@tickets = @tickets.where("created_at <= ?", params[:to_date].to_date.end_of_day)
 		end
-    
-	  @tickets = @tickets.page(params[:page]).per(10)
+		# ✅ Sorting logic
+		sortable_columns = {
+			"user" => "users.first_name",
+			"title" => "tickets.title",
+			"status" => "tickets.status",
+			"priority" => "tickets.priority",
+			"assigned_to" => "assigned_user.first_name"
+		}
+		if params[:sort].present? && sortable_columns.key?(params[:sort])
+			direction = params[:direction].in?(%w[asc desc]) ? params[:direction] : "asc"
+			if params[:sort] == "user"
+				@tickets = @tickets.left_joins(:user).reorder("#{sortable_columns['user']} #{direction}")
+			elsif params[:sort] == "assigned_to"
+				@tickets = @tickets.left_joins(assigned_user: :assigned_tickets).reorder("#{sortable_columns['assigned_to']} #{direction}")
+			else
+				@tickets = @tickets.reorder("#{sortable_columns[params[:sort]]} #{direction}")
+			end
+		end
+
+		@tickets = @tickets.page(params[:page]).per(10)
 	end
   
 	def show

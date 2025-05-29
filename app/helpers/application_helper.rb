@@ -1,24 +1,4 @@
 module ApplicationHelper
-	# def nav_link(name, path)
-	# 	class_name = current_page?(path) ? 'bg-gray-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-	# 	link_to name, path, class: "px-3 py-2 rounded-md text-sm font-medium #{class_name}"
-	# end
-
-	# def nav_link(path, html_options = {}, &block)
-	# 	active_class = current_page?(path) ? 'bg-white' : 'text-gray-300'
-	# 	html_options[:class] = "#{html_options[:class] || ''} text-sm font-medium #{active_class}".strip
-	  
-	# 	link_to path, html_options, &block
-	# end	  
-  
-	# def nav_link(path, html_options = {}, &block)
-	# 	current = request.path.starts_with?(path)
-	# 	active_class = current ? 'bg-white text-gray-900' : 'text-gray-300'
-	# 	html_options[:class] = "#{html_options[:class] || ''} text-sm font-medium #{active_class}".strip
-
-	# 	link_to path, html_options, &block
-	# end
-
 	def nav_link(path, html_options = {}, &block)
 		current = if path == '/'
 								request.path == '/'
@@ -29,5 +9,16 @@ module ApplicationHelper
 		active_class = current ? 'bg-white text-gray-700' : 'text-gray-300'
 		html_options[:class] = "#{html_options[:class] || ''} text-sm font-medium #{active_class}".strip
 		link_to path, html_options, &block
+	end
+
+	def sortable(column, title = nil)
+		title ||= column.titleize
+		direction = (column == params[:sort] && params[:direction] == "asc") ? "desc" : "asc"
+		icon = if column == params[:sort]
+				params[:direction] == "asc" ? "▲" : "▼"
+				else
+				""
+				end
+		link_to "#{title} #{icon}".html_safe, request.params.merge(sort: column, direction: direction, page: nil)
 	end
 end

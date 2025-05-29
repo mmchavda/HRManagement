@@ -68,7 +68,7 @@
           </button>
 
           <!-- Reset Button -->
-          <%= link_to tickets_path, class: "border border-gray-500 rounded-md hover:bg-gray-100 text-gray-700 font-medium px-3 py-1 shadow-md flex items-center gap-2", title: "Reset Filters" do %>
+          <%= link_to tickets_path, class: "border border-gray-500 rounded-md hover:bg-gray-500 text-gray-700 font-medium px-3 py-1 shadow-md flex items-center gap-2", title: "Reset Filters" do %>
             <i class="fas fa-redo-alt"></i> Reset
           <% end %>
         </div>
@@ -87,13 +87,13 @@
             <thead class="bg-gray-700 text-white">
               <tr>
                 <th class="px-4 py-2 text-left w-[5%]">S.N.</th>
-                <th class="px-4 py-2 text-left w-[15%]">User</th>
-                <th class="px-4 py-2 text-left w-[15%]">Title</th>
-                <th class="px-4 py-2 text-left w-[10%]">Status</th>
-                <th class="px-4 py-2 text-left w-[10%]">Priority</th>
-                <th class="px-4 py-2 text-left w-[15%]">Assigned To</th>
+                <th class="px-4 py-2 text-left w-[15%]"><%= sortable("user", "User") %></th>
+                <th class="px-4 py-2 text-left w-[15%]"><%= sortable("title", "Title") %></th>
+                <th class="px-4 py-2 text-left w-[10%]"><%= sortable("status", "Status") %></th>
+                <th class="px-4 py-2 text-left w-[10%]"><%= sortable("priority", "Priority") %></th>
+                <th class="px-4 py-2 text-left w-[15%]"><%= sortable("assigned_to", "Assigned To")%></th>
                 <th class="px-4 py-2 text-left w-[15%]">Created At</th>
-                <th class="px-4 py-2 text-left w-[20%]">Actions</th>
+                <th class="px-4 py-2 text-left w-[15%]">Actions</th>
               </tr>
             </thead>
             <tbody>

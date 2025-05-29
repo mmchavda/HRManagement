@@ -6,12 +6,12 @@
           <thead class="bg-gray-700 text-white">
             <tr>
               <th class="px-4 py-2 text-left">S.N.</th>
-              <th class="px-4 py-2 text-left">First Name</th>
-              <th class="px-4 py-2 text-left">Last Name</th>
+              <th class="px-4 py-2 text-left"><%= sortable("first_name", "First Name") %></th>
+              <th class="px-4 py-2 text-left"><%= sortable("last_name", "Last Name") %></th>
               <th class="px-4 py-2 text-left">Email</th>
-              <th class="px-4 py-2 text-left">Gender</th>
-              <th class="px-4 py-2 text-left">Role</th>
-              <th class="px-4 py-2 text-left">Is Active</th>
+              <th class="px-4 py-2 text-left"><%= sortable("gender", "Gender") %></th>
+              <th class="px-4 py-2 text-left"><%= sortable("role", "Role") %></th>
+              <th class="px-4 py-2 text-left"><%= sortable("is_active", "Is Active") %></th>
               <th class="px-4 py-2 text-left">Actions</th>
             </tr>
           </thead>

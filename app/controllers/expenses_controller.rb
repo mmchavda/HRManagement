@@ -18,6 +18,21 @@ class ExpensesController < ApplicationController
         @expenses = @expenses.where(category: params[:category])
       end
 
+      # ✅ Sorting logic
+      sortable_columns = {
+        "user" => "users.first_name",
+        "title" => "expenses.title",
+        "category" => "expenses.category"
+      }
+      if params[:sort].present? && sortable_columns.key?(params[:sort])
+        direction = params[:direction].in?(%w[asc desc]) ? params[:direction] : "asc"
+        if params[:sort] == "user"
+          @expenses = @expenses.left_joins(:user).reorder("#{sortable_columns['user']} #{direction}")
+        else
+          @expenses = @expenses.reorder("#{sortable_columns[params[:sort]]} #{direction}")
+        end
+      end
+
       @expenses = @expenses&.page(params[:page]).per(10)
     end
   
