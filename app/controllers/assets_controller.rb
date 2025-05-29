@@ -34,6 +34,20 @@ class AssetsController < ApplicationController
         term: term
       ).distinct
     end
+    # ✅ Sorting logic
+		sortable_columns = {
+			"name" => "assets.name",
+			"category" => "asset_category.name",
+			"status" => "assets.status"
+		}
+		if params[:sort].present? && sortable_columns.key?(params[:sort])
+			direction = params[:direction].in?(%w[asc desc]) ? params[:direction] : "asc"
+      if params[:sort] == "category"
+        @assets = @assets.left_joins(:asset_category).reorder("#{sortable_columns['category']} #{direction}")
+			else
+				@assets = @assets.reorder("#{sortable_columns[params[:sort]]} #{direction}")
+			end
+		end
     @assets = @assets.page(params[:page]).per(10)
   end
 
