@@ -26,7 +26,7 @@ module ApplicationHelper
 								request.path.starts_with?(path)
 							end
 
-		active_class = current ? 'bg-white text-gray-900' : 'text-gray-300'
+		active_class = current ? 'bg-white text-gray-700' : 'text-gray-300'
 		html_options[:class] = "#{html_options[:class] || ''} text-sm font-medium #{active_class}".strip
 		link_to path, html_options, &block
 	end
