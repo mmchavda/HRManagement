@@ -57,10 +57,15 @@ class UsersController < ApplicationController
   # Update a user
   def update
     if (current_user.admin? || current_user.hr?) || (current_user.id == @user.id)
-      if @user.update(user_params)
-        redirect_to users_path, notice: 'User was successfully updated.'
-      else
-        render :edit
+      begin
+        if @user.update(user_params)
+          redirect_to users_path, notice: 'User was successfully updated.'
+        else
+          render :edit
+        end
+      rescue => e
+        flash.now[:alert] = "Error updating user: #{e.message}"
+        render :new
       end
     else
       redirect_to users_path, alert: 'You are not authorized to edit this profile.'

@@ -75,14 +75,16 @@ class TicketsController < ApplicationController
 	end
   
 	def update
-	  if @ticket.update(ticket_params)
-		  redirect_to @ticket, notice: "Ticket successfully updated."
-	  else
-		  render :edit, alert: @ticket.errors.full_messages
-	  end
-	rescue ActiveRecord::RecordNotFound => e
-	  Rails.logger.error "Ticket not found: #{e.message}"
-	  redirect_to tickets_path, alert: "Ticket not found"
+		begin 
+			if @ticket.update(ticket_params)
+				redirect_to @ticket, notice: "Ticket successfully updated."
+			else
+				render :edit, alert: @ticket.errors.full_messages
+			end
+		rescue => e
+			flash.now[:alert] = "Error updating ticket: #{e.message}"
+      render :new
+		end
 	end
   
 	# Delete a ticket from the database

@@ -33,10 +33,15 @@ class ReimbursementRequestsController < ApplicationController
     def create
       @reimbursement_request = ReimbursementRequest.new(reimbursement_request_params)
       @reimbursement_request.total_amount = @reimbursement_request.expense&.amount
-      if @reimbursement_request.save
-        redirect_to @reimbursement_request, notice: 'Reimbursement request was successfully created.'
-      else
-        flash.now[:alert] = @reimbursement_request.errors.full_messages.to_sentence
+      begin
+        if @reimbursement_request.save
+          redirect_to @reimbursement_request, notice: 'Reimbursement request was successfully created.'
+        else
+          flash.now[:alert] = @reimbursement_request.errors.full_messages.to_sentence
+          render :new
+        end
+      rescue => e
+        flash.now[:alert] = "Error creating reimbursement request: #{e.message}"
         render :new
       end
     end
@@ -55,11 +60,16 @@ class ReimbursementRequestsController < ApplicationController
         @reimbursement_request.approved_by = current_user.id
       end  
 
-      if @reimbursement_request.update(reimbursement_request_params)
-        redirect_to @reimbursement_request, notice: 'Reimbursement request was successfully updated.'
-      else
-        flash.now[:error] = @reimbursement_request.errors.full_messages.to_sentence
-        render :edit
+      begin
+        if @reimbursement_request.update(reimbursement_request_params)
+          redirect_to @reimbursement_request, notice: 'Reimbursement request was successfully updated.'
+        else
+          flash.now[:error] = @reimbursement_request.errors.full_messages.to_sentence
+          render :edit
+        end
+      rescue => e
+        flash.now[:alert] = "Error updating reimbursement request: #{e.message}"
+        render :new
       end
     end
   

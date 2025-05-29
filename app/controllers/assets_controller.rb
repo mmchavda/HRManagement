@@ -44,13 +44,17 @@ class AssetsController < ApplicationController
 
   def create
     @asset = Asset.new(asset_params)
-    
-    if @asset.save
-      redirect_to @asset, notice: 'Asset was successfully created.'
-    else
-      @asset_categories = AssetCategory.all
-      render :new, alert: "Error creating asset."
-    end
+    begin
+      if @asset.save
+        redirect_to @asset, notice: 'Asset was successfully created.'
+      else
+        @asset_categories = AssetCategory.all
+        render :new, alert: "Error creating asset."
+      end
+    rescue => e
+			flash.now[:alert] = "Error creating asset: #{e.message}"
+      render :new
+		end
   end
 
   def edit
@@ -58,12 +62,17 @@ class AssetsController < ApplicationController
   end
 
   def update
-    if @asset.update(asset_params)
-      redirect_to assets_path, notice: 'Asset was successfully updated.'
-    else
-      @asset_categories = AssetCategory.all
-      render :edit
-    end
+    begin
+      if @asset.update(asset_params)
+        redirect_to assets_path, notice: 'Asset was successfully updated.'
+      else
+        @asset_categories = AssetCategory.all
+        render :edit
+      end
+    rescue => e
+			flash.now[:alert] = "Error updating asset: #{e.message}"
+      render :new
+		end
   end
 
   def destroy

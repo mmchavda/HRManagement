@@ -31,10 +31,15 @@ class ExpensesController < ApplicationController
     def create
       @expense = Expense.new(expense_params)
 			@expense.user = current_user
-      if @expense.save
-        redirect_to @expense, notice: 'Expense was successfully created.'
-      else
-				render :new, alert: "Error creating ticket."
+      begin
+        if @expense.save
+          redirect_to @expense, notice: 'Expense was successfully created.'
+        else
+          render :new, alert: "Error creating ticket."
+        end
+      rescue => e
+        flash.now[:alert] = "Error creating expense: #{e.message}"
+        render :new
       end
     end
   
@@ -44,18 +49,21 @@ class ExpensesController < ApplicationController
     def update
       # Only attach new files, don’t replace old ones
       new_files = expense_params[:proofs]
-
-       if @expense.update(expense_params.except(:proofs))
-        # Only attach if new files are actually provided
-        if new_files.is_a?(Array)
-          new_files.each do |file|
-            @expense.proofs.attach(file)
+      begin
+        if @expense.update(expense_params.except(:proofs))
+          # Only attach if new files are actually provided
+          if new_files.is_a?(Array)
+            new_files.each do |file|
+              @expense.proofs.attach(file)
+            end
           end
+          redirect_to edit_expense_path(@expense), notice: "Expense was successfully updated."
+        else
+          render :edit
         end
-
-        redirect_to edit_expense_path(@expense), notice: "Expense was successfully updated."
-      else
-        render :edit
+      rescue => e
+        flash.now[:alert] = "Error updating expense: #{e.message}"
+        render :new
       end
     end
   
