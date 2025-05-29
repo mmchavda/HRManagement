@@ -25,11 +25,13 @@
         </div>
       <% end %>
 
-      <div class="mt-6 text-center">
-        <p class="text-sm text-gray-600">
-          Remembered your password?
-          <%= link_to "Log in", new_user_session_path, class: "text-gray-700 hover:text-gray-700" %>
-        </p>
+      <div class="space-y-3 mt-4">
+        <div class="w-full flex justify-center items-center border border-gray-500 rounded py-2 px-4 bg-gray-700 hover:bg-gray-800">
+          <%= link_to new_user_session_path, class: "text-white font-semibold text-center w-full" do %>
+            <i class="fas fa-sign-in-alt mr-2"></i>
+            Log in
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
