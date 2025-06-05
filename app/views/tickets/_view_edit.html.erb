@@ -234,28 +234,18 @@
               <div data-controller="audit-toggle" class="space-y-4">
                 <button data-action="click->audit-toggle#toggle"
                         class="inline-flex focus:outline-none items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-md focus:border-gray-500 font-semibold font-medium shadow-sm transition duration-200">
-                       <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                  <i class="fa fa-sticky-note" aria-hidden="true"></i>
                   <span>View Notes</span>
                 </button>
 
-                <div data-audit-toggle-target="section" class="hidden">
-                  <ul class="space-y-4 mt-2 max-h-[65vh] overflow-y-auto pr-2">
-                    <% if @ticket.notes.present? %>
+                <% if @ticket.notes.any? %>
+                  <div data-audit-toggle-target="section" class="hidden">
+                    <ul class="space-y-4 mt-2 max-h-[65vh] overflow-y-auto pr-2">
                       <% @ticket.notes.order(created_at: :desc).each do |note| %>
                         <li class="border-b border-gray-300 pb-4" data-controller="read-more">
                           <strong class="text-gray-600">Note by: <%= note&.user&.email %></strong>
-                          <div data-controller="read-more" class="inline">
-                            <span class="text-gray-600" data-read-more-target="content"><%= note.content.capitalize %></span>
-                            <button type="button"
-                                    data-read-more-target="toggle"
-                                    data-action="click->read-more#toggle"
-                                    class="ml-1 text-sm text-blue-600 hover:underline focus:outline-none focus:ring-0 hidden">
-                              Read more
-                            </button>
-                          </div>
-
                           <div class="text-gray-600 mt-2 break-words">
-                            <span data-read-more-target="content"><%= note&.content.capitalize %></span>
+                            <span data-read-more-target="content">Note: <%= note&.content.capitalize %></span>
                             <button type="button"
                                     data-action="click->read-more#toggle"
                                     data-read-more-target="toggle"
@@ -266,11 +256,11 @@
                           <small class="text-gray-600 text-xs">Created at: <%= note&.created_at&.strftime('%B %d, %Y') %></small>
                         </li>
                       <% end %>
-                    <% else %>
-                      <p class="text-gray-500 font-semibold">No notes yet.</p>
-                    <% end %>
-                  </ul>
-                </div>
+                    </ul>
+                  </div>
+                <% else %>
+                  <p class="text-gray-500 font-semibold">No notes yet.</p>
+                <% end %>
               </div>
 
               <div data-controller="audit-toggle">

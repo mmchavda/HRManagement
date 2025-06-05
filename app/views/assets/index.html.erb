@@ -50,14 +50,12 @@
     </div>
     
     <% if current_user.admin? || current_user.hr? %>
-      <% if current_user.admin? %>
-        <div class="border border-gray-500 rounded-md hover:bg-gray-500 hover:text-white", style="margin-right: 20px;">
-          <%= link_to new_asset_path, class: 'text-gray-700 font-medium px-4 py-2 rounded-md shadow-md flex items-center gap-2' do %>
-            <%= image_tag '/plus.png', alt: 'New asset Icon', size: '20x20', title: 'Create a new asset' %>
-            <span>New</span>
-          <% end %>
-        </div>
-      <% end %>
+      <div class="border border-gray-500 rounded-md hover:bg-gray-500 hover:text-white", style="margin-right: 20px;">
+        <%= link_to new_asset_path, class: 'text-gray-700 font-medium px-4 py-2 rounded-md shadow-md flex items-center gap-2' do %>
+          <%= image_tag '/plus.png', alt: 'New asset Icon', size: '20x20', title: 'Create a new asset' %>
+          <span>New</span>
+        <% end %>
+      </div>
     <% end %>  
   </div>
 
