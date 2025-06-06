@@ -55,7 +55,7 @@
                     <span class="text-gray-500">Inactive</span>
                   <% end %>
                 </td>
-                <td class="px-4 py-2"><%= assignment.comments.presence&.camelcase || " " %></td>
+                <td class="px-4 py-2"><%= assignment.comments&.camelcase || " " %></td>
               </tr>
             <% end %>
           </tbody>
