@@ -41,7 +41,7 @@
           <div>
             <% if page_type == "edit" || page_type == "new" %>
               <%= form.label :email, "Email <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-              <%= form.email_field :email, class: "w-full text-gray-600 px-4 py-2 border rounded-md", disabled: true %>
+              <%= form.email_field :email, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
             <% else %>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Email</label>
               <p class="text-gray-600 text-base mt-1"><%= @user.email %></p>
@@ -49,9 +49,8 @@
           </div>
           <div>
             <% if page_type == "edit" || page_type == "new" %>
-              <%= form.label :phone_number, "Phone Number <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
+              <%= form.label :phone_number, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
               <%= form.text_field :phone_number,
-                required: true,
                 class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700",
                 inputmode: "numeric",
                 placeholder: "Enter phone number",
