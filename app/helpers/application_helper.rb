@@ -14,11 +14,17 @@ module ApplicationHelper
 	def sortable(column, title = nil)
 		title ||= column.titleize
 		direction = (column == params[:sort] && params[:direction] == "asc") ? "desc" : "asc"
+
 		icon = if column == params[:sort]
 				params[:direction] == "asc" ? "▲" : "▼"
 				else
-				""
+				"⇅" # Neutral icon when not sorted
 				end
-		link_to "#{title} #{icon}".html_safe, request.params.merge(sort: column, direction: direction, page: nil)
+
+		link_to request.params.merge(sort: column, direction: direction, page: nil), class: "inline-flex items-center gap-1 hover:underline" do
+			content_tag(:span, title) +
+			content_tag(:span, icon, class: "text-xs text-gray-500")
+		end
 	end
+
 end
