@@ -72,7 +72,7 @@
 							<% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_field :branch, class: "w-full text-gray-600 px-4 py-2 border border-gray-400 rounded-md" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1"><%= asset.brand.presence&.camelcase %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.brand&.camelcase %></p>
 							<% end %>
             </div>
             <div>
@@ -80,7 +80,7 @@
 							<% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_field :model, class: "w-full text-gray-600 px-4 py-2 border border-gray-400 rounded-md" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1"><%= asset.model.presence&.camelcase || '' %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.model&.camelcase || '' %></p>
 							<% end %>
             </div>
             <div>
@@ -88,7 +88,7 @@
               <% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_area :specifications, rows: 3, class: "w-full text-gray-600 px-4 py-2 border border-gray-400 rounded-md whitespace-pre-line" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= asset.specifications.presence&.camelcase || '' %></p>
+								<p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= asset.specifications&.camelcase || '' %></p>
 							<% end %>
             </div>
           </div>
@@ -110,7 +110,7 @@
               <% if page_type == "edit" || page_type == "new"%>
 								<%= form.text_field :location, class: "w-full text-gray-600 px-4 py-2 border border-gray-400 rounded-md" %>
 							<% else %>
-								<p class="text-gray-600 text-base mt-1"><%= asset.location.presence&.camelcase || '' %></p>
+								<p class="text-gray-600 text-base mt-1"><%= asset.location&.camelcase || '' %></p>
 							<% end %>
             </div>
             <div>
@@ -176,7 +176,7 @@
 								<% if page_type == "edit" || page_type == "new" %>
 									<%= form.select :condition, options_for_select(["New", "Good", "Damaged"], asset.condition), { prompt: "Select Condition" }, class: "mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm sm:text-sm focus:ring-gray-500 focus:border-gray-500 text-gray-600" %>
 								<% else %>
-                  <p class="text-gray-600 text-base mt-1"><%= asset.condition.presence&.camelcase %></p>
+                  <p class="text-gray-600 text-base mt-1"><%= asset.condition&.camelcase %></p>
 								<% end %>
               </div>
             </div>
