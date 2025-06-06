@@ -1,0 +1,57 @@
+unique_id,name,asset_category,brand,model,specifications,serial_number,purchase_date,warranty_expiry,status,condition,location,assigned_email
+TBS001,Dell Monitor,Monitor,Dell,E2216H,,SN123456,01-06-2023,01-06-2026,assigned,good,Mumbai,user1@example.com
+TBS001,REOCPU001,CPU,REO,,Windows 10 Pro16.0 GB222GB (SSD)Intel(R) Core(TM) i5-4570T CPU @ 2.90GHz   2.90 GHz,,,,assigned,good,Ahmedabad,ahesanali@techcronus.com
+TBS002,LenovoLaptop002,Laptop,Lenovo,,Windows 1116.0 GB (15.8 GB usable)474GB11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz   2.42 GHz,,,,assigned,good,Ahmedabad,ayush.prajapati@techcronus.com
+TBS003,CPU003,CPU,,,Windows10 PRO8GB224GB(SSD)Intel Core i3-3240�,,,,assigned,good,Ahmedabad,bansi.sangani@techcronus.com
+TBS004,REOCPU004,CPU,REO,,12 GBIntel(R) Core(TM) i5-4570T CPU @ 2.90GHz�� 2.90 GHz,,,,assigned,good,Ahmedabad,basant.chaturvedi@techcronus.com
+TBS005,LenovoLaptop005,Laptop,Lenovo,,Windows 1116GB (15.8 usable)256(SSD)11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz   2.42 GHz,,,,assigned,good,Ahmedabad,bhadrajeetsinh.puwar@techcronus.com
+TBS006,REOCPU006,CPU,REO,,"Windows 10 Pro16.0 GB (15.9 usable)SSD (223 GB)Intel(R) Pentium(R) CPU G870 @ 3.10GHz, 3100 Mhz, 2 Core(s), 2 Logical Processor(s)",,,,assigned,good,Ahmedabad,charmee.nanera@techcronus.com
+TBS007,LenovoLaptop007,Laptop,Lenovo,,"Windows 11 Home Single Language8 GB280 GB SSD, 190 GB HDDIntel(R) Core(TM) i3-1005G1 CPU @ 1.20GHz   1.19 GHz",,,,assigned,good,Ahmedabad,chirag.dhorajiya@techcronus.com
+TBS008,REOCPU008,CPU,REO,,"64-bit operating system, x64-based processor16.0 GB (15.8 GB usable)521GBintelR I5",,,,assigned,good,Ahmedabad,datt.mehta@techcronus.com
+TBS009,REOCPU009,CPU,REO,,Windows 10 Pro12 GB512 GB SSD Name: CT480BX500SSD1 Sr. no. 2207E60B17B9 Intel(R) Core� i5-4570T CPU @ 2.90GHz 2.89 GHz,,,,assigned,good,Ahmedabad,dinesh.karlekar@techcronus.com
+TBS010,CPU010,CPU,,,Windows 10 Pro16 GB( 8GB+8GB)256(SSD)Intel(R) Core(TM) i3-3240 CPU @ 3.40GHz   3.40 GHz,,,,assigned,good,Ahmedabad,dipen.prajapati@techcronus.com
+TBS011,FingersCPU011,CPU,Fingers,,"Windows 1016GB (15.9 usable)256(SSD), 500(HDD)Intel(R) Core(TM) i5-3330 CPU @ 3.00GHz   3.20 GHz",,,,assigned,good,Ahmedabad,govind.rajpurohit@gmail.com
+TBS012,AppleMAC012,MAC,Apple,,macOS Sequoia V15.516 DBMacintoshHD 245.11 GBApple M1 Chip,,,,assigned,good,Ahmedabad,hardik.chudasama@techcronus.com
+TBS013,LenovoLaptop013,Laptop,Lenovo,,Microsoft Windows 11 Pro16 GB512 GB11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz,,,,assigned,good,Ahmedabad,hardik.dubal@techcronus.com
+TBS014,REOCPU014,CPU,REO,,Windows 118GB (7.84 gb)256(SSD)Intel(R) Core(TM) i3-10100 CPU @ 3.60GHz�� 3.60 GHz,,,,assigned,good,Ahmedabad,harsha.nayka@techcronus.com
+TBS015,REOCPU015,CPU,REO,,Ubuntu 22.04.5 LTS16.0 GiBSSDIntel� Core� i5-4570 CPU @ 3.20GHz � 4,,,,assigned,good,Ahmedabad,hartik.rathod@techcronus.com
+TBS016,LenovoLaptop016,Laptop,Lenovo,,Windows 118GB500GB SSDIntel(R) Core(TM) i5-10210U CPU @ 1.60GHz   2.11 GHz,,,,assigned,good,Ahmedabad,janmesh.m@techcronus.com
+TBS017,FingersCPU017,CPU,Fingers,,Windows10 PRO12 GB1TB(HDD)Intel(R) Core(TM) i5-4460S CPU @ 2.90GHz   2.89 GHz,,,,assigned,good,Ahmedabad,jayesh.rabari@techcronus.cpm
+TBS018,FingersCPU018,CPU,Fingers,,"Windows 10 pro12GB (11.9 Usable)239GB(SSD), 466GB(HDD)Intel(R) Core(TM) i3-3220 CPU @ 3.30GHz   3.29 GHz",,,,assigned,good,Ahmedabad,jeel.vadariya@techcronus.com
+TBS019,REOCPU019,CPU,REO,,"Windows 108 GB1TB(HDD), 256(SSD)i5",,,,assigned,good,Ahmedabad,kaivan.desai@techcronus.com
+TBS020,REOCPU020,CPU,REO,,Windows 10 Pro16.00 GB (15.9 GB)256Intel(R) Core(TM) i5-3570S CPU @ 3.10GHz   3.09 GHz,,,,assigned,good,Ahmedabad,kajal.dengda@techcronus.com
+TBS021,FingersCPU021,CPU,Fingers,,"Windows 10 Pro12.0 GBssd - 223 GBIntel(R) Core(TM) i5-4590S CPU @ 3.00GHz, 2.993 Ghz, 4 Core(s), 4 Logical Processor(s)",,,,assigned,good,Ahmedabad,karatvi.baxi@techcronus.com
+TBS022,REOCPU022,CPU,REO,,"Microsoft Windows 10 Pro16GB (15.9 GB)237(SSD)Intel(R) Core(TM) i5-3570S CPU @ 3.10GHz, 3801 Mhz, 4 Core(s), 4 Logical Processor(s)",,,,assigned,good,Ahmedabad,karuna.chavan@techcronus.com
+TBS023,CPU023,CPU,,,8 GB (7.73 usable)Intel(R) Core(TM) i3-3220T CPU @ 3.30GHz   3.30 GHz,,,,assigned,good,Ahmedabad,kirti.upadhyay@techcronus.com
+TBS024,HPLaptop024,Laptop,HP,,Windows 118 GB (7.65 usable)500GB SSD11th Gen Intel(R) Core(TM) i3-1115G4 @ 3.00GHz  2.90 GHz,,,,assigned,good,Ahmedabad,kushal.shah@techcronus.com
+TBS025,REOCPU025,CPU,REO,,Windows 10 Pro12 GB (11.9 Usable)240 GBIntel(R) Core(TM) i3-3220T CPU @ 2.80GHz   2.80 GHz,,,,assigned,good,Ahmedabad,labdhi.shah@techcronus.com
+TBS026,HPCPU026,CPU,HP,,Windows 10 Pro8.00 GB224 SSDIntel(R) Core(TM) i5-3570S CPU @ 3.10GHz� �3.10 GHz,,,,assigned,good,Ahmedabad,manish.visavadiya@techcronus.com
+TBS027,REOCPU027,CPU,REO,,Windows1012GB446 GBIntel(R) Core(TM) i3-4150 CPU @ 3.50GHz�� 3.50 GHz,,,,assigned,good,Ahmedabad,manthanraj.r@techcronus.com
+TBS028,LenovoLaptop028,Laptop,Lenovo,,Windows 11 Pro8gb512 gb12th Gen Corei5,,,,assigned,good,Ahmedabad,manthan.thesiya@techcronus.com
+TBS029,REOCPU029,CPU,REO,,Windows 10 pro8GBIntel(R) Core(TM) i3-4160 CPU @ 3.60GHz 3.60 GHz,,,,assigned,good,Ahmedabad,mayank.rajput@techcronus.com
+TBS030,FingersCPU030,CPU,Fingers,,Windows 10 Pro16.0 GB223GBIntel(R) Core(TM) i5-4570S CPU @ 2.90GHz 2.89 GHz,,,,assigned,good,Ahmedabad,mohit.chavda@techcronus.com
+TBS031,LenovoLaptop031,Laptop,Lenovo,,8 GB512 GBNB V15 82KBA01TIH I5-1135G,,,,assigned,good,Ahmedabad,mohit.chavda@techcronus.com
+TBS032,CPU032,CPU,,,Windows 10 Pro16.0 GB (15.7 GB usable)256(HDD)Intel(R) Core(TM) i5-3570S CPU @ 3.10GHz   3.10 GHz,,,,assigned,good,Ahmedabad,monika.verma@techcronus.com
+TBS033,AOCCPU033,CPU,AOC,,Windows 10 Pro16.0 GBSSD : 223Intel(R) Core(TM) i5-4570S CPU @ 2.90GHz   2.89 GHz,,,,assigned,good,Ahmedabad,mrunali.mistry@techcronus.com
+TBS034,LenovoLaptop034,Laptop,Lenovo,,Windows 11 Pro8.0 GB (7.75 Usable)SSD : 193Intel(R) Core(TM) i3-1005G1 CPU @ 1.20GHz   1.19 GHz,,,,assigned,good,Ahmedabad,mrunali.mistry@techcronus.com
+TBS035,LenovoLaptop035,Laptop,Lenovo,,windows 118GB475 GB(SSD)11th Gen Intel(R) Core(TM)i5-1135G7@2.40GHz 2.42GHz,,,,assigned,good,Ahmedabad,Nancy.patrl@techcronus.com
+TBS036,FingersCPU036,CPU,Fingers,,Windows 10 pro16 GB(15.9 GB)223 GBIntel(R) Core(TM) i5-3330S CPU @ 2.70 GHz 2.70 GHz,,,,assigned,good,Ahmedabad,parasar.makwana@techcronus.com
+TBS037,REOCPU037,CPU,REO,,Windows 10 Enterprise12.0 GB512 GBIntel(R) Core(TM) i5-4570T CPU @ 2.90GHz   2.89 GHz,,,,assigned,good,Ahmedabad,paril.gabani@techcronus.com
+TBS038,REOCPU038,CPU,REO,,Windows 10 Pro12GBSSD 1TBIntel(R) Core(TM) i3-4160 CPU @ 3.60GHz,,,,assigned,good,Ahmedabad,parth.saksena@techcronus.com
+TBS039,HPLaptop039,Laptop,HP,,8 GBSSDIntel(R) Core(TM) i5-8250U CPU @ 1.60GHz�� 1.80 GHz,,,,assigned,good,Ahmedabad,pooja.desai@techcronus.com
+TBS040,REOCPU040,CPU,REO,,Windows 10 pro8GB (7.84 gb)256 GBIntel(R) Core(TM) i3-3220 CPU @ 3.60GHz   3.60 GHz,,,,assigned,good,Ahmedabad,shailesh.yadav@techcronus.com
+TBS041,Ideapad Slim - LenovoLaptop041,Laptop,Ideapad Slim - Lenovo,,Windows 118.00 GB (7.75 GB usable)477 GBIntel(R) Core(TM) i3-1005G1 CPU @ 1.20GHz�� 1.19 GHz,,,,assigned,good,Ahmedabad,shaili.patel@techcronus.com
+TBS042,FingersCPU042,CPU,Fingers,,"Windows 1012 GB DDR3466GB(HDD), 239GB(SSD)Intel Core I5-3330",,,,assigned,good,Ahmedabad,shivang.simaria@techcronus.com
+TBS043,REOCPU043,CPU,REO,,Windows 10 Pro16 GB269 GBIntel(R) Core(TM) i5-6500TE CPU @ 2.30GHz   2.30 GHz,,,,assigned,good,Ahmedabad,shivani.shilpi@techcronus.com
+TBS044,REOCPU044,CPU,REO,,"Windows 10 pro16 GBSSD :- 223GB, 
+HDD :-  465GBIntel(R) Core(TM) i5-4690S CPU @ 3.20GHz 3.19 GHz",,,,assigned,good,Ahmedabad,shivkant.shukla@techcronus.com
+TBS045,REOCPU045,CPU,REO,,Windows 10 pro16 GB237 GBIntel(R) Core(TM) i5-45070T CPU @ 2.90GHz   2.89 GHz,,,,assigned,good,Ahmedabad,utsav.patdiya@techcronus.com
+TBS046,REOCPU046,CPU,REO,,Windows 10 Pro8.00 GB (7.90 GB usable)750GBIntel(R) Core(TM) i3-3220 CPU @ 3.30GHz   3.30 GHz,,,,assigned,good,Ahmedabad,vinay.patankar@techcronus.com
+TBS047,LenovoLaptop047,Laptop,Lenovo,,Windows 11 Home Single Language16SSD 50011th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz   2.42 GHz,,,,assigned,good,Ahmedabad,viral.lalkiya@techcronus.com
+TBS048,FingersCPU048,CPU,Fingers,,"Ubuntu20.04.6 LTS11.6 GIBSSD 240, Intel� Core� i5-3470S CPU @ 2.90GHz � 4,",,,,assigned,good,Ahmedabad,yash.sampat@techcronus.com
+TBS049,Ideapad Slim3 - LenovoLaptop049,Laptop,Ideapad Slim3 - Lenovo,,Windows 1016SSD 48012th Gen Intel(R) Core(TM) i5-1235U   1.30 GHz,,,,assigned,good,Ahmedabad,yash.sampat@techcronus.com
+TBS050,REOCPU050,CPU,REO,,"Windows 10 Pro16 GB225 GB SSD, 500 GB HDD, 450 GB HDDIntel(R) Core(TM) i3-4160 CPU @ 3.60GHz   3.60 GHz",,,,available,good,Ahmedabad,
+TBS051,LenovoLaptop051,Laptop,Lenovo,,Windows 10 Pro  16GB (15.7 usable) 12th Gen Intel (R)  Core (TM)  i5 1235U 1.3 GHz,,,,assigned,good,Ahmedabad,anjali@techcronus.com
+TBS52,ZebronicsCPU52,CPU,Zebronics,,"Windows10 PRO16.0 GB (15.9 GB usable)477 GB SSD EVM25/512GB, 466 GB HDD ST3500312CSIntel(R) Core(TM) i3-3220T CPU @ 2.80GHz 2.80 GHz",,,,assigned,good,Ahmedabad,manthan.thesiya@techcronus.com
+TBS53,ThinkCentreCPU53,CPU,ThinkCentre,,,,,,assigned,good,Ahmedabad,hr@techcronus.com
+TBS54,REOCPU054,CPU,REO,,,,,,available,good,Ahmedabad,

@@ -41,10 +41,10 @@
           <div>
             <% if page_type == "new" %>
               <%= form.label :email, "Email <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-              <%= form.email_field :email, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+              <%= form.email_field :email, class: "w-full text-gray-600 px-4 py-2 border border-gray-500 rounded-md" %>
             <% elsif page_type == "edit"  %>
               <%= form.label :email, "Email <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-              <%= form.email_field :email, disabled: true, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+              <%= form.email_field :email, disabled: true, class: "w-full text-gray-600 px-4 py-2 border border-gray-500 rounded-md" %>
             <% else %>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Email</label>
               <p class="text-gray-600 text-base mt-1"><%= @user.email %></p>
@@ -54,7 +54,7 @@
             <% if page_type == "edit" || page_type == "new" %>
               <%= form.label :phone_number, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
               <%= form.text_field :phone_number,
-                class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700",
+                class: "block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700",
                 inputmode: "numeric",
                 placeholder: "Enter phone number",
                 maxlength: "10",
@@ -75,7 +75,7 @@
           <div>
             <% if page_type == "edit" || page_type == "new" %>
               <%= form.label :first_name, "First Name <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-              <%= form.text_field :first_name, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+              <%= form.text_field :first_name, class: "w-full text-gray-600 px-4 py-2 border border-gray-500 rounded-md" %>
             <% else %>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">First Name</label>
               <p class="text-gray-600 text-base mt-1"><%= @user.first_name&.capitalize %></p>
@@ -84,7 +84,7 @@
           <div>
             <% if page_type == "edit" || page_type == "new" %>
               <%= form.label :last_name, "Last Name <span class='text-red-500'>*</span>".html_safe, class: "text-gray-600 font-semibold uppercase tracking-wide" %>
-              <%= form.text_field :last_name, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+              <%= form.text_field :last_name, class: "w-full text-gray-600 px-4 py-2 border border-gray-500 rounded-md" %>
             <% else %>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Last Name</label>
               <p class="text-gray-600 text-base mt-1"><%= @user.last_name&.capitalize %></p>
@@ -100,7 +100,7 @@
             <label class="text-gray-600 font-semibold uppercase tracking-wide">Gender</label>
             <% if page_type == "edit" || page_type == "new" %>
               <%= form.select :gender, ['Male', 'Female', 'Other'], { include_blank: true },
-                  class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+                  class: "w-full text-gray-600 px-4 py-2 border border-gray-500 rounded-md" %>
             <% else %>
               <p class="text-gray-600 text-base mt-1"><%= @user.gender&.capitalize %></p>
             <% end %>
@@ -108,7 +108,7 @@
           <div>
             <label class="text-gray-600 font-semibold uppercase tracking-wide">Blood Group</label>
             <% if page_type == "edit" || page_type == "new" %>
-              <%= form.text_field :blood_group, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+              <%= form.text_field :blood_group, class: "w-full text-gray-600 px-4 py-2 border border-gray-500 rounded-md" %>
             <% else %>
               <p class="text-gray-600 text-base mt-1"><%= @user.blood_group %></p>
             <% end %>
@@ -117,7 +117,7 @@
             <label class="text-gray-600 font-semibold uppercase tracking-wide">Date of Birth</label>
             <% if page_type == "edit" || page_type == "new" %>
               <div class="relative">
-                <%= form.date_field :dob, data: { controller: "flatpickr" }, class: "w-full text-gray-600 pl-8 py-2 border rounded-md" %>
+                <%= form.date_field :dob, data: { controller: "flatpickr" }, class: "w-full text-gray-600 pl-8 py-2 border border-gray-500 rounded-md" %>
                 <div class="absolute inset-y-0 left-0 pl-3 text-gray-700 flex items-center pointer-events-none">
                   <i class="fas fa-calendar-alt mr-2"></i>
                 </div>
@@ -138,6 +138,72 @@
         </div>
       </div>
 
+      <% if page_type == "new" %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="mb-4">
+          <div class="flex items-center">
+            <%= form.label :password, class: "block text-sm font-medium text-gray-600 font-semibold uppercase" %>
+            <span class="text-red-600 ml-1">*</span>
+          </div>
+          <div class="relative mt-1">
+            <!-- Left lock icon -->
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+              <i class="fas fa-lock"></i>
+            </span>
+
+            <!-- Password input with left+right padding -->
+            <%= form.password_field :password,
+                  id: "password_field",
+                  autocomplete: "new-password",
+                  placeholder: "Enter passwrord",
+                  required: true,
+                  class: "block w-full pl-10 pr-10 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+
+            <!-- Right eye toggle -->
+            <button
+              type="button"
+              onclick="togglePassword('password_field','toggle_icon_password')"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 focus:outline-none"
+            >
+              <i class="fas fa-eye" id="toggle_icon_password"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <div class="flex items-center">
+            <%= form.label :confirm_password, class: "block text-sm font-medium text-gray-600 font-semibold uppercase" %>
+            <span class="text-red-600 ml-1">*</span>
+          </div>
+          <div class="relative mt-1">
+            <!-- Left check icon -->
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+              <i class="fas fa-check"></i>
+            </span>
+
+            <!-- Confirm password input with left+right padding -->
+            <%= form.password_field :password_confirmation,
+                  id: "password_confirmation_field",
+                  autocomplete: "new-password",
+                  placeholder: "Enter confirm passwrord",
+
+                  required: true,
+                  class: "block w-full pl-10 pr-10 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+
+            <!-- Right eye toggle -->
+            <button
+              type="button"
+              onclick="togglePassword('password_confirmation_field','toggle_icon_confirmation')"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 focus:outline-none"
+            >
+              <i class="fas fa-eye" id="toggle_icon_confirmation"></i>
+            </button>
+          </div>
+        </div>
+      </div>  
+      <% end %>  
+
+
       <!-- Role and Bio -->
       <div>
         <h2 class="text-xl font-semibold text-gray-600 mb-4 border-b pb-2">Account Information</h2>
@@ -150,11 +216,11 @@
                 <%= form.select :role,
                     User.roles.keys.sort.map { |r| [r.titleize, r] },
                     { selected: form.object.role },
-                    class: 'text-gray-700 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700'
+                    class: 'text-gray-700 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm text-gray-700'
                 %>
               <% else %>
                 <!-- Show role as static text for non-admin/HR users -->
-                <div class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-gray-100 rounded-md shadow-sm text-sm text-gray-700">
+                <div class="mt-1 block w-full px-3 py-2 border border-gray-500 bg-gray-100 rounded-md shadow-sm text-sm text-gray-700">
                   <%= @user.role.titleize %>
                 </div>
               <% end %>
@@ -165,7 +231,7 @@
           <div>
             <label class="text-gray-600 font-semibold uppercase tracking-wide">Address</label>
             <% if page_type == "edit" || page_type == "new" %>
-              <%= form.text_area :bio, rows: 3, class: "w-full text-gray-600 px-4 py-2 border rounded-md" %>
+              <%= form.text_area :bio, rows: 3, class: "w-full text-gray-600 px-4 py-2 border border-gray-500 rounded-md" %>
             <% else %>
               <p class="text-gray-600 text-base mt-1 whitespace-pre-line"><%= @user.bio.presence&.camelcase %></p>
             <% end %>
@@ -175,3 +241,19 @@
     </div>
   </div>
 </div>
+
+<script>
+  function togglePassword(fieldId, iconId) {
+    const input = document.getElementById(fieldId);
+    const icon = document.getElementById(iconId);
+    if (input.type === "password") {
+      input.type = "text";
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    } else {
+      input.type = "password";
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    }
+  }
+</script>
