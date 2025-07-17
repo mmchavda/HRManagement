@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_25_053809) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_09_085555) do
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -44,6 +44,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_053809) do
     t.bigint "user_id", null: false
     t.datetime "assigned_at"
     t.datetime "returned_at"
+    t.boolean "active", default: true
     t.text "comments"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -69,7 +70,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_053809) do
     t.string "serial_number"
     t.date "purchase_date"
     t.date "warranty_expiry"
-    t.string "status", default: "Available", null: false
+    t.integer "status", default: 0, null: false
     t.string "condition"
     t.string "location"
     t.datetime "created_at", null: false
@@ -102,7 +103,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_053809) do
 
   create_table "expenses", charset: "utf8", force: :cascade do |t|
     t.decimal "amount", precision: 10, scale: 2
-    t.string "description"
+    t.text "description"
     t.date "date"
     t.integer "category"
     t.bigint "user_id"
@@ -131,6 +132,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_053809) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "rejection_reason"
+    t.date "approved_at"
+    t.integer "approved_by"
     t.index ["expense_id"], name: "index_reimbursement_requests_on_expense_id"
     t.index ["manager_id"], name: "index_reimbursement_requests_on_manager_id"
   end
@@ -144,6 +147,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_053809) do
     t.bigint "assigned_user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "category"
+    t.boolean "approved", default: false
     t.index ["assigned_user_id"], name: "index_tickets_on_assigned_user_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
@@ -173,6 +178,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_053809) do
     t.integer "sign_in_count", default: 0, null: false
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
+    t.integer "tl_id"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

@@ -173,7 +173,7 @@ class AssetsController < ApplicationController
   end
 
   def ensure_admin
-    redirect_to root_path, alert: 'You must be an admin to perform this action.' unless current_user.admin?
+    redirect_to root_path, alert: 'You must be an admin to perform this action.' unless (current_user.admin? || current_user.hr?)
   end
 end
 

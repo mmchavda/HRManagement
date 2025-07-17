@@ -7,6 +7,11 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :edit, :update, :destroy, :show, :new, :create]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  get 'open', to: 'dashboard#open'
+  # get '/get_report_embed_info', to: 'dashboard#get_embed_info'
+  # post '/get_embed_info', to: 'dashboard#get_embed_info'
+
+  post '/get_embed_info', to: 'dashboard#get_embed_info'
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -49,6 +54,7 @@ Rails.application.routes.draw do
       get :notes
       post :create_note
       get :new_note
+      patch :approve
     end
   end
 

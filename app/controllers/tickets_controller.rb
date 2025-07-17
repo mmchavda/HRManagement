@@ -7,6 +7,10 @@ class TicketsController < ApplicationController
 	def index
 		if current_user.admin? || current_user.hr?
 			@tickets = Ticket.all.order(created_at: :desc)
+		elsif current_user.tl?
+			# Show TL's own tickets and tickets created by users reporting to them
+			team_member_ids = current_user.team_members.pluck(:id)
+			@tickets = Ticket.where(user_id: [current_user.id] + team_member_ids).order(created_at: :desc)
 		else
 			@tickets = current_user.created_tickets.order(created_at: :desc)
 		end	
@@ -71,6 +75,9 @@ class TicketsController < ApplicationController
 	def create
 	  @ticket = Ticket.new(ticket_params)
 	  @ticket.user = current_user
+    if current_user.tl?
+			@ticket.approved = true # Automatically approve tickets created by TLs
+		end
 
 		begin
 			if @ticket.save
@@ -184,7 +191,25 @@ class TicketsController < ApplicationController
       render :show
     end
   end
-  
+
+	def approve
+		ticket = Ticket.find(params[:id])
+
+		# Ensure the current_user is the TL of the ticket creator
+		if current_user == ticket.user.team_lead || current_user.admin? || current_user.hr?
+			if ticket.update(approved: true)
+				ticket.assign_hr_user_and_save
+				flash[:notice] = "Ticket approved and assigned to HR."
+			else
+				flash[:alert] = "Could not approve the ticket."
+			end
+		else
+			flash[:alert] = "You are not authorized to approve this ticket."
+		end
+
+		redirect_to tickets_path
+	end
+		
 	private
 
 	def note_params

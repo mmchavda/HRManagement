@@ -92,6 +92,7 @@
                 <th class="px-4 py-2 text-left w-[10%]"><%= sortable("status", "Status") %></th>
                 <th class="px-4 py-2 text-left w-[10%]"><%= sortable("priority", "Priority") %></th>
                 <th class="px-4 py-2 text-left w-[15%]"><%= sortable("assigned_to", "Assigned To")%></th>
+                <th class="px-4 py-2 text-left w-[15%]">Approved?</th>
                 <th class="px-4 py-2 text-left w-[15%]">Created At</th>
                 <th class="px-4 py-2 text-left w-[15%]">Actions</th>
               </tr>
@@ -110,6 +111,13 @@
                     <% end %>  
                     <td class="px-4 py-2"><%= ticket.priority&.camelcase %></td>
                     <td class="px-4 py-2"><%= ticket.assigned_user&.full_name&.camelcase %></td>
+                    <td class="px-4 py-2">
+                      <% if ticket.approved? %>
+                        <span class="text-green-600 font-semibold">Yes</span>
+                      <% else %>
+                        <span class="text-red-600 font-semibold">No</span>
+                      <% end %>
+                    </td>
                     <td class="px-4 py-2"><%= ticket.created_at&.strftime('%B %d, %Y') %></td>
                     <td class="px-4 py-2">
                       <div class="flex items-center space-x-2">
@@ -126,9 +134,9 @@
                           </div>
                         <% end %>
 
-                        <% if (current_user.admin? || current_user.hr?  ) && ticket.status != "resolved" && (ticket.assigned_user == current_user) %>
-                          <%= link_to resolve_ticket_path(ticket), method: :post do %>
-                            <%= image_tag '/resolved.png', alt: 'Resolve ticket', size: '15x15' %>
+                        <% if ((current_user == ticket.user.team_lead)) && !ticket.approved? %>
+                          <%= link_to approve_ticket_path(ticket), method: :patch, data: { turbo_method: :patch }, class: "text-green-600 hover:text-green-800", title: "Approve Ticket" do %>
+                            <i class="fas fa-check-circle fa-lg"></i>
                           <% end %>
                         <% end %>
                       </div>

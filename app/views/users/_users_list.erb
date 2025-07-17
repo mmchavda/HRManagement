@@ -10,6 +10,8 @@
               <th class="px-4 py-2 text-left"><%= sortable("last_name", "Last Name") %></th>
               <th class="px-4 py-2 text-left">Email</th>
               <th class="px-4 py-2 text-left"><%= sortable("gender", "Gender") %></th>
+              <th class="px-4 py-2 text-left">Reporting To</th>
+
               <th class="px-4 py-2 text-left"><%= sortable("role", "Role") %></th>
               <th class="px-4 py-2 text-left"><%= sortable("is_active", "Is Active") %></th>
               <th class="px-4 py-2 text-left">Actions</th>
@@ -25,6 +27,7 @@
                   <td class="px-4 py-2"><%= user.last_name&.capitalize %></td>
                   <td class="px-4 py-2"><%= user.email %></td>
                   <td class="px-4 py-2"><%= user.gender&.capitalize %></td>
+                  <td class="px-4 py-2"><%= user.team_lead&.full_name&.capitalize %></td>
                   <td class="px-4 py-2"><%= user.role&.capitalize %></td>
                   <td class="px-4 py-2"><%= user.is_active ? "Active" : "Inactive" %></td>
                   <td class="px-4 py-2">

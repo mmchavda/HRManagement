@@ -22,25 +22,46 @@ class Ticket < ApplicationRecord
   enum :priority, [ :low, :medium, :high ]
   # Category can be managed via enum or a separate model
   enum :category, [ :hr, :it ]
-
   #has_many :notes, dependent: :destroy
   has_many :notes, as: :notable, dependent: :destroy
+  before_create :assign_ticket_handler
+  before_create :set_status
 
-  before_create :assign_hr_user_and_open_status
+  def assign_hr_user_and_open_status
+    hr_user = User.find_by(role: :hr)
+
+    if hr_user
+      self.assigned_user_id = hr_user.id
+    else
+      Rails.logger.error "No HR user found to assign the ticket to."
+    end
+  end
+
+  def assign_hr_user_and_save
+    assign_hr_user_and_open_status
+    save!
+  end
 
   private
 
-  def assign_hr_user_and_open_status
-    # Find the HR user
-    hr_user = User.find_by_role(:hr)
-    
-    if hr_user
-      # Assign the HR user to the ticket and set status to "open"
-      self.assigned_user_id = hr_user.id
-      self.status = "open"
+  def assign_ticket_handler
+    if user&.team_lead.present?
+      assign_to_team_lead
     else
-      # Optionally handle the case where no HR user is found
-      Rails.logger.error "No HR user found to assign the ticket to."
+      assign_hr_user_and_open_status
     end
+  end
+
+  def assign_to_team_lead
+    tl = user.team_lead
+    if tl&.tl?
+      self.assigned_user_id = tl.id
+    else
+      Rails.logger.warn("No valid TL found for user ##{user.id}")
+    end
+  end
+
+  def set_status
+    self.status ||= 'open' # Default status is 'open' if not set
   end
 end

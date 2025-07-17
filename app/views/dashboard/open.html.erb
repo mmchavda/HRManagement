@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Power BI Embedded Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/powerbi-client@2.19.0/dist/powerbi.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #report-container { height: 600px; width: 100%; border: 1px solid #ccc; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <h2>Enter Email to View Dashboard</h2>
+
+  <%= form_with url: root_path, method: :get, local: true do %>
+    <div>
+      <%= label_tag :email, "Email" %><br>
+      <%= text_field_tag :email, params[:email], placeholder: "Enter email", required: true, id: "email" %>
+    </div>
+
+    <br>
+
+    <div>
+      <%= submit_tag "Proceed", class: "btn btn-primary", onclick: "loadReport(); return false;" %>
+    </div>
+  <% end %>
+
+  <div id="report-container"></div>
+
+  <script>
+    async function loadReport() {
+      const emailInput = document.getElementById("email");
+      const email = emailInput.value;
+
+      if (!email) {
+        alert("Please enter an email");
+        return;
+      }
+
+      try {
+        // 🔁 Changed to proxy through Rails backend
+        const response = await fetch("/get_embed_info", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || "Something went wrong");
+        }
+
+        const embedInfo = await response.json();
+        const models = window['powerbi-client'].models;
+
+        const embedConfig = {
+          type: 'report',
+          tokenType: models.TokenType.Embed,
+          accessToken: embedInfo.accessToken,
+          embedUrl: embedInfo.reportConfig[0].embedUrl,
+          settings: {
+            panes: {
+              filters: { visible: false },
+              pageNavigation: { visible: true }
+            },
+            background: models.BackgroundType.Transparent
+          }
+        };
+
+        const reportContainer = document.getElementById('report-container');
+        powerbi.embed(reportContainer, embedConfig);
+
+      } catch (error) {
+        console.error("Embedding failed:", error.message);
+        alert("Failed to embed report: " + error.message);
+      }
+    }
+
+    // ✅ Auto-trigger if email already in params
+    <% if params[:email].present? %>
+      document.addEventListener("DOMContentLoaded", function() {
+        loadReport();
+      });
+    <% end %>
+  </script>
+
+</body>
+</html>

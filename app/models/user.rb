@@ -9,6 +9,9 @@ class User < ApplicationRecord
   has_many :reimbursement_requests, through: :expenses # Reimbursement requests related to the user's expenses
   has_many :notes, dependent: :destroy
 
+  belongs_to :team_lead, class_name: 'User', foreign_key: 'tl_id', optional: true
+  has_many :team_members, class_name: 'User', foreign_key: 'tl_id'
+
   validates :email, presence: true
   validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "Invalid email format" }, if: :email_present?
 
@@ -18,7 +21,9 @@ class User < ApplicationRecord
   }, if: :password_present?
 
   # Roles: Admins, Agents, and Users can be defined here
-	enum :role, [:employee, :hr, :admin]
+	#enum :role, [:employee, :hr, :admin]
+  enum :role, [:employee, :tl, :hr, :admin]
+
   has_one_attached :avatar
 
   after_create :set_default_role

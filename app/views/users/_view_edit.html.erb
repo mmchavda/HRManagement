@@ -22,14 +22,16 @@
             <% end %>
           </div>   
         <% end %>             
-
-        <div>
-          <%= link_to users_path, data: { turbo: false },
-              class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-3 rounded-md font-semibold shadow-sm transition duration-200" do %>
-              <i class="fas fa-arrow-left" aria-hidden="true"></i>
-              <span>Back to Users</span>
-          <% end %>
-        </div>
+        
+        <% if current_user.admin? || current_user.hr? %>
+          <div>
+            <%= link_to users_path, data: { turbo: false },
+                class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-3 rounded-md font-semibold shadow-sm transition duration-200" do %>
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                <span>Back to Users</span>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     </div>
 
@@ -228,6 +230,23 @@
               <p class="text-gray-600 text-base mt-1"><%= @user.role.titleize %></p>
             <% end %>
           </div>
+
+          <% tl_options = User.where(role: ['admin', 'hr', 'tl']).to_a %>
+            <% if @user.team_lead && !tl_options.include?(@user.team_lead) %>
+              <% tl_options << @user.team_lead %>
+            <% end %>
+            <div>
+              <label class="text-gray-600 font-semibold uppercase tracking-wide">Reporting To</label>
+              <% if page_type == "edit" || page_type == "new" %>
+                <%= form.select :team_lead_id,
+                  tl_options.uniq.map { |u| [u.full_name, u.id] }.sort_by { |u| u[0].to_s },
+                  { prompt: 'Select Reporting To', selected: form.object.tl_id },
+                  class: "block w-full mt-1 px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+              <% else %>
+                <p class="text-gray-600 text-base mt-1"><%= @user.team_lead&.full_name %></p>
+              <% end %>
+            </div>
+
           <div>
             <label class="text-gray-600 font-semibold uppercase tracking-wide">Address</label>
             <% if page_type == "edit" || page_type == "new" %>
