@@ -79,6 +79,7 @@ AssetCategory.find_or_create_by!(name: "Desktop")
 AssetCategory.find_or_create_by!(name: "CPU")
 AssetCategory.find_or_create_by!(name: "MAC")
 AssetCategory.find_or_create_by!(name: "Laptop")
+AssetCategory.find_or_create_by!(name: "Headphone")
 
 
 #Asset.find_or_create_by!(name: "Dell Monitor", asset_category: AssetCategory.find_by(name: "Monitor"), serial_number: "SN123456", purchase_date: Date.today - 1.year, warranty_expiry_date: Date.today + 2.years, status: "available")

@@ -7,12 +7,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource(sign_up_params)
-
     resource.save
     yield resource if block_given?
 
     if resource.persisted?
-      if current_user&.admin?
+      if current_user&.admin? || current_user&.hr?
         # ✅ Don't log in as the new user
         flash[:notice] = "User created successfully."
         redirect_to users_path # or wherever you want
@@ -38,7 +37,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def admin_signed_in?
-    user_signed_in? && current_user.admin?
+    user_signed_in? && (current_user.admin? || current_user.hr?)
   end
   # GET /resource/sign_up
   # def new

@@ -238,7 +238,7 @@
             <div>
               <label class="text-gray-600 font-semibold uppercase tracking-wide">Reporting To</label>
               <% if page_type == "edit" || page_type == "new" %>
-                <%= form.select :team_lead_id,
+                <%= form.select :tl_id,
                   tl_options.uniq.map { |u| [u.full_name, u.id] }.sort_by { |u| u[0].to_s },
                   { prompt: 'Select Reporting To', selected: form.object.tl_id },
                   class: "block w-full mt-1 px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>

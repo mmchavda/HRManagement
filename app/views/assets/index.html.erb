@@ -66,6 +66,7 @@
         <tr>
           <th class="px-4 py-3">S.N.</th>
           <th class="px-4 py-3"><%= sortable("name", "Name") %></th>
+          <th class="px-4 py-3">Unique ID</th>
           <th class="px-4 py-3"><%= sortable("category", "Category") %></th>
           <th class="px-4 py-3"><%= sortable("status", "Status") %></th>
           <th class="px-4 py-3">Assigned To</th>
@@ -78,6 +79,7 @@
             <tr class="<%= cycle('bg-white', 'bg-gray-100') %>">
               <td class="px-4 py-2"><%= i + 1 %></td>
               <td class="px-4 py-2"><%= asset.name&.camelcase %></td>
+              <td class="px-4 py-2"><%= asset.unique_id %></td>
               <td class="px-4 py-2"><%= asset.asset_category.name&.camelcase %></td>
               <td class="px-4 py-2">
                 <span class="px-2 py-1 rounded-full text-xs font-medium <%= asset.status == 'scrapped' ? 'bg-red-200 text-red-800' : 'bg-green-200 text-green-800' %>">
