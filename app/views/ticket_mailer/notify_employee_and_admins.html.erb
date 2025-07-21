@@ -1,0 +1,8 @@
+<p>Hi <%= @team_lead.first_name %>,</p>
+
+<p><%= @ticket.user.full_name %> has created a new ticket:</p>
+
+<p>
+  <strong>Title:</strong> <%= @ticket.title %><br>
+  <strong>Description:</strong> <%= @ticket.description %>
+</p>

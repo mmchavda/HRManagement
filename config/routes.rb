@@ -55,6 +55,7 @@ Rails.application.routes.draw do
       post :create_note
       get :new_note
       patch :approve
+      patch :reject
     end
   end
 

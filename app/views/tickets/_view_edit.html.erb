@@ -8,10 +8,16 @@
             <%= button_tag type: 'submit',
                 class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-3 rounded-md font-semibold shadow-sm transition duration-200" do %>
               <i class="fas fa-user-edit" aria-hidden="true"></i>
-              <span><%= page_type == "edit" ? "Update Ticket" : "Create Ticket" %></span>
+              <span><%= page_type == "edit" ? "Update" : "Create" %></span>
             <% end %>
           <% end %>
         </div>
+        <% if page_type == "view" %>
+          <%= link_to edit_ticket_path(ticket), data: { turbo: false }, class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-lg font-semibold font-medium border border-gray-300 shadow-sm transition duration-150" do %>
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+            <span>Update Ticket</span>
+          <% end %>
+        <% end %>
         <%= link_to tickets_path, data: { turbo: false },
             class: "inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-lg font-semibold font-medium border border-gray-300 shadow-sm transition duration-150" do %>
           <i class="fas fa-arrow-left" aria-hidden="true"></i>

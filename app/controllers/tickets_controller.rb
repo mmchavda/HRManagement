@@ -81,6 +81,7 @@ class TicketsController < ApplicationController
 
 		begin
 			if @ticket.save
+				TicketMailer.notify_employee_and_admins(@ticket).deliver_now
 				redirect_to @ticket, notice: "Ticket successfully created."
 			else
 				flash.now[:alert] = @ticket.errors.full_messages.join(", ")
@@ -102,6 +103,10 @@ class TicketsController < ApplicationController
 	def update
 		begin 
 			if @ticket.update(ticket_params)
+        @ticket.user = current_user
+        if current_user.admin || current_user.hr
+          TicketMailer.notify_employee_and_admins(@ticket).deliver_now
+        end
 				redirect_to @ticket, notice: "Ticket successfully updated."
 			else
 				render :edit, alert: @ticket.errors.full_messages
@@ -199,9 +204,8 @@ class TicketsController < ApplicationController
 		if current_user == ticket.user.team_lead || current_user.admin? || current_user.hr?
 			if ticket.update(approved: true)
 				ticket.assign_hr_user_and_save
+        TicketMailer.notify_employee_on_approval(ticket).deliver_now
 				flash[:notice] = "Ticket approved and assigned to HR."
-			else
-				flash[:alert] = "Could not approve the ticket."
 			end
 		else
 			flash[:alert] = "You are not authorized to approve this ticket."
@@ -209,6 +213,22 @@ class TicketsController < ApplicationController
 
 		redirect_to tickets_path
 	end
+
+  def reject
+    ticket = Ticket.find(params[:id])
+
+		# Ensure the current_user is the TL of the ticket creator
+		if current_user == ticket.user.team_lead || current_user.admin? || current_user.hr?
+			if ticket.update(approved: false)
+        TicketMailer.notify_employee_on_rejection(ticket).deliver_now
+				flash[:notice] = "Ticket rejected"
+			end
+		else
+			flash[:alert] = "You are not authorized to approve this ticket."
+		end
+
+		redirect_to tickets_path
+  end
 		
 	private
 
@@ -224,7 +244,7 @@ class TicketsController < ApplicationController
 	end 	
 
 	def ticket_params
-		params.require(:ticket).permit(:title, :description, :status, :priority, :category)
+		params.require(:ticket).permit(:title, :description, :status, :priority, :category, :rejection_reason)
 	end
 end
   

@@ -112,10 +112,12 @@
                     <td class="px-4 py-2"><%= ticket.priority&.camelcase %></td>
                     <td class="px-4 py-2"><%= ticket.assigned_user&.full_name&.camelcase %></td>
                     <td class="px-4 py-2">
-                      <% if ticket.approved? %>
-                        <span class="text-green-600 font-semibold">Yes</span>
+                      <% if ticket.approved.nil? %>
+                        <span class="text-yellow-600 font-semibold">Pending</span>
+                      <% elsif ticket.approved? %>
+                        <span class="text-green-600 font-semibold">Approved</span>
                       <% else %>
-                        <span class="text-red-600 font-semibold">No</span>
+                        <span class="text-red-600 font-semibold">Rejected</span>
                       <% end %>
                     </td>
                     <td class="px-4 py-2"><%= ticket.created_at&.strftime('%B %d, %Y') %></td>
@@ -134,9 +136,15 @@
                           </div>
                         <% end %>
 
-                        <% if ((current_user == ticket.user.team_lead)) && !ticket.approved? %>
+                        <% if ((current_user == ticket.user.team_lead)) && !ticket.approved? && ticket.approved.nil? %>
                           <%= link_to approve_ticket_path(ticket), method: :patch, data: { turbo_method: :patch }, class: "text-green-600 hover:text-green-800", title: "Approve Ticket" do %>
                             <i class="fas fa-check-circle fa-lg"></i>
+                          <% end %>
+                        <% end %>
+
+                        <% if current_user == ticket.user.team_lead && ticket.approved.nil? %>
+                          <%= link_to reject_ticket_path(ticket), method: :patch, data: { turbo_method: :patch }, class: "text-red-600 hover:text-red-800", title: "Reject Ticket" do %>
+                            <i class="fas fa-times-circle fa-lg"></i>
                           <% end %>
                         <% end %>
                       </div>
