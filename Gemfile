@@ -76,3 +76,4 @@ gem 'sitemap_generator'
 gem 'mysql2', '~> 0.5.5'
 gem 'byebug'
 gem 'rack-cors'
+gem 'dotenv-rails', groups: [:development, :test]
