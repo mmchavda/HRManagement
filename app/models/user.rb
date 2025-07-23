@@ -22,7 +22,7 @@ class User < ApplicationRecord
 
   # Roles: Admins, Agents, and Users can be defined here
 	#enum :role, [:employee, :hr, :admin]
-  enum :role, [:employee, :tl, :hr, :admin]
+  enum :role, [:employee, :tl, :hr, :admin, :operation_head]
 
   has_one_attached :avatar
 

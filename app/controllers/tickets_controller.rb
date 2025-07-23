@@ -81,7 +81,7 @@ class TicketsController < ApplicationController
 
 		begin
 			if @ticket.save
-				TicketMailer.notify_employee_and_admins(@ticket).deliver_now
+				TicketMailer.notify_employee_and_tl(@ticket).deliver_now
 				redirect_to @ticket, notice: "Ticket successfully created."
 			else
 				flash.now[:alert] = @ticket.errors.full_messages.join(", ")
@@ -104,8 +104,8 @@ class TicketsController < ApplicationController
 		begin 
 			if @ticket.update(ticket_params)
         @ticket.user = current_user
-        if current_user.admin || current_user.hr
-          TicketMailer.notify_employee_and_admins(@ticket).deliver_now
+        if current_user.admin || current_user.hr || current_user.operation_head
+          TicketMailer.notify_employee_and_tl(@ticket).deliver_now
         end
 				redirect_to @ticket, notice: "Ticket successfully updated."
 			else
@@ -201,7 +201,7 @@ class TicketsController < ApplicationController
 		ticket = Ticket.find(params[:id])
 
 		# Ensure the current_user is the TL of the ticket creator
-		if current_user == ticket.user.team_lead || current_user.admin? || current_user.hr?
+		if current_user == ticket.user.team_lead || current_user.admin? || current_user.hr? || current_user.operation_head?
 			if ticket.update(approved: true)
 				ticket.assign_hr_user_and_save
         TicketMailer.notify_employee_on_approval(ticket).deliver_now
@@ -218,7 +218,7 @@ class TicketsController < ApplicationController
     ticket = Ticket.find(params[:id])
 
 		# Ensure the current_user is the TL of the ticket creator
-		if current_user == ticket.user.team_lead || current_user.admin? || current_user.hr?
+		if current_user == ticket.user.team_lead || current_user.admin? || current_user.hr? || current_user.operation_head?
 			if ticket.update(approved: false)
         TicketMailer.notify_employee_on_rejection(ticket).deliver_now
 				flash[:notice] = "Ticket rejected"

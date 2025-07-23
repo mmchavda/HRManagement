@@ -136,7 +136,7 @@
                           </div>
                         <% end %>
 
-                        <% if ((current_user == ticket.user.team_lead)) && !ticket.approved? && ticket.approved.nil? %>
+                        <% if ((current_user == ticket.user.team_lead)) && (!ticket.approved? || ticket.approved.nil?) %>
                           <%= link_to approve_ticket_path(ticket), method: :patch, data: { turbo_method: :patch }, class: "text-green-600 hover:text-green-800", title: "Approve Ticket" do %>
                             <i class="fas fa-check-circle fa-lg"></i>
                           <% end %>
