@@ -217,11 +217,12 @@ class TicketsController < ApplicationController
   def reject
     ticket = Ticket.find(params[:id])
 
-		# Ensure the current_user is the TL of the ticket creator
 		if current_user == ticket.user.team_lead || current_user.admin? || current_user.hr? || current_user.operation_head?
-			if ticket.update(approved: false)
+			if ticket.update(approved: false, rejection_reason: params[:rejection_reason])
         TicketMailer.notify_employee_on_rejection(ticket).deliver_now
-				flash[:notice] = "Ticket rejected"
+				flash[:notice] = "Ticket has been rejected."
+      else
+        redirect_to tickets_path, alert: "Failed to reject the ticket."
 			end
 		else
 			flash[:alert] = "You are not authorized to approve this ticket."

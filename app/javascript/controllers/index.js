@@ -8,6 +8,7 @@ import DeleteModalController from "controllers/delete_modal_controller"
 import AutoDismissController from "controllers/auto_dismiss_controller"
 import FlatpickrController from "controllers/flatpickr_controller"
 import RemoveFileController from "controllers/remove_file_controller"
+import RejectModalController from "controllers/reject_modal_controller"
 
 const application = Application.start()
 application.register("audit-toggle", AuditToggleController)
@@ -19,3 +20,4 @@ application.register("delete-modal", DeleteModalController)
 application.register("auto-dismiss", AutoDismissController)
 application.register("flatpickr", FlatpickrController)
 application.register("remove-file", RemoveFileController)
+application.register("reject-modal", RejectModalController) 

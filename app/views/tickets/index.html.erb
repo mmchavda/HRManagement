@@ -143,9 +143,9 @@
                         <% end %>
 
                         <% if current_user == ticket.user.team_lead && !ticket.approved? && ticket.approved.nil? %>
-                          <%= link_to reject_ticket_path(ticket), method: :patch, data: { turbo_method: :patch }, class: "text-red-600 hover:text-red-800", title: "Reject Ticket" do %>
-                            <i class="fas fa-times-circle fa-lg"></i>
-                          <% end %>
+                          <div data-controller="reject-modal">
+                            <%= render 'reject_modal', ticket: ticket %>
+                          </div>
                         <% end %>
                       </div>
                     </td>
