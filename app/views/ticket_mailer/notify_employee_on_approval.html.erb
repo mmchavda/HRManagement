@@ -1,9 +1,24 @@
 <p>Hi HR,</p>
 
-<p>A ticket has been approved by the Team Lead:</p>
-
 <p>
-  <strong>Employee:</strong> <%= @ticket.user.full_name %><br>
-  <strong>Title:</strong> <%= @ticket.title %><br>
-  <strong>Description:</strong> <%= @ticket.description %>
+  A ticket has been approved by the Team Lead. Below are the details:
 </p>
+
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <td style="padding: 8px; font-weight: bold;">Employee:</td>
+    <td style="padding: 8px;"><%= @ticket.user.full_name %></td>
+  </tr>
+  <tr>
+    <td style="padding: 8px; font-weight: bold;">Title:</td>
+    <td style="padding: 8px;"><%= @ticket.title %></td>
+  </tr>
+  <tr>
+    <td style="padding: 8px; font-weight: bold;">Description:</td>
+    <td style="padding: 8px;"><%= @ticket.description %></td>
+  </tr>
+</table>
+
+<p>Kindly take the necessary action.</p>
+
+<p>Regards,<br>Your Support Team</p>
