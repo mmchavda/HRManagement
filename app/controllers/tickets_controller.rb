@@ -103,9 +103,10 @@ class TicketsController < ApplicationController
 	def update
 		begin 
 			if @ticket.update(ticket_params)
+        @employee = @ticket.user 
         @ticket.user = current_user
         if current_user.role == "admin" || current_user.role == "hr" || current_user.role == "operation_head"
-          TicketMailer.notify_employee_and_tl(@ticket).deliver_now
+          TicketMailer.notify_ticket_status(@ticket, @employee, current_user).deliver_now
         end
 				redirect_to @ticket, notice: "Ticket successfully updated."
 			else

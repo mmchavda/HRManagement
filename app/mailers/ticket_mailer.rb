@@ -48,4 +48,23 @@ class TicketMailer < ApplicationMailer
       )
     end
   end
+
+  def notify_ticket_status(ticket, employee, current_user)
+    @ticket = ticket
+    @employee = employee
+    if @employee.tl_id.present?
+      @team_lead = User.find_by(id: @employee.tl_id) 
+      recipient_emails = []
+
+      recipient_emails << @team_lead&.email
+      recipient_emails += User.where(role: %w[admin hr operation_head]).pluck(:email)
+      recipient_emails.uniq!
+
+      mail(
+        to: @employee&.email, 
+        cc: recipient_emails,
+        subject: "Ticket Status."
+      )
+    end
+  end
 end

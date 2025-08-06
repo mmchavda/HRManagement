@@ -1,13 +1,30 @@
-<p>Hi <%= @ticket.user.full_name %>,</p>
+<p>Hi <%= @employee.full_name %>,</p>
 
 <p>
-  We regret to inform you that your ticket titled "<strong><%= @ticket.title %></strong>" has been rejected.
+  This is to inform you that the status of your ticket titled 
+  "<strong><%= @ticket.title %></strong>" has been updated.
 </p>
 
 <p>
-  <strong>Reason for Rejection:</strong><br>
-  <%= @ticket.rejection_reason %>
+  <strong>Current Status:</strong> <%= @ticket.status.titleize %><br>
+  <% if @ticket.status_change.present? %>
+    <strong>Updated At:</strong> <%= @ticket.status_change.strftime('%B %d, %Y %I:%M %p') %>
+  <% end %>
 </p>
+
+<% if @ticket.status == "rejected" && @ticket.rejection_reason.present? %>
+  <p>
+    <strong>Reason for Rejection:</strong><br>
+    <%= @ticket.rejection_reason %>
+  </p>
+<% end %>
+
+<% if @ticket.description.present? %>
+  <p>
+    <strong>Latest Comment:</strong><br>
+    <%= @ticket.description %>
+  </p>
+<% end %>
 
 <p>
   If you have any questions or need further clarification, feel free to reach out to your Team Lead or the HR department.
@@ -26,7 +43,6 @@
   <a href="https://www.techcronus.com" target="_blank" style="color: #007bff; text-decoration: none;">www.techcronus.com</a><br>
 
   <div style="margin: 10px 0;">
-      <!-- Needed to fix Image load -->
       <!-- <img src="https://yourdomain.com/path/to/outlook-signature.png" alt="" width="120" height="40" style="display: block;"> -->
   </div>
 
